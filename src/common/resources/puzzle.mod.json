@@ -1,0 +1,34 @@
+{
+  "formatVersion": 3,
+
+  "display-name": "Puzzle Loader Cosmic",
+  "id": "puzzle-loader-cosmic",
+  "version": "1.0.0",
+  "description": "The cosmic side of Puzzle Loader",
+  "authors": [ "Mr-Zombii", "CrabKing", "repletsin5", "SinfullySoul", "tympanicblock61" ],
+  "meta": {
+    "icon": "puzzle-loader-cosmic:icons/PuzzleLoaderIconx160.png"
+  },
+  "entrypoints": {
+    "init": [
+      "com.example.mod.ExamplePreLaunch"
+    ]
+  },
+  "mixins": [
+    "puzzle-loader-cosmic.common-mixins.json",
+    {
+      "config": "puzzle-loader-cosmic.client-mixins.json",
+      "environment": "client"
+    },
+    {
+      "config": "puzzle-loader-cosmic.server-mixins.json",
+      "environment": "server"
+    }
+  ],
+  "depends": {
+    "puzzle-loader-core": ">=1.0.0"
+  },
+  "access-writers": [
+    "puzzle-loader-cosmic.manipulator"
+  ]
+}

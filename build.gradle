@@ -1,0 +1,97 @@
+plugins {
+    id 'java'
+}
+
+group = 'dev.puzzleshq'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    ivy {
+        name "Cosmic Reach"
+        url "https://github.com/CRModders/CosmicArchive/raw/main/versions"
+        patternLayout {
+            artifact "/pre-alpha/[revision]/[classifier]/Cosmic-Reach-[revision].jar"
+            artifact "/pre-alpha/[revision]/[classifier]/Cosmic Reach-[revision].jar"
+
+            artifact "/alpha/[revision]/[classifier]/Cosmic Reach-[revision].jar"
+            artifact "/alpha/[revision]/[classifier]/Cosmic-Reach-[revision].jar"
+            artifact "/alpha/[revision]/[classifier]/Cosmic Reach-Server-[revision].jar"
+            artifact "/alpha/[revision]/[classifier]/Cosmic-Reach-Server-[revision].jar"
+
+            artifact "/beta/[revision]/[classifier]/Cosmic Reach-[revision].jar"
+            artifact "/beta/[revision]/[classifier]/Cosmic-Reach-[revision].jar"
+            artifact "/beta/[revision]/[classifier]/Cosmic Reach-Server-[revision].jar"
+            artifact "/beta/[revision]/[classifier]/Cosmic-Reach-Server-[revision].jar"
+        }
+        // This is required in Gradle 6.0+ as metadata file (ivy.xml) is mandatory
+        metadataSources {
+            artifact()
+        }
+
+        content {
+            it.includeModule "finalforeach", "cosmic-reach"
+        }
+    }
+    mavenCentral()
+    mavenLocal()
+}
+
+sourceSets {
+    client
+    common
+    server
+}
+
+configurations {
+    allCompileOnly
+
+    clientCompileOnly.extendsFrom(allCompileOnly)
+    commonCompileOnly.extendsFrom(allCompileOnly)
+    serverCompileOnly.extendsFrom(allCompileOnly)
+
+    clientBundle
+    commonBundle
+    serverBundle
+
+    clientImplementation.extendsFrom(clientBundle)
+    commonImplementation.extendsFrom(commonBundle)
+    serverImplementation.extendsFrom(serverBundle)
+
+    clientInternal
+    serverInternal
+
+    clientImplementation.extendsFrom(clientInternal)
+    serverImplementation.extendsFrom(serverInternal)
+    serverImplementation.extendsFrom(commonBundle)
+
+}
+
+dependencies {
+
+    //client
+    clientBundle"dev.puzzleshq:puzzle-loader-core:1.0.0:client"
+    clientBundle"dev.puzzleshq:puzzle-loader-core:1.0.0:common"
+
+    clientImplementation("finalforeach:cosmic-reach:0.4.8:client")
+
+
+    // common
+    commonBundle"dev.puzzleshq:puzzle-loader-core:1.0.0:common"
+
+    commonImplementation("finalforeach:cosmic-reach:0.4.8:server")
+
+    // server
+    serverBundle"dev.puzzleshq:puzzle-loader-core:1.0.0:common"
+
+    serverImplementation("finalforeach:cosmic-reach:0.4.8:server")
+
+
+}
+
+
+wrapper {
+    gradleVersion = "8.5"
+    distributionType = Wrapper.DistributionType.ALL
+}
+
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
