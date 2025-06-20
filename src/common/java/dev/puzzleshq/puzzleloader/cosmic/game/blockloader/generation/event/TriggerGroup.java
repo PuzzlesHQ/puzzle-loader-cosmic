@@ -16,7 +16,7 @@ public class TriggerGroup implements HJsonSerializable {
         }
 
         public Trigger createTrigger(String actionId) {
-            Trigger trigger = new Trigger();
+            Trigger trigger = new Trigger(actionId);
             trigger.actionId = actionId;
             this.triggers.add(trigger);
             return trigger;

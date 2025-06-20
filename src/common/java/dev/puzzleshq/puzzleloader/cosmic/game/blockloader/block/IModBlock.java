@@ -7,12 +7,21 @@ import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 
 public interface IModBlock {
 
+    @BlockEventsTriggerInjection(triggerGroup = "onBreak")
     default void onBreak(BlockEventArgs args) {}
+    @BlockEventsTriggerInjection(triggerGroup = "onPlace")
     default void onPlace(BlockEventArgs args) {}
+    @BlockEventsTriggerInjection(triggerGroup = "onInteract")
     default void onInteract(BlockEventArgs args) {}
 
     BlockGenerator getGenerator();
-    BlockModelGenerator[] getModelGenerators();
-    BlockEventGenerator[] getEventGenerator();
+
+    default BlockModelGenerator[] getModelGenerators() {
+        return null;
+    }
+
+    default BlockEventGenerator[] getEventGenerators() {
+        return null;
+    }
 
 }

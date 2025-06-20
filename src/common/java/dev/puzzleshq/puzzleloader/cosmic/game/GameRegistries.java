@@ -1,12 +1,10 @@
 package dev.puzzleshq.puzzleloader.cosmic.game;
 
-import dev.puzzleshq.puzzleloader.cosmic.core.registries.GenericRegistry;
-import dev.puzzleshq.puzzleloader.cosmic.core.registries.IRegistry;
-import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
-import finalforeach.cosmicreach.util.Identifier;
+import net.neoforged.bus.BusBuilderImpl;
+import net.neoforged.bus.api.IEventBus;
 
 public class GameRegistries {
 
-    public static final IRegistry<BlockModelGenerator> MODEL_GENERATOR_REGISTRY = new GenericRegistry<>(Identifier.of("puzzle-loader-cosmic", "model-generator-registry"));
+    public static final IEventBus COSMIC_EVENT_BUS = new BusBuilderImpl().build();
 
 }

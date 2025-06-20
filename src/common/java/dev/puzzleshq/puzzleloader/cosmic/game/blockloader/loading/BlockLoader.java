@@ -49,7 +49,7 @@ public class BlockLoader {
 
     public Block generate(IModBlock block) {
         BlockGenerator generator = block.getGenerator();
-        BlockEventGenerator[] eventGenerators = block.getEventGenerator();
+        BlockEventGenerator[] eventGenerators = block.getEventGenerators();
         BlockModelGenerator[] modelGenerators = block.getModelGenerators();
 
         if (eventGenerators != null) {

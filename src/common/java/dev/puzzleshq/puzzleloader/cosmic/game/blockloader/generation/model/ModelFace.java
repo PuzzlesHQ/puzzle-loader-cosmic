@@ -30,7 +30,7 @@ public class ModelFace implements HJsonSerializable {
         face.add("uv", uvs);
 
         face.add("ambientocclusion", this.useAmbientOcclusion);
-        face.add("cullface", this.canCullFace);
+        face.add("cullFace", this.canCullFace);
         face.add("texture", this.textureId);
         return face;
     }

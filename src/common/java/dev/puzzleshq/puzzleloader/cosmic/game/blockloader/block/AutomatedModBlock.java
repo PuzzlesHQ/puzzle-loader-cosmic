@@ -72,7 +72,7 @@ public class AutomatedModBlock implements IModBlock {
     }
 
     @Override
-    public BlockEventGenerator[] getEventGenerator() {
+    public BlockEventGenerator[] getEventGenerators() {
         return new BlockEventGenerator[0];
     }
 

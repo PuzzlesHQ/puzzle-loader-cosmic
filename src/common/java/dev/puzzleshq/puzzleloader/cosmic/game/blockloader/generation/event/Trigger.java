@@ -1,6 +1,7 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event;
 
 import dev.puzzleshq.puzzleloader.cosmic.game.util.HJsonSerializable;
+import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.util.Identifier;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
@@ -8,10 +9,26 @@ import org.hjson.JsonValue;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class Trigger implements HJsonSerializable {
         String actionId = null;
+        JsonObject condition;
         Map<String, JsonValue> parameters = new HashMap<>();
+
+        public Trigger(String actionId) {
+            this.actionId = actionId;
+            this.condition = null;
+        }
+
+        public Trigger(String actionId, JsonObject condition) {
+            this.actionId = actionId;
+            this.condition = condition;
+        }
+
+        public void setCondition(JsonObject argsPredicate) {
+            this.condition = argsPredicate;
+        }
 
         public void setActionId(String actionId) {
             this.actionId = actionId;
@@ -145,6 +162,7 @@ public class Trigger implements HJsonSerializable {
         public JsonObject toHJson() {
             JsonObject trigger = new JsonObject();
             trigger.add("actionId", actionId);
+            if (condition != null) trigger.add("if", condition);
 
             JsonObject params = new JsonObject();
             for (Map.Entry<String, JsonValue> valueEntry : parameters.entrySet()) {

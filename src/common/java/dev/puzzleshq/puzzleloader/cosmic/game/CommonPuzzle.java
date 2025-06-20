@@ -4,7 +4,11 @@ import com.badlogic.gdx.math.Vector3;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ModInit;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.PostModInit;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.PreModInit;
+import dev.puzzleshq.puzzleloader.cosmic.game.aprilfools.AprilFoolsForshadowingModBlock;
+import dev.puzzleshq.puzzleloader.cosmic.game.aprilfools.AprilFoolsRedStoneModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.AutomatedModBlock;
+import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
+import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.InjectedBlockAction;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event.BlockEventGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event.TriggerGroup;
@@ -14,11 +18,13 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.State
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.BlockLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.CommonSidedModelLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedModelLoader;
+import dev.puzzleshq.puzzleloader.cosmic.game.events.OnBlockRegisterEvent;
 import dev.puzzleshq.puzzleloader.loader.LoaderConstants;
 import dev.puzzleshq.puzzleloader.loader.util.EnvType;
+import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.blocks.Block;
-import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.util.Identifier;
+import net.neoforged.bus.api.SubscribeEvent;
 import org.hjson.JsonValue;
 
 public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
@@ -147,50 +153,29 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
 
     }
 
+    public CommonPuzzle() {
+        GameRegistries.COSMIC_EVENT_BUS.register(this);
+    }
+
     @Override
     public void onInit() {
         System.err.println("CommonPuzzle init called");
 
-        LoaderConstants.CORE_EVENT_BUS.post(new )
+        BlockEvents.registerBlockEventAction(InjectedBlockAction.class);
 
-        AutomatedModBlock modBlock = new AutomatedModBlock(Identifier.of("test", "laser_switch2"));
+        OnBlockRegisterEvent event = new OnBlockRegisterEvent();
+        GameRegistries.COSMIC_EVENT_BUS.post(event);
 
-        {
-            BlockGenerator generator = modBlock.getGenerator();
-            State defaultStateParams = generator.getDefaultProperties();
-            defaultStateParams.blockEventId = Identifier.of("base", "block_events_laser_switch");
-            defaultStateParams.modelId = "base:models/blocks/model_laser_switch_on.json";
-            defaultStateParams.tags.add("tool_pickaxe_effective");
-            defaultStateParams.placementRules = "omnidirectional_towards";
-            defaultStateParams.allowsStateSwapping.set(false);
-            defaultStateParams.isCatalogHidden.set(true);
-            defaultStateParams.stateGenerators.add("base:laser_switch_power_off");
-            defaultStateParams.dropParameters.put("direction", JsonValue.valueOf("NegZ"));
-
-            State s = generator.createState("power=on,direction=NegZ");
-            s.isCatalogHidden.set(false);
-
-            s = generator.createState("power=on,direction=PosX");
-            s.rotation[1] = 90;
-
-            s = generator.createState("power=on,direction=PosZ");
-            s.rotation[1] = 180;
-
-            s = generator.createState("power=on,direction=NegX");
-            s.rotation[1] = 270;
-
-            s = generator.createState("power=on,direction=PosY");
-            s.rotation[0] = 270;
-
-            s = generator.createState("power=on,direction=NegY");
-            s.rotation[0] = 90;
-
-//            System.out.println("-------------------------------------------------");
-//            System.out.println(generator);
+        for (IModBlock modBlock : event.getBlocks()) {
+            Block block = BlockLoader.INSTANCE.generate(modBlock);
+            System.err.println(block.getStringId());
         }
+    }
 
-        Block block = BlockLoader.INSTANCE.generate(modBlock);
-        System.err.println(block.getStringId());
+    @SubscribeEvent
+    public void register(OnBlockRegisterEvent event) {
+        event.register(new AprilFoolsRedStoneModBlock());
+        event.register(new AprilFoolsForshadowingModBlock());
     }
 
     @Override
