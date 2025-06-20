@@ -10,9 +10,19 @@
     "icon": "puzzle-loader-cosmic:icons/PuzzleLoaderIconx160.png"
   },
   "entrypoints": {
-    "init": [
-      "com.example.mod.ExamplePreLaunch"
-    ]
+    "preLaunch": "dev.puzzleshq.puzzleloader.cosmic.core.PrePuzzle",
+
+    "preInit": "dev.puzzleshq.puzzleloader.cosmic.game.CommonPuzzle",
+    "init": "dev.puzzleshq.puzzleloader.cosmic.game.CommonPuzzle",
+    "postInit": "dev.puzzleshq.puzzleloader.cosmic.game.CommonPuzzle",
+
+    "client-preInit": "dev.puzzleshq.puzzleloader.cosmic.game.ClientPuzzle",
+    "client-init": "dev.puzzleshq.puzzleloader.cosmic.game.ClientPuzzle",
+    "client-postInit": "dev.puzzleshq.puzzleloader.cosmic.game.ClientPuzzle",
+
+    "server-preInit": "dev.puzzleshq.puzzleloader.cosmic.game.ServerPuzzle",
+    "server-init": "dev.puzzleshq.puzzleloader.cosmic.game.ServerPuzzle",
+    "server-postInit": "dev.puzzleshq.puzzleloader.cosmic.game.ServerPuzzle"
   },
   "mixins": [
     "puzzle-loader-cosmic.common-mixins.json",
@@ -21,7 +31,7 @@
       "environment": "client"
     },
     {
-      "config": "puzzle-loader-cosmic.server-mixins.json",
+      "config": "puzzle-loader-cosmic-server.mixins.json",
       "environment": "server"
     }
   ],
