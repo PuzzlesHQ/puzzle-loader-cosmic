@@ -31,22 +31,24 @@ public class ConnectedGlass16 implements ISidedBlockConnector.ConnectorFunction 
 
     public ConnectedGlass16() {
         parentModelGenerator = new BlockModelGenerator(parentModelName);
-        parentModelGenerator.addTexture("x0", Identifier.of("connected-textures:glass/glass_0.png"));
-        parentModelGenerator.addTexture("x1", Identifier.of("connected-textures:glass/glass_1.png"));
-        parentModelGenerator.addTexture("x2", Identifier.of("connected-textures:glass/glass_2.png"));
-        parentModelGenerator.addTexture("x3", Identifier.of("connected-textures:glass/glass_3.png"));
-        parentModelGenerator.addTexture("x4", Identifier.of("connected-textures:glass/glass_4.png"));
-        parentModelGenerator.addTexture("x5", Identifier.of("connected-textures:glass/glass_5.png"));
-        parentModelGenerator.addTexture("x6", Identifier.of("connected-textures:glass/glass_6.png"));
-        parentModelGenerator.addTexture("x7", Identifier.of("connected-textures:glass/glass_7.png"));
-        parentModelGenerator.addTexture("x8", Identifier.of("connected-textures:glass/glass_8.png"));
-        parentModelGenerator.addTexture("x9", Identifier.of("connected-textures:glass/glass_9.png"));
-        parentModelGenerator.addTexture("x10", Identifier.of("connected-textures:glass/glass_10.png"));
-        parentModelGenerator.addTexture("x11", Identifier.of("connected-textures:glass/glass_11.png"));
-        parentModelGenerator.addTexture("x12", Identifier.of("connected-textures:glass/glass_12.png"));
-        parentModelGenerator.addTexture("x13", Identifier.of("connected-textures:glass/glass_13.png"));
-        parentModelGenerator.addTexture("x14", Identifier.of("connected-textures:glass/glass_14.png"));
-        parentModelGenerator.addTexture("x15", Identifier.of("connected-textures:glass/glass_15.png"));
+        String type = "-clear";
+
+        parentModelGenerator.addTexture("x0", Identifier.of("connected-textures:glass" + type + "/glass_0.png"));
+        parentModelGenerator.addTexture("x1", Identifier.of("connected-textures:glass" + type + "/glass_1.png"));
+        parentModelGenerator.addTexture("x2", Identifier.of("connected-textures:glass" + type + "/glass_2.png"));
+        parentModelGenerator.addTexture("x3", Identifier.of("connected-textures:glass" + type + "/glass_3.png"));
+        parentModelGenerator.addTexture("x4", Identifier.of("connected-textures:glass" + type + "/glass_4.png"));
+        parentModelGenerator.addTexture("x5", Identifier.of("connected-textures:glass" + type + "/glass_5.png"));
+        parentModelGenerator.addTexture("x6", Identifier.of("connected-textures:glass" + type + "/glass_6.png"));
+        parentModelGenerator.addTexture("x7", Identifier.of("connected-textures:glass" + type + "/glass_7.png"));
+        parentModelGenerator.addTexture("x8", Identifier.of("connected-textures:glass" + type + "/glass_8.png"));
+        parentModelGenerator.addTexture("x9", Identifier.of("connected-textures:glass" + type + "/glass_9.png"));
+        parentModelGenerator.addTexture("x10", Identifier.of("connected-textures:glass" + type + "/glass_10.png"));
+        parentModelGenerator.addTexture("x11", Identifier.of("connected-textures:glass" + type + "/glass_11.png"));
+        parentModelGenerator.addTexture("x12", Identifier.of("connected-textures:glass" + type + "/glass_12.png"));
+        parentModelGenerator.addTexture("x13", Identifier.of("connected-textures:glass" + type + "/glass_13.png"));
+        parentModelGenerator.addTexture("x14", Identifier.of("connected-textures:glass" + type + "/glass_14.png"));
+        parentModelGenerator.addTexture("x15", Identifier.of("connected-textures:glass" + type + "/glass_15.png"));
 
         modelGenerator = new BlockModelGenerator(parentModelName, defaultModelName);
         modelGenerator.createCuboid(Vector3.Zero, 16, 16, 16).setTextureIds("x0");
