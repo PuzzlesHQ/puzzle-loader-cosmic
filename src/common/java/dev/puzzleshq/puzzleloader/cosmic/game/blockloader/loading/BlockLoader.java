@@ -4,7 +4,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IConnectedBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
+import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.connected.ISidedBlockConnector;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event.BlockEventGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.BlockGenerator;
@@ -68,7 +70,7 @@ public class BlockLoader {
 
                 ISidedModelLoader loader = ISidedModelLoader.getInstance();
 
-                loader.loadModel(modelGenerator);
+                loader.loadModel(modelGenerator, true);
             }
         }
 
@@ -83,12 +85,15 @@ public class BlockLoader {
 
             for (String stateKey : blockStateKeysToAdd) {
                 BlockState blockState = b.blockStates.get(stateKey);
+                blockState.rotation = new float[]{0, 0, 0};
                 blockState.stringId = stateKey;
                 blockState.initialize(b);
                 Block.allBlockStates.put(blockState.stringId, blockState);
             }
 
             Block.blocksByStringId.put(generator.getId().toString(), b);
+
+            if (block instanceof IConnectedBlock) ISidedBlockConnector.getInstance().registerAsConnectedBlock(b, (ISidedBlockConnector.ConnectorFunction) block);
             return b;
         }
 

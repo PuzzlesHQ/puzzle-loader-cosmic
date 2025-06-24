@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector3;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ModInit;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.PostModInit;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.PreModInit;
-import dev.puzzleshq.puzzleloader.cosmic.game.aprilfools.AprilFoolsForshadowingModBlock;
-import dev.puzzleshq.puzzleloader.cosmic.game.aprilfools.AprilFoolsRedStoneModBlock;
+import dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools.AprilFoolsForshadowingModBlock;
+import dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools.AprilFoolsRedStoneModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.AutomatedModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.InjectedBlockAction;
@@ -16,11 +16,8 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.Model
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.BlockGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.State;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.BlockLoader;
-import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.CommonSidedModelLoader;
-import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedModelLoader;
+import dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected.ConnectedBlock16;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.OnBlockRegisterEvent;
-import dev.puzzleshq.puzzleloader.loader.LoaderConstants;
-import dev.puzzleshq.puzzleloader.loader.util.EnvType;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.util.Identifier;
@@ -168,7 +165,7 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
 
         for (IModBlock modBlock : event.getBlocks()) {
             Block block = BlockLoader.INSTANCE.generate(modBlock);
-            System.err.println(block.getStringId());
+            System.err.println("Generated Block - " + block.getStringId());
         }
     }
 
@@ -176,6 +173,7 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
     public void register(OnBlockRegisterEvent event) {
         event.register(new AprilFoolsRedStoneModBlock());
         event.register(new AprilFoolsForshadowingModBlock());
+        event.register(new ConnectedBlock16());
     }
 
     @Override
@@ -185,9 +183,6 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
 
     @Override
     public void onPreInit() {
-        if (LoaderConstants.SIDE.equals(EnvType.SERVER))
-            ISidedModelLoader.CONTEXTUAL_INSTANCE.set(new CommonSidedModelLoader());
-
         System.err.println("CommonPuzzle preInit called");
     }
 

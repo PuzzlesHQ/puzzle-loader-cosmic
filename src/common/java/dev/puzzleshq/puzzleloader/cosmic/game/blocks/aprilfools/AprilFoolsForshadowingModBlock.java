@@ -1,4 +1,4 @@
-package dev.puzzleshq.puzzleloader.cosmic.game.aprilfools;
+package dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools;
 
 import com.badlogic.gdx.math.Vector3;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;

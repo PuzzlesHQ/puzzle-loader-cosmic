@@ -14,23 +14,30 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class BlockModelGenerator {
 
-    public Identifier parentModel;
+    public String parentModel;
 
     public List<ModelCuboid> cuboids;
     public Map<String, Identifier> textures;
 
+    public boolean isTransparent = false;
+    public boolean canCullSelf = true;
+
     String name;
 
     public BlockModelGenerator(String name) {
-        this(null, name);
+        this((String) null, name);
     }
 
-    public BlockModelGenerator(Identifier parentModel, String name) {
+    public BlockModelGenerator(String parentModel, String name) {
         this.cuboids = new ArrayList<>();
         this.textures = new HashMap<>();
 
         this.parentModel = parentModel;
         this.name = name;
+    }
+
+    public BlockModelGenerator(BlockModelGenerator parentModelGenerator, String name) {
+        this(parentModelGenerator.getName(), name);
     }
 
     public String getName() {
@@ -73,19 +80,22 @@ public class BlockModelGenerator {
         JsonObject modelJson = new JsonObject();
 
         JsonObject textures = new JsonObject();
-        if (parentModel != null) modelJson.add("parent", parentModel.toString());
+        if (parentModel != null) modelJson.add("parent", parentModel);
+        modelJson.add("isTransparent", isTransparent);
         for (Map.Entry<String, Identifier> texture : this.textures.entrySet()) {
             JsonObject textureObj = new JsonObject();
             textureObj.add("fileName", texture.getValue().toString());
             textures.add(texture.getKey(), textureObj);
         }
-        modelJson.add("textures", textures);
+        if (!textures.isEmpty())
+            modelJson.add("textures", textures);
 
         JsonArray cuboids = new JsonArray();
         for (ModelCuboid modelCuboid : this.cuboids) {
             cuboids.add(modelCuboid.toHJson());
         }
-        modelJson.add("cuboids", cuboids);
+        if (!cuboids.isEmpty())
+            modelJson.add("cuboids", cuboids);
 
         return modelJson;
     }
@@ -95,5 +105,7 @@ public class BlockModelGenerator {
     }
 
 
-
+    public void setName(String s) {
+        this.name = s;
+    }
 }

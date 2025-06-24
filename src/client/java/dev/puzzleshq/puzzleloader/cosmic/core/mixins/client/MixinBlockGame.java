@@ -1,12 +1,19 @@
 package dev.puzzleshq.puzzleloader.cosmic.core.mixins.client;
 
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.*;
+import dev.puzzleshq.puzzleloader.loader.util.ReflectionUtil;
 import finalforeach.cosmicreach.BlockGame;
 import finalforeach.cosmicreach.gamestates.GameState;
+import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.io.*;
 
 @Mixin(BlockGame.class)
 public class MixinBlockGame {
@@ -39,6 +46,15 @@ public class MixinBlockGame {
     private static void initPost(CallbackInfo ci) {
         PostModInit.invoke();
         ClientPostModInit.invoke();
+
+//        try {
+//            Pixmap m = (Pixmap) ReflectionUtil.getField(ChunkShader.class, "allBlocksPix").get(null);
+//            byte[] bytes = new byte[m.getWidth() * m.getHeight() * 4];
+//            m.getPixels().get(bytes);
+//            PixmapIO.writePNG(new FileHandle("F.png"), m);
+//        } catch (IllegalAccessException | NoSuchFieldException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
 }
