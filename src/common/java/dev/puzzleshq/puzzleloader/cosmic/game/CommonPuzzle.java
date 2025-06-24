@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector3;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ModInit;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.PostModInit;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.PreModInit;
+import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.connected.ISidedBlockConnector;
 import dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools.AprilFoolsForshadowingModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools.AprilFoolsRedStoneModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.AutomatedModBlock;
@@ -17,6 +18,7 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.Block
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.State;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.BlockLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected.ConnectedBlock16;
+import dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected.ConnectedGlass16;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.OnBlockRegisterEvent;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.blocks.Block;
@@ -167,6 +169,8 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
             Block block = BlockLoader.INSTANCE.generate(modBlock);
             System.err.println("Generated Block - " + block.getStringId());
         }
+
+        ISidedBlockConnector.getInstance().registerStateAsConnectedBlock(Block.getInstance("glass").getDefaultBlockState(), new ConnectedGlass16());
     }
 
     @SubscribeEvent

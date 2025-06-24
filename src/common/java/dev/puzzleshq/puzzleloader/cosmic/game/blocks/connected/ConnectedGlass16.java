@@ -3,7 +3,7 @@ package dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected;
 import com.badlogic.gdx.math.Vector3;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IConnectedBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
-import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event.BlockEventGenerator;
+import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.connected.ISidedBlockConnector;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelCuboid;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.BlockGenerator;
@@ -16,47 +16,43 @@ import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
 
-public class ConnectedBlock16 implements IModBlock, IConnectedBlock {
+public class ConnectedGlass16 implements ISidedBlockConnector.ConnectorFunction {
 
-    BlockGenerator generator;
     BlockModelGenerator parentModelGenerator;
     BlockModelGenerator modelGenerator;
 
-    public static final Identifier id = Identifier.of("connected-textures", "connected-block-16");
-    public static final String parentModelName = "model_connected_textures-|-connected-block-16-empty";
-    public static final String defaultModelName = "model_connected_textures-|-connected-block-16-|-px+0-py+0-pz+0-nx+0-ny+0-nz+0";
+    public static final Identifier id = Identifier.of("connected-textures", "connected-glass-16");
+    public static final String parentModelName = "model_connected_textures-|-connected-glass-16-empty";
+    public static final String defaultModelName = "model_connected_textures-|-connected-glass-16-|-px+0-py+0-pz+0-nx+0-ny+0-nz+0";
 
     public static String createModelName(int px, int py, int pz, int nx, int ny, int nz) {
-        return String.format("model_connected_textures-|-connected-block-16-|-px+%d-py+%d-pz+%d-nx+%d-ny+%d-nz+%d", px, py, pz, nx, ny, nz);
+        return String.format("model_connected_textures-|-connected-glass-16-|-px+%d-py+%d-pz+%d-nx+%d-ny+%d-nz+%d", px, py, pz, nx, ny, nz);
     }
 
-    public ConnectedBlock16() {
-        generator = new BlockGenerator(id);
-        State state = generator.createState("default");
-        state.modelId = defaultModelName;
-
+    public ConnectedGlass16() {
         parentModelGenerator = new BlockModelGenerator(parentModelName);
-        parentModelGenerator.addTexture("x0", Identifier.of("connected-textures:test/glass_0.png"));
-        parentModelGenerator.addTexture("x1", Identifier.of("connected-textures:test/glass_1.png"));
-        parentModelGenerator.addTexture("x2", Identifier.of("connected-textures:test/glass_2.png"));
-        parentModelGenerator.addTexture("x3", Identifier.of("connected-textures:test/glass_3.png"));
-        parentModelGenerator.addTexture("x4", Identifier.of("connected-textures:test/glass_4.png"));
-        parentModelGenerator.addTexture("x5", Identifier.of("connected-textures:test/glass_5.png"));
-        parentModelGenerator.addTexture("x6", Identifier.of("connected-textures:test/glass_6.png"));
-        parentModelGenerator.addTexture("x7", Identifier.of("connected-textures:test/glass_7.png"));
-        parentModelGenerator.addTexture("x8", Identifier.of("connected-textures:test/glass_8.png"));
-        parentModelGenerator.addTexture("x9", Identifier.of("connected-textures:test/glass_9.png"));
-        parentModelGenerator.addTexture("x10", Identifier.of("connected-textures:test/glass_10.png"));
-        parentModelGenerator.addTexture("x11", Identifier.of("connected-textures:test/glass_11.png"));
-        parentModelGenerator.addTexture("x12", Identifier.of("connected-textures:test/glass_12.png"));
-        parentModelGenerator.addTexture("x13", Identifier.of("connected-textures:test/glass_13.png"));
-        parentModelGenerator.addTexture("x14", Identifier.of("connected-textures:test/glass_14.png"));
-        parentModelGenerator.addTexture("x15", Identifier.of("connected-textures:test/glass_15.png"));
+        parentModelGenerator.addTexture("x0", Identifier.of("connected-textures:glass/glass_0.png"));
+        parentModelGenerator.addTexture("x1", Identifier.of("connected-textures:glass/glass_1.png"));
+        parentModelGenerator.addTexture("x2", Identifier.of("connected-textures:glass/glass_2.png"));
+        parentModelGenerator.addTexture("x3", Identifier.of("connected-textures:glass/glass_3.png"));
+        parentModelGenerator.addTexture("x4", Identifier.of("connected-textures:glass/glass_4.png"));
+        parentModelGenerator.addTexture("x5", Identifier.of("connected-textures:glass/glass_5.png"));
+        parentModelGenerator.addTexture("x6", Identifier.of("connected-textures:glass/glass_6.png"));
+        parentModelGenerator.addTexture("x7", Identifier.of("connected-textures:glass/glass_7.png"));
+        parentModelGenerator.addTexture("x8", Identifier.of("connected-textures:glass/glass_8.png"));
+        parentModelGenerator.addTexture("x9", Identifier.of("connected-textures:glass/glass_9.png"));
+        parentModelGenerator.addTexture("x10", Identifier.of("connected-textures:glass/glass_10.png"));
+        parentModelGenerator.addTexture("x11", Identifier.of("connected-textures:glass/glass_11.png"));
+        parentModelGenerator.addTexture("x12", Identifier.of("connected-textures:glass/glass_12.png"));
+        parentModelGenerator.addTexture("x13", Identifier.of("connected-textures:glass/glass_13.png"));
+        parentModelGenerator.addTexture("x14", Identifier.of("connected-textures:glass/glass_14.png"));
+        parentModelGenerator.addTexture("x15", Identifier.of("connected-textures:glass/glass_15.png"));
 
         modelGenerator = new BlockModelGenerator(parentModelName, defaultModelName);
         modelGenerator.createCuboid(Vector3.Zero, 16, 16, 16).setTextureIds("x0");
 
         ISidedModelLoader.getInstance().loadModel(parentModelGenerator, ISidedModelLoader.DEFAULT_ROTATION);
+        ISidedModelLoader.getInstance().loadModel(modelGenerator, ISidedModelLoader.DEFAULT_ROTATION);
 
         for (int x = 0; x < 16; x++) {
             for (int y = 0; y < 16; y++) {
@@ -148,13 +144,4 @@ public class ConnectedBlock16 implements IModBlock, IConnectedBlock {
         );
     }
 
-    @Override
-    public BlockGenerator getGenerator() {
-        return generator;
-    }
-
-    @Override
-    public BlockModelGenerator[] getModelGenerators() {
-        return new BlockModelGenerator[]{modelGenerator};
-    }
 }
