@@ -51,7 +51,6 @@ public class ConnectedBlock256 implements IModBlock, IConnectedBlock {
     }
 
     private void createModel(Direction direction, int i) {
-        System.err.println("Generating Model for " + direction.name() + " with state " + i);
         String textureId = parentModelGenerator.textures.containsKey("x" + i) ? "x" + i : "xError";
         String dir = ("LOCAL_" + direction.name());
 
