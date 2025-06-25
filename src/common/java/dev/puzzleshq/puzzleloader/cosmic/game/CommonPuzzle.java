@@ -20,6 +20,7 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.BlockLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected.ConnectedBlock16;
 import dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected.ConnectedBlock256;
 import dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected.ConnectedGlass16;
+import dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected.ConnectedGlass256;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.OnBlockRegisterEvent;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.blocks.Block;
@@ -171,7 +172,7 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
             System.err.println("Generated Block - " + block.getStringId());
         }
 
-        ISidedBlockConnector.getInstance().registerStateAsConnectedBlock(Block.getInstance("glass").getDefaultBlockState(), new ConnectedGlass16());
+        ISidedBlockConnector.getInstance().registerStateAsConnectedBlock(Block.getInstance("glass").getDefaultBlockState(), new ConnectedGlass256());
     }
 
     @SubscribeEvent

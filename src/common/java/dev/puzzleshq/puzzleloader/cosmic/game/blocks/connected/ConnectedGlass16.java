@@ -23,7 +23,7 @@ public class ConnectedGlass16 implements ISidedBlockConnector.ConnectorFunction 
     BlockModelGenerator parentModelGenerator;
     BlockModelGenerator modelGenerator;
 
-    public static final Identifier id = Identifier.of("connected-textures", "vanilla-glass");
+    public static final Identifier id = Identifier.of("connected-textures", "smooth-glass");
     public static final Identifier texturePath = Identifier.of("connected-textures", id.getName() + "/states/");
     public static final String parentModelName = "model_connected_textures-|-" + id.getName() + "-|-texture-cache";
     public static final String defaultModelName = "model_connected_textures-|-" + id.getName() + "-|-base-block";
