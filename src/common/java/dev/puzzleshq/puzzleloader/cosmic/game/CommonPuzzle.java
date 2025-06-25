@@ -18,6 +18,7 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.Block
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.State;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.BlockLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected.ConnectedBlock16;
+import dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected.ConnectedBlock256;
 import dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected.ConnectedGlass16;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.OnBlockRegisterEvent;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
@@ -178,6 +179,7 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
         event.register(new AprilFoolsRedStoneModBlock());
         event.register(new AprilFoolsForshadowingModBlock());
         event.register(new ConnectedBlock16());
+        event.register(new ConnectedBlock256());
     }
 
     @Override

@@ -29,6 +29,7 @@ sourceSets {
     client
     common
     server
+    datagen
 }
 
 configurations {
