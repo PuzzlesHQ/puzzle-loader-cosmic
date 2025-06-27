@@ -23,4 +23,9 @@ public class ServerSidedBlockConnector implements ISidedBlockConnector {
 
     }
 
+    @Override
+    public boolean isConnectedBlock(BlockState state) {
+        return false;
+    }
+
 }

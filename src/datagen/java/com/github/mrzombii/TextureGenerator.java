@@ -29,22 +29,23 @@ public class TextureGenerator {
             }
         }
 
+        Color CORNER_COLOR = Color.WHITE;
 //        Color CORNER_COLOR = Color.decode("#ed1d25");
-        Color CORNER_COLOR = Color.decode("#DEFFFB");
+//        Color CORNER_COLOR = Color.decode("#DEFFFB");
         for (int z : iea) {
             for (int item : states) {
-                File file = new File("src/client/resources/assets/connected-textures/vanilla-glass/states/state-" + item + ".png");
+                File file = new File("src/client/resources/assets/connected-textures/smooth-glass-16/states/state-" + item + ".png");
                 FileInputStream stream = new FileInputStream(file);
                 BufferedImage image = ImageIO.read(stream);
                 stream.close();
 
-                if ((z & 16) == 0) image.setRGB(15, 15, CORNER_COLOR.getRGB());
-                if ((z & 32) == 0) image.setRGB(15, 0, CORNER_COLOR.getRGB());
-                if ((z & 64) == 0) image.setRGB(0, 15, CORNER_COLOR.getRGB());
-                if ((z & 128) == 0) image.setRGB(0, 0, CORNER_COLOR.getRGB());
+                if ((z & 16) != 0) image.setRGB(15, 15, CORNER_COLOR.getRGB());
+                if ((z & 32) != 0) image.setRGB(15, 0, CORNER_COLOR.getRGB());
+                if ((z & 64) != 0) image.setRGB(0, 15, CORNER_COLOR.getRGB());
+                if ((z & 128) != 0) image.setRGB(0, 0, CORNER_COLOR.getRGB());
 
-                new File("src/client/resources/assets/connected-textures/vanilla-glass-256/states/" + item).mkdir();
-                File newFile = new File("src/client/resources/assets/connected-textures/vanilla-glass-256/states/" + item + "/state-" + (item | z) + ".png");
+                new File("src/client/resources/assets/connected-textures/smooth-glass-256/states/" + item).mkdir();
+                File newFile = new File("src/client/resources/assets/connected-textures/smooth-glass-256/states/" + item + "/state-" + (item | z) + ".png");
                 ImageIO.write(image, "png", newFile);
             }
         }

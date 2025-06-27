@@ -1,10 +1,12 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.connected;
 
+import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.rendering.IMeshData;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
+import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +34,11 @@ public class ClientSidedBlockConnector implements ISidedBlockConnector {
             return;
         }
         state.addVertices(meshData, bx, by, bz, opaqueBitmask, blockLightLevels, skyLightLevels);
+    }
+
+    @Override
+    public boolean isConnectedBlock(BlockState state) {
+        return CONNECTION_FUNCTIONS.containsKey(state);
     }
 
 }

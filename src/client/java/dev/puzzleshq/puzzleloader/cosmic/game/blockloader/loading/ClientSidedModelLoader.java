@@ -26,7 +26,6 @@ public class ClientSidedModelLoader implements ISidedModelLoader {
         return json;
     }
 
-
     public BlockModelJson loadModelExperimental(BlockModelGenerator generator, float[] rotation) {
         ModelKey key = new ModelKey(generator.getName(), (int) rotation[0], (int) rotation[1], (int) rotation[2]);
         if (CLIENT_MODEL_CACHE.containsKey(key)) return (BlockModelJson) CLIENT_MODEL_CACHE.get(key);

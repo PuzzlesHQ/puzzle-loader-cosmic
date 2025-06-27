@@ -1,8 +1,8 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.client;
 
 import com.badlogic.gdx.utils.OrderedMap;
-import dev.puzzlehq.annotation.documentation.Note;
-import dev.puzzlehq.annotation.stability.Experimental;
+import dev.puzzleshq.annotation.documentation.Note;
+import dev.puzzleshq.annotation.stability.Experimental;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelCuboid;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelFace;

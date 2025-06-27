@@ -25,6 +25,8 @@ public interface ISidedBlockConnector {
             short[] blockLightLevels, int[] skyLightLevels
     );
 
+    boolean isConnectedBlock(BlockState state);
+
     interface ConnectorFunction {
         void connect(Zone zone, Chunk chunk, BlockState blockState, int x, int y, int z, IMeshData meshData, int opaqueBitmask, short[] blockLightLevels, int[] skyLightLevels);
     }
