@@ -78,10 +78,10 @@ dependencies {
     serverCompileOnly "org.jetbrains:annotations:24.0.0"
     commonCompileOnly "org.jetbrains:annotations:24.0.0"
 
-    clientBundle "dev.puzzleshq:puzzle-loader-core:1.0.0:client"
-    clientBundle "dev.puzzleshq:puzzle-loader-core:1.0.0:common"
-    commonBundle "dev.puzzleshq:puzzle-loader-core:1.0.0:common"
-    serverBundle "dev.puzzleshq:puzzle-loader-core:1.0.0:common"
+    clientBundle "dev.puzzleshq:puzzle-loader-core:69.69.69:client"
+    clientBundle "dev.puzzleshq:puzzle-loader-core:69.69.69:common"
+    commonBundle "dev.puzzleshq:puzzle-loader-core:69.69.69:common"
+    serverBundle "dev.puzzleshq:puzzle-loader-core:69.69.69:common"
 
     if (usingSingleJar) {
         clientImplementation(jar)
@@ -102,7 +102,7 @@ dependencies {
         allImpl "org.ow2.asm:asm-analysis:$asm_version"
         allImpl "org.ow2.asm:asm-commons:$asm_version"
 
-        allImpl "dev.puzzleshq:puzzle-annotations:1.0.1"
+        allImpl "dev.puzzleshq:puzzle-annotations:1.0.0"
         allImpl "dev.puzzleshq:access-writer:1.0.3"
         allImpl "dev.puzzleshq:mod-format-framework:1.0.0"
 
