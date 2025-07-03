@@ -44,7 +44,7 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
             BlockLoader.INSTANCE.generate(modBlock);
         }
 
-//        ISidedBlockConnector.getInstance().registerStateAsConnectedBlock(Block.getInstance("glass").getDefaultBlockState(), new ConnectedGlass256());
+        ISidedBlockConnector.getInstance().registerStateAsConnectedBlock(Block.getInstance("glass").getDefaultBlockState(), new ConnectedGlass256());
     }
 
     @SubscribeEvent
