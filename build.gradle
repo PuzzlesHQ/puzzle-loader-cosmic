@@ -131,6 +131,8 @@ dependencies {
 
 }
 
+var runDir = file("./run")
+
 tasks.register("runClient", JavaExec) {
     classpath += sourceSets.client.runtimeClasspath
     classpath += sourceSets.common.runtimeClasspath
@@ -143,7 +145,8 @@ tasks.register("runServer", JavaExec) {
     classpath += sourceSets.common.runtimeClasspath
 
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ServerPiece"
-    workingDir(file("./run"))
+    if (!runDir.exists()) runDir.mkdirs()
+    workingDir(runDir)
 }
 
 wrapper {

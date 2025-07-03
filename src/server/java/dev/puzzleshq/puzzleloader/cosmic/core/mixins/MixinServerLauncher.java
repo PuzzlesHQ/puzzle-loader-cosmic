@@ -19,7 +19,7 @@ public class MixinServerLauncher {
     @Redirect(method = "main", at = @At(value = "INVOKE", target = "Ljava/security/CodeSource;getLocation()Ljava/net/URL;"))
     private static URL getLocation(CodeSource instance) {
         try {
-            /* aded the non-existant /e/ to the end because it automatically gets the parent file*/
+            /* added the non-existant /e/ to the end because it automatically gets the parent file*/
             return new File("./e/").toURL();
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
