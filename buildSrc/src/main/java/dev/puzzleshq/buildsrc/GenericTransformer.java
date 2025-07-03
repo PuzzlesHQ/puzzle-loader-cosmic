@@ -11,9 +11,9 @@ import java.util.zip.ZipOutputStream;
 
 public class GenericTransformer {
 
-    public static void transform(File out) throws IOException {
+    public static void transform(File in, File out) throws IOException {
         try {
-            InputStream byteStream = new FileInputStream(out);
+            InputStream byteStream = new FileInputStream(in);
             byte[] bytes = byteStream.readAllBytes();
             byteStream.close();
 
@@ -27,7 +27,7 @@ public class GenericTransformer {
                     output.putNextEntry(entry);
                     output.write(input.readAllBytes());
                 } else if (entryName.endsWith(".class")) {
-                    byte[] classBytes = transformClass(input.readAllBytes());
+                    byte[] classBytes = transformClass(entryName, input.readAllBytes());
                     if (classBytes != null) {
                         output.putNextEntry(entry);
                         output.write(classBytes);
@@ -47,7 +47,9 @@ public class GenericTransformer {
         }
     }
 
-    private static byte[] transformClass(byte[] bytes) {
+    private static byte[] transformClass(String entryName, byte[] bytes) {
+        if (entryName.contains("io/netty")) return bytes;
+
         ClassReader reader = new ClassReader(bytes);
         ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES);
 

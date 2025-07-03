@@ -1,15 +1,16 @@
-import dev.puzzleshq.accesswriter.AccessWriters
-import dev.puzzleshq.buildsrc.GenericTransformer
-import me.lucko.jarrelocator.JarRelocator
-import me.lucko.jarrelocator.Relocation
-import org.gradle.api.artifacts.transform.TransformParameters;
+import dev.puzzleshq.buildsrc.WidenerPlugin
 
 plugins {
     id 'java'
 }
 
 group = 'dev.puzzleshq'
-version = '1.0-SNAPSHOT'
+
+apply plugin: WidenerPlugin
+
+widenerPlugin {
+    widenerPath.set(file("$projectDir/src/common/resources/puzzle-loader-cosmic.manipulator"))
+}
 
 repositories {
     ivy {
@@ -29,6 +30,7 @@ repositories {
     }
     mavenCentral()
     mavenLocal()
+    maven { url 'https://jitpack.io' }
 }
 
 sourceSets {
@@ -68,7 +70,7 @@ configurations {
 }
 
 boolean usingSingleJar = false;
-String version = "0.4.11-alpha"
+String version = "0.4.12-alpha"
 
 var jar = files("./lib/Cosmic-Reach-0.4.10b.jar");
 
@@ -78,10 +80,8 @@ dependencies {
     serverCompileOnly "org.jetbrains:annotations:24.0.0"
     commonCompileOnly "org.jetbrains:annotations:24.0.0"
 
-    clientBundle "dev.puzzleshq:puzzle-loader-core:69.69.69:client"
-    clientBundle "dev.puzzleshq:puzzle-loader-core:69.69.69:common"
-    commonBundle "dev.puzzleshq:puzzle-loader-core:69.69.69:common"
-    serverBundle "dev.puzzleshq:puzzle-loader-core:69.69.69:common"
+    clientBundle "com.github.PuzzlesHQ:puzzle-loader-core:1.0.2-alpha:client"
+    allImpl("com.github.PuzzlesHQ:puzzle-loader-core:1.0.2-alpha:common")
 
     if (usingSingleJar) {
         clientImplementation(jar)
@@ -93,42 +93,40 @@ dependencies {
         serverImplementation("finalforeach:cosmic-reach:$version:server")
     }
 
-    clientImplementation(sourceSets.common.output);
-    serverImplementation(sourceSets.common.output);
-    {
-        allImpl "org.ow2.asm:asm:$asm_version"
-        allImpl "org.ow2.asm:asm-tree:$asm_version"
-        allImpl "org.ow2.asm:asm-util:$asm_version"
-        allImpl "org.ow2.asm:asm-analysis:$asm_version"
-        allImpl "org.ow2.asm:asm-commons:$asm_version"
+    clientImplementation(sourceSets.common.output)
+    serverImplementation(sourceSets.common.output)
 
-        allImpl "dev.puzzleshq:puzzle-annotations:1.0.0"
-        allImpl "dev.puzzleshq:access-writer:1.0.3"
-        allImpl "dev.puzzleshq:mod-format-framework:1.0.0"
+    allImpl "org.ow2.asm:asm:$asm_version"
+    allImpl "org.ow2.asm:asm-tree:$asm_version"
+    allImpl "org.ow2.asm:asm-util:$asm_version"
+    allImpl "org.ow2.asm:asm-analysis:$asm_version"
+    allImpl "org.ow2.asm:asm-commons:$asm_version"
 
-        allImpl "org.hjson:hjson:$hjson_version"
+    allImpl "dev.puzzleshq:puzzle-annotations:1.0.0"
+    allImpl "dev.puzzleshq:access-writer:1.0.4+c"
+    allImpl "dev.puzzleshq:mod-format-framework:1.0.0"
 
-        allImpl "org.reflections:reflections:$reflections_version"
-        allImpl("net.neoforged:bus:$eventbus_version") {
-            exclude group: "org.apache.logging.log4j", module: "log4j-api"
-        }
+    allImpl "org.hjson:hjson:$hjson_version"
 
-        allImpl annotationProcessor("io.github.llamalad7:mixinextras-fabric:$mixin_extras_version")
-        allImpl("net.fabricmc:sponge-mixin:$mixin_version") {
-            exclude group: "com.google.code.gson", module: "gson"
-            exclude group: "com.google.guava", module: "guava"
-        }
-        allImpl "net.sf.jopt-simple:jopt-simple:$jopt_simple_version"
-
-        allImpl "com.github.zafarkhaja:java-semver:0.10.2"
-
-        allImpl 'org.slf4j:slf4j-ext:1.7.23'
-        allImpl 'org.slf4j:slf4j-api:1.7.23'
-        allImpl "org.apache.logging.log4j:log4j-api:$slf4j_version"
-        allImpl "org.apache.logging.log4j:log4j-core:$slf4j_version"
-        allImpl "org.apache.logging.log4j:log4j-slf4j-impl:$slf4j_version"
+    allImpl "org.reflections:reflections:$reflections_version"
+    allImpl("net.neoforged:bus:$eventbus_version") {
+        exclude group: "org.apache.logging.log4j", module: "log4j-api"
     }
 
+    allImpl annotationProcessor("io.github.llamalad7:mixinextras-fabric:$mixin_extras_version")
+    allImpl("net.fabricmc:sponge-mixin:$mixin_version") {
+        exclude group: "com.google.code.gson", module: "gson"
+        exclude group: "com.google.guava", module: "guava"
+    }
+    allImpl "net.sf.jopt-simple:jopt-simple:$jopt_simple_version"
+
+    allImpl "com.github.zafarkhaja:java-semver:0.10.2"
+
+    allImpl 'org.slf4j:slf4j-ext:1.7.23'
+    allImpl 'org.slf4j:slf4j-api:1.7.23'
+    allImpl "org.apache.logging.log4j:log4j-api:$slf4j_version"
+    allImpl "org.apache.logging.log4j:log4j-core:$slf4j_version"
+    allImpl "org.apache.logging.log4j:log4j-slf4j-impl:$slf4j_version"
 }
 
 var runDir = file("./run")
@@ -152,50 +150,4 @@ tasks.register("runServer", JavaExec) {
 wrapper {
     gradleVersion = "8.14"
     distributionType = Wrapper.DistributionType.ALL
-}
-
-java.toolchain.languageVersion.set(JavaLanguageVersion.of(24));
-
-abstract class MyTransform implements TransformAction<TransformParameters.None> {
-
-    @InputArtifact
-    abstract Provider<FileSystemLocation> getInputArtifact();
-
-    @Override
-    void transform(TransformOutputs outputs) {
-        var inp = inputArtifact.get().asFile;
-        var out = outputs.file(inp.name.replace(".jar", "-transformed.jar"));
-
-        List<Relocation> rules = new ArrayList<>();
-//        rules.add(new Relocation("org.objectweb", "bundled.org.objectweb"));
-//        rules.add(new Relocation("org.spongepowered.include", "bundled"));
-
-        JarRelocator relocator = new JarRelocator(inp, out, rules);
-        relocator.run();
-
-        AccessWriters.init(null)
-        AccessWriters.MERGED.add("public", "org/spongepowered/asm/mixin/transformer/MixinTransformer")
-        AccessWriters.MERGED.add("public", "org/spongepowered/asm/mixin/transformer/MixinTransformer", "<init>", "()V")
-        AccessWriters.MERGED.add("public", "org/spongepowered/asm/mixin/MixinEnvironment", "gotoPhase", '(Lorg/spongepowered/asm/mixin/MixinEnvironment$Phase;)V')
-
-        GenericTransformer.transform(out)
-    }
-}
-Attribute<Boolean> manipulated = Attribute.of("manipulated", Boolean.class);
-
-afterEvaluate {
-    project.getDependencies().getAttributesSchema().attribute(manipulated);
-    project.getDependencies().getArtifactTypes().getByName("jar", artifact -> {
-        artifact.getAttributes().attribute(manipulated, false);
-    });
-
-    project.getDependencies().registerTransform(MyTransform) {
-        getFrom().attribute(manipulated, false);
-        getTo().attribute(manipulated, true);
-    }
-
-    project.getConfigurations().all(config -> {
-        if (config.isCanBeResolved())
-            config.getAttributes().attribute(manipulated, true);
-    });
 }
