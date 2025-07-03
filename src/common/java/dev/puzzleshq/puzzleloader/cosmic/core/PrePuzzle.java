@@ -6,7 +6,6 @@ public class PrePuzzle implements PreLaunchInitializer {
 
     @Override
     public void onPreLaunch() {
-        System.err.println("Pre-Puzzle Loaded");
     }
 
 }

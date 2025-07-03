@@ -39,7 +39,6 @@ public class AprilFoolsForshadowingModBlock implements IModBlock {
 
     @Override
     public void onInteract(BlockEventArgs args) {
-        System.err.println("TEST");
         args.srcPlayer.getEntity().forceHit(1);
     }
 

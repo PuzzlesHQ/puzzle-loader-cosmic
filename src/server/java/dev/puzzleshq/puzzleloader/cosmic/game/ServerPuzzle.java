@@ -13,12 +13,10 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ServerSidedTex
 public class ServerPuzzle implements ServerPreModInit, ServerModInit, ServerPostModInit {
     @Override
     public void onServerInit() {
-        System.err.println("ServerPuzzle init called");
     }
 
     @Override
     public void onServerPostInit() {
-        System.err.println("ServerPuzzle postInit called");
     }
 
     @Override
@@ -26,7 +24,5 @@ public class ServerPuzzle implements ServerPreModInit, ServerModInit, ServerPost
         ISidedModelLoader.CONTEXTUAL_INSTANCE.set(new ServerSidedModelLoader());
         ISidedBlockConnector.CONTEXTUAL_INSTANCE.set(new ServerSidedBlockConnector());
         ISidedTextureLoader.CONTEXTUAL_INSTANCE.set(new ServerSidedTextureLoader());
-
-        System.err.println("ServerPuzzle preInit called");
     }
 }

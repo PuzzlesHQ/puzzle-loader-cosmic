@@ -14,13 +14,10 @@ public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPost
 
     @Override
     public void onClientInit() {
-        System.err.println("ClientPuzzle init called");
     }
 
     @Override
     public void onClientPostInit() {
-        System.err.println("ClientPuzzle postInit called");
-
 //        Threads.runOnMainThread(() -> {
 //            for (int i = 0; i < 16; i++) {
 //                BlockModelJsonTexture texture = new BlockModelJsonTexture();
@@ -37,8 +34,6 @@ public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPost
         ISidedModelLoader.CONTEXTUAL_INSTANCE.set(new ClientSidedModelLoader());
         ISidedTextureLoader.CONTEXTUAL_INSTANCE.set(new ClientSidedTextureLoader());
         ISidedBlockConnector.CONTEXTUAL_INSTANCE.set(new ClientSidedBlockConnector());
-
-        System.err.println("ClientPuzzle preInit called");
     }
 
 }
