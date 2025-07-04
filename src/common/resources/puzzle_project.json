@@ -1,0 +1,10 @@
+{
+  "name": "$p_name",
+  "version": "$p_version",
+  "description": "$p_desc",
+
+  "id": "$p_id",
+  "group": "$p_group",
+
+  "git": "$p_git"
+}

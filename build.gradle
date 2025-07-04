@@ -2,9 +2,21 @@ import dev.puzzleshq.buildsrc.WidenerPlugin
 
 plugins {
     id 'java'
+    id 'maven-publish'
+    id("io.github.sgtsilvio.gradle.maven-central-publishing") version "0.4.0"
+    id 'com.gradleup.shadow' version '8.3.6'
 }
 
-group = 'dev.puzzleshq'
+def ref = System.getenv("GITHUB_REF")
+
+group = p_group
+version = (ref != null && ref.startsWith("refs/tags/")) ? ref.tokenize('/').last().replaceFirst(/^v/, '') : p_version
+
+String mavenUrl = System.getenv("MAVEN_URL")
+
+String envRepo = System.getenv("MAVEN_REPO");
+String mavenRepo = envRepo != null ? envRepo : "releases";
+
 
 apply plugin: WidenerPlugin
 
@@ -145,6 +157,132 @@ tasks.register("runServer", JavaExec) {
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ServerPiece"
     if (!runDir.exists()) runDir.mkdirs()
     workingDir(runDir)
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+tasks.register("buildServerJar", com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    mergeServiceFiles()
+
+    archiveClassifier = "server"
+    from sourceSets.server.output
+    from sourceSets.common.output
+}
+
+tasks.register("buildServerSourcesJar", Jar) {
+    from sourceSets.server.allSource
+    from sourceSets.common.allSource
+    archiveClassifier = "server-sources"
+}
+
+
+tasks.register("buildClientJar", com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    mergeServiceFiles()
+
+    archiveClassifier = "client"
+    from sourceSets.client.output
+    from sourceSets.common.output
+}
+
+tasks.register("buildClientSourcesJar", Jar) {
+    from sourceSets.client.allSource
+    from sourceSets.common.allSource
+    archiveClassifier = "client-sources"
+}
+
+
+processResources {
+    def projectProperties = [
+            "p_name": p_name,
+            "p_version": ((String)version).contains(".") ? version : "69.69.69",
+            "p_desc": p_desc,
+
+            "p_id": p_id,
+            "p_group": p_group,
+
+            "p_git": p_git
+    ]
+
+    inputs.properties projectProperties
+
+    filesMatching(["puzzle_project.json"]) {
+        expand projectProperties
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "PuzzleHQsMaven"
+            url = mavenUrl+ "/" +mavenRepo
+            credentials {
+                username = System.getenv("MAVEN_NAME")
+                password = System.getenv("MAVEN_SECRET")
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+
+    publications {
+        maven(MavenPublication) {
+            groupId = p_group
+            artifactId = p_id
+            version = this.version
+
+            artifact source: buildClientJar, classifier: 'client', extension: 'jar'
+            artifact source: buildClientSourcesJar, classifier: 'client-sources', extension: 'jar'
+
+            artifact source: buildServerJar, classifier: 'server', extension: 'jar'
+            artifact source: buildServerSourcesJar, classifier: 'server-sources', extension: 'jar'
+
+            pom {
+                name = p_name
+                description = p_desc
+                url = p_git
+
+                licenses {
+                    license {
+                        name = "GNU Lesser General Public License"
+                        url = "https://www.gnu.org/licenses/lgpl-3.0.html"
+                        distribution = "LGPL"
+                        comments = "This project includes LGPL-licensed components."
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'mrzombii'
+                        name = 'Mr Zombii'
+                        email = 'thezombiigames@gmail.com'
+                    }
+                    developer {
+                        id = 'crabking'
+                        name = 'CrabKing'
+                    }
+                }
+                scm {
+                    connection = "${p_git}.git"
+                    developerConnection = "${p_git}.git"
+                    url = "${p_git}.git"
+                }
+            }
+        }
+    }
+}
+
+if (ref != null) {
+    signing {
+        useGpgCmd()
+        sign(publishing.publications[0])
+    }
 }
 
 wrapper {
