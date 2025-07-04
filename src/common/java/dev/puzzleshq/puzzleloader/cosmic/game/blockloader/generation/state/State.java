@@ -1,6 +1,5 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state;
 
-import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event.BlockEventGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.util.HJsonSerializable;
 import finalforeach.cosmicreach.util.Identifier;
 import org.hjson.JsonArray;
@@ -8,7 +7,6 @@ import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class State implements HJsonSerializable {

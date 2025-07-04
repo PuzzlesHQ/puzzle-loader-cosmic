@@ -1,19 +1,12 @@
 package dev.puzzleshq.puzzleloader.cosmic.core.mixins.client;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.PixmapIO;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.*;
-import dev.puzzleshq.puzzleloader.loader.util.ReflectionUtil;
 import finalforeach.cosmicreach.BlockGame;
 import finalforeach.cosmicreach.gamestates.GameState;
-import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.io.*;
 
 @Mixin(BlockGame.class)
 public class MixinBlockGame {

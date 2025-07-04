@@ -7,7 +7,6 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.Model
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelFace;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.State;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedModelLoader;
-import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.rendering.IMeshData;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;

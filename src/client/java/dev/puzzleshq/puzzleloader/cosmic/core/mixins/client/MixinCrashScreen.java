@@ -1,16 +1,12 @@
 package dev.puzzleshq.puzzleloader.cosmic.core.mixins.client;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import dev.puzzleshq.puzzleloader.cosmic.core.crash.BetterCrashScreen;
 import finalforeach.cosmicreach.lwjgl3.CrashScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.swing.*;
-import java.awt.*;
 
 @Mixin(CrashScreen.class)
 public class MixinCrashScreen {

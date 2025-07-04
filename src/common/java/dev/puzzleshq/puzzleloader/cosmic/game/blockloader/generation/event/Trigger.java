@@ -1,7 +1,6 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event;
 
 import dev.puzzleshq.puzzleloader.cosmic.game.util.HJsonSerializable;
-import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.util.Identifier;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
@@ -9,7 +8,6 @@ import org.hjson.JsonValue;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
 
 public class Trigger implements HJsonSerializable {
         String actionId = null;
