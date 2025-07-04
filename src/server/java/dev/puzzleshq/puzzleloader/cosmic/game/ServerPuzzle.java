@@ -9,7 +9,6 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedModelLoa
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedTextureLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ServerSidedModelLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ServerSidedTextureLoader;
-import dev.puzzleshq.puzzleloader.cosmic.game.events.OnLoadArgsEvent;
 
 public class ServerPuzzle implements ServerPreModInit, ServerModInit, ServerPostModInit {
     @Override
