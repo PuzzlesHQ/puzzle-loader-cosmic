@@ -88,6 +88,9 @@ var jar = files("./lib/Cosmic-Reach-0.4.10b.jar");
 
 dependencies {
 
+    clientBundle "com.github.PuzzlesHQ:puzzle-loader-cosmic:114f9cdabc:client"
+    allImpl("com.github.PuzzlesHQ:puzzle-loader-cosmic:114f9cdabc:server")
+
     clientCompileOnly "org.jetbrains:annotations:24.0.0"
     serverCompileOnly "org.jetbrains:annotations:24.0.0"
     commonCompileOnly "org.jetbrains:annotations:24.0.0"
@@ -236,6 +239,8 @@ publishing {
             groupId = p_group
             artifactId = p_id
             version = this.version
+
+            from components.java
 
             artifact source: buildClientJar, classifier: 'client', extension: 'jar'
             artifact source: buildClientSourcesJar, classifier: 'client-sources', extension: 'jar'
