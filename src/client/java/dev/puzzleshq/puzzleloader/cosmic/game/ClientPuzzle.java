@@ -1,5 +1,9 @@
 package dev.puzzleshq.puzzleloader.cosmic.game;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import de.pottgames.tuningfork.SoundBuffer;
+import de.pottgames.tuningfork.SoundBufferLoader;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ClientModInit;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ClientPostModInit;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ClientPreModInit;
@@ -9,6 +13,7 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ClientSidedMod
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ClientSidedTextureLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedModelLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedTextureLoader;
+import dev.puzzleshq.puzzleloader.cosmic.game.util.IndependentAssetLoader;
 
 public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPostModInit {
 
@@ -34,6 +39,17 @@ public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPost
         ISidedModelLoader.CONTEXTUAL_INSTANCE.set(new ClientSidedModelLoader());
         ISidedTextureLoader.CONTEXTUAL_INSTANCE.set(new ClientSidedTextureLoader());
         ISidedBlockConnector.CONTEXTUAL_INSTANCE.set(new ClientSidedBlockConnector());
+
+        IndependentAssetLoader.registerLoadingMethod(Pixmap.class, (handle) -> {
+            byte[] bytes = handle.getBytes();
+
+            return new Pixmap(bytes, 0, bytes.length);
+        });
+        IndependentAssetLoader.registerLoadingMethod(Texture.class, (handle) -> {
+            byte[] bytes = handle.getBytes();
+
+            return new Texture(new Pixmap(bytes, 0, bytes.length));
+        });
     }
 
 }
