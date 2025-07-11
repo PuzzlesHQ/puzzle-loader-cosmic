@@ -12,7 +12,7 @@ import dev.puzzleshq.puzzleloader.cosmic.game.events.OnBlockRegisterEvent;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import net.neoforged.bus.api.SubscribeEvent;
 
-public class  CommonPuzzle implements PreModInit, ModInit, PostModInit {
+public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
 
     public CommonPuzzle() {
         GameRegistries.COSMIC_EVENT_BUS.register(this);
