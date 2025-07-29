@@ -49,7 +49,6 @@ sourceSets {
     client
     common
     server
-    datagen
 }
 
 configurations {
@@ -82,7 +81,7 @@ configurations {
 }
 
 boolean usingSingleJar = false;
-String version = "0.4.12-alpha"
+String version = "0.4.14-alpha"
 
 var jar = files("./lib/Cosmic-Reach-0.4.10b.jar");
 
@@ -92,8 +91,8 @@ dependencies {
     serverCompileOnly "org.jetbrains:annotations:24.0.0"
     commonCompileOnly "org.jetbrains:annotations:24.0.0"
 
-    clientBundle "com.github.PuzzlesHQ:puzzle-loader-core:1.0.2-alpha:client"
-    allImpl("com.github.PuzzlesHQ:puzzle-loader-core:1.0.2-alpha:common")
+    clientBundle "com.github.PuzzlesHQ:puzzle-loader-core:1.0.3-alpha:client"
+    allImpl("com.github.PuzzlesHQ:puzzle-loader-core:1.0.3-alpha:common")
 
     if (usingSingleJar) {
         clientImplementation(jar)
