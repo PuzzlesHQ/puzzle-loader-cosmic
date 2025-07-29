@@ -63,6 +63,11 @@ configurations {
     commonImplementation.extendsFrom(allImpl)
     serverImplementation.extendsFrom(allImpl)
 
+    allImplLoader
+    clientImplementation.extendsFrom(allImplLoader)
+    commonImplementation.extendsFrom(allImplLoader)
+    serverImplementation.extendsFrom(allImplLoader)
+
     clientBundle
     commonBundle
     serverBundle
@@ -107,37 +112,37 @@ dependencies {
     clientImplementation(sourceSets.common.output)
     serverImplementation(sourceSets.common.output)
 
-    allImpl "org.ow2.asm:asm:$asm_version"
-    allImpl "org.ow2.asm:asm-tree:$asm_version"
-    allImpl "org.ow2.asm:asm-util:$asm_version"
-    allImpl "org.ow2.asm:asm-analysis:$asm_version"
-    allImpl "org.ow2.asm:asm-commons:$asm_version"
+    allImplLoader "org.ow2.asm:asm:$asm_version"
+    allImplLoader "org.ow2.asm:asm-tree:$asm_version"
+    allImplLoader "org.ow2.asm:asm-util:$asm_version"
+    allImplLoader "org.ow2.asm:asm-analysis:$asm_version"
+    allImplLoader "org.ow2.asm:asm-commons:$asm_version"
 
-    allImpl "dev.puzzleshq:puzzle-annotations:1.0.0"
-    allImpl "dev.puzzleshq:access-writer:1.0.4+c"
-    allImpl "dev.puzzleshq:mod-format-framework:1.0.0"
+    allImplLoader "dev.puzzleshq:puzzle-annotations:1.0.0"
+    allImplLoader "dev.puzzleshq:access-writer:1.0.4+c"
+    allImplLoader "dev.puzzleshq:mod-format-framework:1.0.0"
 
-    allImpl "org.hjson:hjson:$hjson_version"
+    allImplLoader "org.hjson:hjson:$hjson_version"
 
-    allImpl "org.reflections:reflections:$reflections_version"
-    allImpl("net.neoforged:bus:$eventbus_version") {
+    allImplLoader "org.reflections:reflections:$reflections_version"
+    allImplLoader("net.neoforged:bus:$eventbus_version") {
         exclude group: "org.apache.logging.log4j", module: "log4j-api"
     }
 
-    allImpl annotationProcessor("io.github.llamalad7:mixinextras-fabric:$mixin_extras_version")
-    allImpl("net.fabricmc:sponge-mixin:$mixin_version") {
+    allImplLoader annotationProcessor("io.github.llamalad7:mixinextras-fabric:$mixin_extras_version")
+    allImplLoader("net.fabricmc:sponge-mixin:$mixin_version") {
         exclude group: "com.google.code.gson", module: "gson"
         exclude group: "com.google.guava", module: "guava"
     }
-    allImpl "net.sf.jopt-simple:jopt-simple:$jopt_simple_version"
+    allImplLoader "net.sf.jopt-simple:jopt-simple:$jopt_simple_version"
 
-    allImpl "com.github.zafarkhaja:java-semver:0.10.2"
+    allImplLoader "com.github.zafarkhaja:java-semver:0.10.2"
 
-    allImpl 'org.slf4j:slf4j-ext:1.7.23'
-    allImpl 'org.slf4j:slf4j-api:1.7.23'
-    allImpl "org.apache.logging.log4j:log4j-api:$slf4j_version"
-    allImpl "org.apache.logging.log4j:log4j-core:$slf4j_version"
-    allImpl "org.apache.logging.log4j:log4j-slf4j-impl:$slf4j_version"
+    allImplLoader 'org.slf4j:slf4j-ext:1.7.23'
+    allImplLoader 'org.slf4j:slf4j-api:1.7.23'
+    allImplLoader "org.apache.logging.log4j:log4j-api:$slf4j_version"
+    allImplLoader "org.apache.logging.log4j:log4j-core:$slf4j_version"
+    allImplLoader "org.apache.logging.log4j:log4j-slf4j-impl:$slf4j_version"
 }
 
 var runDir = file("./run")
@@ -180,7 +185,6 @@ tasks.register("buildServerSourcesJar", Jar) {
     archiveClassifier = "server-sources"
 }
 
-
 tasks.register("buildClientJar", com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
     mergeServiceFiles()
 
@@ -215,6 +219,16 @@ processResources {
     }
 }
 
+static def addDeps(dependenciesNode, dependencySet) {
+    for (final def dependency in dependencySet) {
+        def dependencyNode = dependenciesNode.appendNode('dependency')
+        dependencyNode.appendNode('groupId', dependency.group)
+        dependencyNode.appendNode('artifactId', dependency.name)
+        dependencyNode.appendNode('version', dependency.version)
+        dependencyNode.appendNode('scope', "compile")
+    }
+}
+
 publishing {
     repositories {
         maven {
@@ -243,6 +257,12 @@ publishing {
 
             artifact source: buildServerJar, classifier: 'server', extension: 'jar'
             artifact source: buildServerSourcesJar, classifier: 'server-sources', extension: 'jar'
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                addDeps(dependenciesNode, configurations.allImpl.allDependencies)
+                addDeps(dependenciesNode, configurations.clientBundle.allDependencies)
+            }
 
             pom {
                 name = p_name
