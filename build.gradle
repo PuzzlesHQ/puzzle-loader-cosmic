@@ -17,11 +17,15 @@ String mavenUrl = System.getenv("MAVEN_URL")
 String envRepo = System.getenv("MAVEN_REPO");
 String mavenRepo = envRepo != null ? envRepo : "releases";
 
-
 apply plugin: WidenerPlugin
 
 widenerPlugin {
     widenerPath.set(file("$projectDir/src/common/resources/puzzle-loader-cosmic.manipulator"))
+}
+
+java {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
 }
 
 repositories {
