@@ -1,5 +1,7 @@
 package dev.puzzleshq.puzzleloader.cosmic.core.mixins.client;
 
+import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ClientPreModInit;
+import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.PreModInit;
 import dev.puzzleshq.puzzleloader.cosmic.game.GameRegistries;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.OnLoadArgsEvent;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
@@ -14,6 +16,9 @@ public class MixinLwjgl3Launcher {
 
     @Inject(method = "main", at = @At(value = "FIELD", target = "Lcom/badlogic/gdx/Gdx;files:Lcom/badlogic/gdx/Files;", opcode = Opcodes.PUTSTATIC))
     private static void afterArgParsing(String[] args, CallbackInfo ci) {
+        PreModInit.invoke();
+        ClientPreModInit.invoke();
+
         System.out.println("Finished parsing args!");
         GameRegistries.COSMIC_EVENT_BUS.post(new OnLoadArgsEvent(args));
     }
