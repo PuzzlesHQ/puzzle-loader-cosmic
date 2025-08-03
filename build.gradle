@@ -90,6 +90,11 @@ configurations {
 }
 
 boolean usingSingleJar = false;
+boolean jitpackPuzzle = false;
+
+String jpVersion = "51854d60d4"
+String centralVersion = "1.0.6-alpha"
+
 String version = "0.4.14-alpha"
 
 var jar = files("./lib/Cosmic-Reach-0.4.10b.jar");
@@ -100,8 +105,13 @@ dependencies {
     serverCompileOnly "org.jetbrains:annotations:24.0.0"
     commonCompileOnly "org.jetbrains:annotations:24.0.0"
 
-    clientBundle "com.github.PuzzlesHQ:puzzle-loader-core:1.0.3-alpha:client"
-    allImpl("com.github.PuzzlesHQ:puzzle-loader-core:1.0.3-alpha:common")
+    if (jitpackPuzzle) {
+        clientBundle "com.github.PuzzlesHQ:puzzle-loader-core:$jpVersion:client"
+        allImpl("com.github.PuzzlesHQ:puzzle-loader-core:$jpVersion:common")
+    } else {
+        clientBundle "dev.puzzleshq:puzzle-loader-core:$centralVersion:client"
+        allImpl("dev.puzzleshq:puzzle-loader-core:$centralVersion:common")
+    }
 
     if (usingSingleJar) {
         clientImplementation(jar)
@@ -154,6 +164,8 @@ var runDir = file("./run")
 tasks.register("runClient", JavaExec) {
     classpath += sourceSets.client.runtimeClasspath
     classpath += sourceSets.common.runtimeClasspath
+
+//    args("--do-title-transformer=false")
 
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ClientPiece"
 }
