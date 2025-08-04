@@ -45,7 +45,6 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
 
     @SubscribeEvent
     public void loadArgs(OnLoadArgsEvent event) {
-        System.out.println("hi args");
         String[] args = event.getArgs();
         for(int i = 0; i < args.length; ++i) {
             String arg = args[i];
@@ -56,7 +55,7 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
             }
 
             if (arg.equals("-wt") || arg.equals("--window-title")){
-                Gdx.graphics.setTitle("Puzzle Loader: " + args[i + 1]);
+                Gdx.graphics.setTitle(args[i + 1]);
             }
 
             if (arg.equals("-ws") || arg.equals("--window-size")){
@@ -72,7 +71,6 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
                     try {
                         newW = Integer.parseInt(args[i + 1]);
                         newH = Integer.parseInt(args[i + 2]);
-                        i += 2; // skip the width and height args
                     } catch (NumberFormatException ignored) {
                     }
                     w = newW;

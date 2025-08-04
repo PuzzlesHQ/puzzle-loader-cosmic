@@ -165,7 +165,7 @@ tasks.register("runClient", JavaExec) {
     classpath += sourceSets.client.runtimeClasspath
     classpath += sourceSets.common.runtimeClasspath
 
-//    args("--do-title-transformer=false")
+    args("--window-title", "test")
 
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ClientPiece"
 }

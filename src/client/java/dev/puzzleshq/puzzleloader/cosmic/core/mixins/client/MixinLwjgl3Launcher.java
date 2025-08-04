@@ -18,8 +18,6 @@ public class MixinLwjgl3Launcher {
     private static void afterArgParsing(String[] args, CallbackInfo ci) {
         PreModInit.invoke();
         ClientPreModInit.invoke();
-
-        System.out.println("Finished parsing args!");
         GameRegistries.COSMIC_EVENT_BUS.post(new OnLoadArgsEvent(args));
     }
 
