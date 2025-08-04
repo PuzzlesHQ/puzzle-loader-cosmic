@@ -4,8 +4,8 @@
   "package": "dev.puzzleshq.puzzleloader.cosmic.core.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "MixinServerLauncher",
-    "MixinDummyJsonModel"
+    "MixinDummyJsonModel",
+    "MixinServerLauncher"
   ],
   "server": [
   ],

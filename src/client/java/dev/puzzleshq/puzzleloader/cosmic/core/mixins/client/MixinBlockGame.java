@@ -17,8 +17,8 @@ public class MixinBlockGame {
      */
     @Inject(method = "create", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/rendering/shaders/GameShader;initShaders()V", shift = At.Shift.BEFORE))
     private void initPre(CallbackInfo ci) {
-        PreModInit.invoke();
-        ClientPreModInit.invoke();
+//        PreModInit.invoke();
+//        ClientPreModInit.invoke();
     }
 
     /**
