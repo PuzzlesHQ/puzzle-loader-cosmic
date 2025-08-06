@@ -1,3 +1,4 @@
+import dev.puzzleshq.buildsrc.DepUtils
 import dev.puzzleshq.buildsrc.WidenerPlugin
 
 plugins {
@@ -243,6 +244,19 @@ processResources {
 //    }
 //}
 
+configurations.allImpl.allDependencies.forEach {
+    it.artifacts.each { art ->
+        println "    ${art.extension} - ${art.classifier}"
+    }
+    System.out.println(DepUtils.getClassifier(it))
+}
+//configurations.clientBundle.allDependencies.forEach {
+//    it.artifacts.each { art ->
+//        println "    ${art.extension} - ${art.classifier}"
+//    }
+//    System.out.println(DepUtils.getClassifier(it))
+//}
+
 publishing {
     repositories {
         maven {
@@ -349,6 +363,7 @@ tasks.register("mkDeps") {
 \t\t\t\"groupId\": \"${dependency.group}\",
 \t\t\t\"artifactId\": \"${dependency.name}\",
 \t\t\t\"version\": \"${dependency.version}\",
+\t\t\t\"classifier\": \"${DepUtils.getClassifier(dependency)}\",
 \t\t\t\"type\": \"implementation\"
 \t\t}""" + (i != configurations.allImpl.allDependencies.size() - 1 ? "," : "")
     }
@@ -360,8 +375,11 @@ tasks.register("mkDeps") {
 \t\t\t\"groupId\": \"${dependency.group}\",
 \t\t\t\"artifactId\": \"${dependency.name}\",
 \t\t\t\"version\": \"${dependency.version}\",
+\t\t\t\"classifier\": \"${DepUtils.getClassifier(dependency)}\",
 \t\t\t\"type\": \"implementation\"
 \t\t}""" + (i != configurations.clientBundle.allDependencies.size() - 1 ? "," : "")
+
+//        System.out.println(dependency.classifier)
     }
     contents += "\n\t],\n\t\"server\": ["
     for (i in 0..<configurations.serverBundle.allDependencies.size()) {
@@ -370,6 +388,7 @@ tasks.register("mkDeps") {
 \t\t\t\"groupId\": \"${dependency.group}\",
 \t\t\t\"artifactId\": \"${dependency.name}\",
 \t\t\t\"version\": \"${dependency.version}\",
+\t\t\t\"classifier\": \"${DepUtils.getClassifier(dependency)}\",
 \t\t\t\"type\": \"implementation\"
 \t\t}""" + (i != configurations.serverBundle.allDependencies.size() - 1 ? "," : "")
     }
