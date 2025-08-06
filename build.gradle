@@ -93,7 +93,7 @@ boolean usingSingleJar = false;
 boolean jitpackPuzzle = false;
 
 String jpVersion = "51854d60d4"
-String centralVersion = "1.0.6-alpha"
+String centralVersion = "1.0.7-alpha"
 
 String version = "0.4.14-alpha"
 
@@ -165,7 +165,7 @@ tasks.register("runClient", JavaExec) {
     classpath += sourceSets.client.runtimeClasspath
     classpath += sourceSets.common.runtimeClasspath
 
-    args("--window-title", "test")
+    args("-wt", "test", "--join-world", "New World")
 
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ClientPiece"
 }

@@ -8,7 +8,9 @@
     "MixinCrashScreen",
     "MixinBlockJsonModel",
     "MixinChunkMeshGroup",
-    "MixinLwjgl3Launcher"
+    "MixinLwjgl3Launcher",
+    "autojoin.MainMenuInit",
+    "autojoin.PreAlphaPreambleInit"
   ],
   "client": [
   ],
