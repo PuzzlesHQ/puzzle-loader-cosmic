@@ -31,10 +31,6 @@ public class MainMenuInit extends GameState {
     private void init(CallbackInfo ci) {
         if (ClientPuzzle.autoJoinWorldName != null && !firstFrame && !puzzle_loader_cosmic$wasLoaded) {
             String worldRootLocation = SaveLocation.getAllWorldsSaveFolderLocation();
-            final File worldsDir = new File(worldRootLocation);
-            worldsDir.mkdirs();
-            String[] allWorldFolders = worldsDir.list();
-            Arrays.sort(allWorldFolders);
 
             File worldInfoFile = new File(worldRootLocation + "/" + ClientPuzzle.autoJoinWorldName + "/worldInfo.json");
             if (worldInfoFile.exists()) {
