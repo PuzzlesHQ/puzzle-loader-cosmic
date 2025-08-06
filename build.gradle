@@ -45,7 +45,6 @@ repositories {
         }
     }
     mavenCentral()
-    mavenLocal()
     maven { url 'https://jitpack.io' }
 }
 
@@ -325,4 +324,57 @@ if (ref != null) {
 wrapper {
     gradleVersion = "8.14"
     distributionType = Wrapper.DistributionType.ALL
+}
+
+tasks.register("mkDeps") {
+    File file = new File("$projectDir/dependencies.json")
+
+    def repos = "["
+
+    for (i in 0..<project.repositories.size()) {
+        def dependency = project.repositories[i];
+        if (dependency instanceof MavenArtifactRepository) {
+            repos += """\n\t\t{
+\t\t\t\"name\": \"${dependency.name}\",
+\t\t\t\"url\": \"${dependency.url}\"
+\t\t}""" + (i != project.repositories.size() - 1 ? "," : "")
+        }
+    }
+    repos += "\n\t]"
+
+    def contents = "{\n\t\"repos\": ${repos},\n\t\"common\": ["
+
+    for (i in 0..<configurations.allImpl.allDependencies.size()) {
+        def dependency = configurations.allImpl.allDependencies[i];
+        contents += """\n\t\t{
+\t\t\t\"groupId\": \"${dependency.group}\",
+\t\t\t\"artifactId\": \"${dependency.name}\",
+\t\t\t\"version\": \"${dependency.version}\",
+\t\t\t\"type\": \"implementation\"
+\t\t}""" + (i != configurations.allImpl.allDependencies.size() - 1 ? "," : "")
+    }
+    contents += "\n\t],\n\t\"client\": ["
+
+    for (i in 0..<configurations.clientBundle.allDependencies.size()) {
+        def dependency = configurations.clientBundle.allDependencies[i];
+        contents += """\n\t\t{
+\t\t\t\"groupId\": \"${dependency.group}\",
+\t\t\t\"artifactId\": \"${dependency.name}\",
+\t\t\t\"version\": \"${dependency.version}\",
+\t\t\t\"type\": \"implementation\"
+\t\t}""" + (i != configurations.clientBundle.allDependencies.size() - 1 ? "," : "")
+    }
+    contents += "\n\t],\n\t\"server\": ["
+    for (i in 0..<configurations.serverBundle.allDependencies.size()) {
+        def dependency = configurations.serverBundle.allDependencies[i];
+        contents += """\n\t\t{
+\t\t\t\"groupId\": \"${dependency.group}\",
+\t\t\t\"artifactId\": \"${dependency.name}\",
+\t\t\t\"version\": \"${dependency.version}\",
+\t\t\t\"type\": \"implementation\"
+\t\t}""" + (i != configurations.serverBundle.allDependencies.size() - 1 ? "," : "")
+    }
+    contents += "\n\t]"
+
+    file.write(contents + "\n}")
 }
