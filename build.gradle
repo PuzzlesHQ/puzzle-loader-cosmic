@@ -214,7 +214,6 @@ tasks.register("buildClientSourcesJar", Jar) {
     archiveClassifier = "client-sources"
 }
 
-
 processResources {
     def projectProperties = [
             "p_name": p_name,
@@ -234,15 +233,15 @@ processResources {
     }
 }
 
-static def addDeps(dependenciesNode, dependencySet) {
-    for (final def dependency in dependencySet) {
-        def dependencyNode = dependenciesNode.appendNode('dependency')
-        dependencyNode.appendNode('groupId', dependency.group)
-        dependencyNode.appendNode('artifactId', dependency.name)
-        dependencyNode.appendNode('version', dependency.version)
-        dependencyNode.appendNode('scope', "compile")
-    }
-}
+//static def addDeps(dependenciesNode, dependencySet) {
+//    for (final def dependency in dependencySet) {
+//        def dependencyNode = dependenciesNode.appendNode('dependency')
+//        dependencyNode.appendNode('groupId', dependency.group)
+//        dependencyNode.appendNode('artifactId', dependency.name)
+//        dependencyNode.appendNode('version', dependency.version)
+//        dependencyNode.appendNode('scope', "compile")
+//    }
+//}
 
 publishing {
     repositories {
@@ -273,11 +272,11 @@ publishing {
             artifact source: buildServerJar, classifier: 'server', extension: 'jar'
             artifact source: buildServerSourcesJar, classifier: 'server-sources', extension: 'jar'
 
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                addDeps(dependenciesNode, configurations.allImpl.allDependencies)
-                addDeps(dependenciesNode, configurations.clientBundle.allDependencies)
-            }
+//            pom.withXml {
+//                def dependenciesNode = asNode().appendNode('dependencies')
+//                addDeps(dependenciesNode, configurations.allImpl.allDependencies)
+//                addDeps(dependenciesNode, configurations.clientBundle.allDependencies)
+//            }
 
             pom {
                 name = p_name
