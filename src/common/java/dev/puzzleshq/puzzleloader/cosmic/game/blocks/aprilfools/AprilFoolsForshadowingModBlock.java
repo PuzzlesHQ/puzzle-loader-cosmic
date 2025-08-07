@@ -20,6 +20,7 @@ public class AprilFoolsForshadowingModBlock implements IModBlock {
         generator = new BlockGenerator(Identifier.of("base:foreshadowing"));
 
         State state = generator.createState("default");
+        state.languageKey = "Foreshadowing";
         state.modelId = "puzzle_model_foreshadowing";
         state.blockEventId = Identifier.of("puzzle", "foreshadowing_event");
         state.tags.add("tool_pickaxe_effective");

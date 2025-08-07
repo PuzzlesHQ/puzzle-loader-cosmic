@@ -17,6 +17,7 @@ public class AprilFoolsRedStoneModBlock implements IModBlock {
         generator = new BlockGenerator(Identifier.of("base:red_stone"));
 
         State state = generator.createState("default");
+        state.languageKey = "Red Stone";
         state.modelId = "puzzle_model_red_stone";
         state.stateGenerators.add("base:slabs_seamed_all");
         state.tags.add("tool_pickaxe_effective");
