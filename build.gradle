@@ -93,7 +93,7 @@ boolean usingSingleJar = false;
 boolean jitpackPuzzle = false;
 
 String jpVersion = "51854d60d4"
-String centralVersion = "1.0.7-alpha"
+String centralVersion = "1.0.8-alpha"
 
 String version = "0.4.14-alpha"
 
@@ -234,29 +234,6 @@ processResources {
     }
 }
 
-//static def addDeps(dependenciesNode, dependencySet) {
-//    for (final def dependency in dependencySet) {
-//        def dependencyNode = dependenciesNode.appendNode('dependency')
-//        dependencyNode.appendNode('groupId', dependency.group)
-//        dependencyNode.appendNode('artifactId', dependency.name)
-//        dependencyNode.appendNode('version', dependency.version)
-//        dependencyNode.appendNode('scope', "compile")
-//    }
-//}
-
-configurations.allImpl.allDependencies.forEach {
-    it.artifacts.each { art ->
-        println "    ${art.extension} - ${art.classifier}"
-    }
-    System.out.println(DepUtils.getClassifier(it))
-}
-//configurations.clientBundle.allDependencies.forEach {
-//    it.artifacts.each { art ->
-//        println "    ${art.extension} - ${art.classifier}"
-//    }
-//    System.out.println(DepUtils.getClassifier(it))
-//}
-
 publishing {
     repositories {
         maven {
@@ -285,12 +262,6 @@ publishing {
 
             artifact source: buildServerJar, classifier: 'server', extension: 'jar'
             artifact source: buildServerSourcesJar, classifier: 'server-sources', extension: 'jar'
-
-//            pom.withXml {
-//                def dependenciesNode = asNode().appendNode('dependencies')
-//                addDeps(dependenciesNode, configurations.allImpl.allDependencies)
-//                addDeps(dependenciesNode, configurations.clientBundle.allDependencies)
-//            }
 
             pom {
                 name = p_name
