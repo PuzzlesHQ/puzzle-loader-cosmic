@@ -10,13 +10,13 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.State
 import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.util.Identifier;
 
-public class AprilFoolsForshadowingModBlock implements IModBlock {
+public class AprilFoolsForeshadowingModBlock implements IModBlock {
 
     BlockGenerator generator;
     BlockModelGenerator modelGenerator;
     BlockEventGenerator eventGenerator;
 
-    public AprilFoolsForshadowingModBlock() {
+    public AprilFoolsForeshadowingModBlock() {
         generator = new BlockGenerator(Identifier.of("base:foreshadowing"));
 
         State state = generator.createState("default");
