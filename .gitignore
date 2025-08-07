@@ -12,6 +12,7 @@ buildSrc/.gradle
 buildSrc/build
 /buildSrc/gradlew
 /buildSrc/gradlew.bat
+/dependencies.json
 
 run
 
