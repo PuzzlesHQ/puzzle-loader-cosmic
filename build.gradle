@@ -165,7 +165,7 @@ tasks.register("runClient", JavaExec) {
     classpath += sourceSets.client.runtimeClasspath
     classpath += sourceSets.common.runtimeClasspath
 
-    args("-wt", "test", "--join-world", "New World")
+    args("--skip-boostrap-classloader") // skip boostrap-classloader since it is unneeded in dev-env
 
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ClientPiece"
 }
@@ -173,6 +173,8 @@ tasks.register("runClient", JavaExec) {
 tasks.register("runServer", JavaExec) {
     classpath += sourceSets.server.runtimeClasspath
     classpath += sourceSets.common.runtimeClasspath
+
+    args("--skip-boostrap-classloader") // skip boostrap-classloader since it is unneeded in dev-env
 
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ServerPiece"
     if (!runDir.exists()) runDir.mkdirs()
