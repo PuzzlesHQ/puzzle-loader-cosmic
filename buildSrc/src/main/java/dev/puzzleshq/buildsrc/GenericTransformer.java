@@ -53,7 +53,7 @@ public class GenericTransformer {
         ClassReader reader = new ClassReader(bytes);
         ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES);
 
-        reader.accept(new AccessTransformerASM(writer), ClassReader.SKIP_DEBUG);
+        reader.accept(new AccessTransformerASM(writer), 0);
 
         return writer.toByteArray();
     }

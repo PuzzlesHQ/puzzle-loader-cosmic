@@ -1,4 +1,4 @@
-package dev.puzzleshq.puzzleloader.cosmic.game.events;
+package dev.puzzleshq.puzzleloader.cosmic.game.events.block;
 
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
 import net.neoforged.bus.api.Event;
@@ -6,11 +6,11 @@ import net.neoforged.bus.api.Event;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OnBlockRegisterEvent extends Event {
+public class EventModBlockRegister extends Event {
 
     List<IModBlock> blocks;
 
-    public OnBlockRegisterEvent() {
+    public EventModBlockRegister() {
         blocks = new ArrayList<>();
     }
 

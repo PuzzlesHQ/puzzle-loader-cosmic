@@ -8,7 +8,11 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools.AprilFoolsRedSto
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.InjectedBlockAction;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.BlockLoader;
-import dev.puzzleshq.puzzleloader.cosmic.game.events.OnBlockRegisterEvent;
+import dev.puzzleshq.puzzleloader.cosmic.game.events.block.EventModBlockRegister;
+import dev.puzzleshq.puzzleloader.cosmic.game.events.net.EventRegisterPacket;
+import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts.CTSIdentificationPacket;
+import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts.CTSModlistPacket;
+import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.stc.STCModlistRequestPacket;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import net.neoforged.bus.api.SubscribeEvent;
 
@@ -16,13 +20,14 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
 
     public CommonPuzzle() {
         GameRegistries.COSMIC_EVENT_BUS.register(this);
+        GameRegistries.NETWORK_EVENT_BUS.register(this);
     }
 
     @Override
     public void onInit() {
         BlockEvents.registerBlockEventAction(InjectedBlockAction.class);
 
-        OnBlockRegisterEvent event = new OnBlockRegisterEvent();
+        EventModBlockRegister event = new EventModBlockRegister();
         GameRegistries.COSMIC_EVENT_BUS.post(event);
 
         for (IModBlock modBlock : event.getBlocks()) {
@@ -31,9 +36,16 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
     }
 
     @SubscribeEvent
-    public void register(OnBlockRegisterEvent event) {
+    public void register(EventModBlockRegister event) {
         event.register(new AprilFoolsRedStoneModBlock());
         event.register(new AprilFoolsForeshadowingModBlock());
+    }
+
+    @SubscribeEvent
+    public void register(EventRegisterPacket event) {
+        event.registerReservedPacket("identification-packet", 9000, CTSIdentificationPacket.class);
+        event.registerReservedPacket("modlist-request-packet", 9001, STCModlistRequestPacket.class);
+        event.registerReservedPacket("modlist-send-packet", 9002, CTSModlistPacket.class);
     }
 
     @Override

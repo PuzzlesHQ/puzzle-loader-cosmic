@@ -10,6 +10,6 @@ import net.neoforged.bus.api.Event;
  *
  * @see dev.puzzleshq.puzzleloader.loader.loading.GameLoader
  */
-public class GameLoaderFinishEvent extends Event {
+public class EventGameLoaderFinish extends Event {
 
 }

@@ -2,6 +2,7 @@ package dev.puzzleshq.buildsrc;
 
 import dev.puzzleshq.accesswriter.AccessWriters;
 import dev.puzzleshq.accesswriter.api.IWriterFormat;
+import dev.puzzleshq.accesswriter.file.ManipulationFile;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
@@ -42,7 +43,8 @@ public abstract class WidenerPlugin implements Plugin<Project> {
                     String s = new String(stream.readAllBytes());
                     stream.close();
 
-                    format.parse(s);
+                    ManipulationFile file = format.parse(s);
+                    AccessWriters.MERGED.add(file);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
