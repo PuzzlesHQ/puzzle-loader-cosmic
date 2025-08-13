@@ -25,9 +25,9 @@
     "server-postInit": "dev.puzzleshq.puzzleloader.cosmic.game.ServerPuzzle"
   },
   "mixins": [
-    "puzzle-loader-cosmic.common-mixins.json",
+    "puzzle-loader-cosmic-common.mixins.json",
     {
-      "config": "puzzle-loader-cosmic.client-mixins.json",
+      "config": "puzzle-loader-cosmic-client.mixins.json",
       "environment": "client"
     },
     {

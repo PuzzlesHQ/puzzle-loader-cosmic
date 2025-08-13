@@ -2,3 +2,4 @@ public field finalforeach/cosmicreach/networking/GamePacket idsToPackets
 public field finalforeach/cosmicreach/networking/GamePacket packetsToIntIds
 public field finalforeach/cosmicreach/networking/GamePacket packetNamesToIntIds
 public field finalforeach/cosmicreach/networking/GamePacket packetNamesToClasses
+public method finalforeach/cosmicreach/world/World <init> ()V

@@ -1,9 +1,11 @@
 package dev.puzzleshq.puzzleloader.cosmic.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture3D;
+import com.badlogic.gdx.graphics.TextureData;
 import de.pottgames.tuningfork.*;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ClientModInit;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ClientPostModInit;
@@ -56,19 +58,17 @@ public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPost
         ISidedBlockConnector.CONTEXTUAL_INSTANCE.set(new ClientSidedBlockConnector());
 
         IndependentAssetLoader.registerLoadingMethod(Pixmap.class, (handle) -> {
-            byte[] bytes = handle.getBytes();
+            byte[] bytes = handle.getHandle().getBytes();
 
             return new Pixmap(bytes, 0, bytes.length);
         });
         IndependentAssetLoader.registerLoadingMethod(Texture.class, (handle) -> {
-            byte[] bytes = handle.getBytes();
-
-            return new Texture(new Pixmap(bytes, 0, bytes.length));
+            return new Texture(handle);
         });
 
         IndependentAssetLoader.registerLoadingMethod(SoundBuffer.class, (h) -> {
-            SoundFileType type = SoundFileType.getByFileEnding(h.getFile());
-            InputStream stream = new ByteArrayInputStream(h.getBytes());
+            SoundFileType type = SoundFileType.getByFileEnding(h.getHandle().getFile());
+            InputStream stream = new ByteArrayInputStream(h.getHandle().getBytes());
             SoundBuffer buffer = switch (type) {
                 case OGG -> OggLoader.load(stream);
                 case WAV -> WaveLoader.load(stream);
