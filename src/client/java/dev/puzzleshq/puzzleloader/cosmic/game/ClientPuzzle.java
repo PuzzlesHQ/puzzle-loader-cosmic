@@ -31,7 +31,6 @@ import java.util.List;
 
 public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPostModInit {
 
-    public static String autoJoinWorldName = null;
 
     @Override
     public void onClientInit() {
@@ -92,9 +91,6 @@ public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPost
         OptionParser parser = new OptionParser();
         parser.allowsUnrecognizedOptions();
 
-        OptionSpec<String> saveLocation = parser.acceptsAll(List.of("save-location", "s")).withOptionalArg()
-                .ofType(String.class);
-
         OptionSpec<String> windowTitle = parser.acceptsAll(List.of("window-title", "wt")).withOptionalArg()
                 .ofType(String.class);
 
@@ -104,15 +100,7 @@ public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPost
         OptionSpec<Boolean> fullScreen = parser.acceptsAll(List.of("fullscreen", "fs", "maximized", "m")).withOptionalArg()
                 .ofType(Boolean.class);
 
-        OptionSpec<String> worldJoin = parser.acceptsAll(List.of("join-world", "jw")).withOptionalArg()
-                .ofType(String.class);
-
         OptionSet set = parser.parse(args);
-
-        if (set.has(saveLocation)) {
-            SaveLocation.saveLocationOverride = saveLocation.value(set);
-            (new File(SaveLocation.saveLocationOverride)).mkdirs();
-        }
 
         if (set.has(windowTitle)) Gdx.graphics.setTitle(windowTitle.value(set));
         if (set.has(windowSize)) {
@@ -128,9 +116,6 @@ public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPost
         }
         if (set.has(fullScreen) && fullScreen.value(set)) {
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-        }
-        if (set.has(worldJoin)) {
-            autoJoinWorldName = worldJoin.value(set);
         }
     }
 

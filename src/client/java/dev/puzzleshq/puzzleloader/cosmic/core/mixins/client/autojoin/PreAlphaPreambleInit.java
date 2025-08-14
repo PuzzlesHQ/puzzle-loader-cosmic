@@ -1,6 +1,7 @@
 package dev.puzzleshq.puzzleloader.cosmic.core.mixins.client.autojoin;
 
 import dev.puzzleshq.puzzleloader.cosmic.game.ClientPuzzle;
+import dev.puzzleshq.puzzleloader.cosmic.game.CommonPuzzle;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.MainMenu;
 import finalforeach.cosmicreach.gamestates.PrealphaPreamble;
@@ -14,7 +15,7 @@ public class PreAlphaPreambleInit {
 
     @Inject(method = "create", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
-        if (ClientPuzzle.autoJoinWorldName != null) {
+        if (CommonPuzzle.autoJoinWorldName != null) {
             GameState.switchToGameState(new MainMenu());
         }
     }

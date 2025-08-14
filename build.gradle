@@ -93,7 +93,7 @@ boolean usingSingleJar = false;
 boolean jitpackPuzzle = false;
 
 String jpVersion = "51854d60d4"
-String centralVersion = "1.0.8-alpha"
+String centralVersion = "1.0.9-alpha"
 
 String version = "0.4.15-alpha"
 
@@ -165,7 +165,7 @@ tasks.register("runClient", JavaExec) {
     classpath += sourceSets.client.runtimeClasspath
     classpath += sourceSets.common.runtimeClasspath
 
-    args("--skip-boostrap-classloader") // skip boostrap-classloader since it is unneeded in dev-env
+    args("--save-location=\"" + runDir.getAbsolutePath() + "\"", "--w1=test-world");
 
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ClientPiece"
     if (!runDir.exists()) runDir.mkdirs()
@@ -176,7 +176,7 @@ tasks.register("runServer", JavaExec) {
     classpath += sourceSets.server.runtimeClasspath
     classpath += sourceSets.common.runtimeClasspath
 
-    args("--skip-boostrap-classloader") // skip boostrap-classloader since it is unneeded in dev-env
+    args("--save-location=\"" + runDir.getAbsolutePath() + "\"", "--join-world=test-world");
 
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ServerPiece"
     if (!runDir.exists()) runDir.mkdirs()

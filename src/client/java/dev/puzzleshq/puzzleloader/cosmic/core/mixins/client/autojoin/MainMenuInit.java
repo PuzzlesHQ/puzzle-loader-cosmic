@@ -3,6 +3,7 @@ package dev.puzzleshq.puzzleloader.cosmic.core.mixins.client.autojoin;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import dev.puzzleshq.puzzleloader.cosmic.game.ClientPuzzle;
+import dev.puzzleshq.puzzleloader.cosmic.game.CommonPuzzle;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.LoadingGame;
@@ -29,14 +30,14 @@ public class MainMenuInit extends GameState {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
-        if (ClientPuzzle.autoJoinWorldName != null && !firstFrame && !puzzle_loader_cosmic$wasLoaded) {
+        if (CommonPuzzle.autoJoinWorldName != null && !firstFrame && !puzzle_loader_cosmic$wasLoaded) {
             String worldRootLocation = SaveLocation.getAllWorldsSaveFolderLocation();
 
-            File worldInfoFile = new File(worldRootLocation + "/" + ClientPuzzle.autoJoinWorldName + "/worldInfo.json");
+            File worldInfoFile = new File(worldRootLocation + "/" + CommonPuzzle.autoJoinWorldName + "/worldInfo.json");
             if (worldInfoFile.exists()) {
                 String worldFileContents = Gdx.files.absolute(worldInfoFile.getAbsolutePath()).readString(StandardCharsets.UTF_8.name());
                 World world = puzzle_loader_cosmic$JSON.fromJson(World.class, worldFileContents);
-                world.worldFolderName = ClientPuzzle.autoJoinWorldName;
+                world.worldFolderName = CommonPuzzle.autoJoinWorldName;
                 LoadingGame.switchToLoadingState();
                 Threads.runOnMainThread(() -> GameState.IN_GAME.loadWorld(world.worldFolderName));
             }
