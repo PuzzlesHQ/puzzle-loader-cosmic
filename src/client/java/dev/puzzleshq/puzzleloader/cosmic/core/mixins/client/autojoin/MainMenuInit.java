@@ -2,7 +2,6 @@ package dev.puzzleshq.puzzleloader.cosmic.core.mixins.client.autojoin;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
-import dev.puzzleshq.puzzleloader.cosmic.game.ClientPuzzle;
 import dev.puzzleshq.puzzleloader.cosmic.game.CommonPuzzle;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.gamestates.GameState;
@@ -18,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 @Mixin(MainMenu.class)
 public class MainMenuInit extends GameState {

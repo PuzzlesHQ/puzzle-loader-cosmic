@@ -1,6 +1,5 @@
 package dev.puzzleshq.puzzleloader.cosmic.core.mixins.client.autojoin;
 
-import dev.puzzleshq.puzzleloader.cosmic.game.ClientPuzzle;
 import dev.puzzleshq.puzzleloader.cosmic.game.CommonPuzzle;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.MainMenu;

@@ -1,11 +1,8 @@
 package dev.puzzleshq.puzzleloader.cosmic.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture3D;
-import com.badlogic.gdx.graphics.TextureData;
 import de.pottgames.tuningfork.*;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ClientModInit;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ClientPostModInit;
@@ -18,13 +15,11 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedModelLoa
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedTextureLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.util.IndependentAssetLoader;
 import dev.puzzleshq.puzzleloader.loader.LoaderConstants;
-import finalforeach.cosmicreach.io.SaveLocation;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;

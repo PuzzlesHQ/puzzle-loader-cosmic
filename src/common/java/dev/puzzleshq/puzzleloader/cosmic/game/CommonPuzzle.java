@@ -1,14 +1,13 @@
 package dev.puzzleshq.puzzleloader.cosmic.game;
 
-import com.badlogic.gdx.Gdx;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ModInit;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.PostModInit;
 import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.PreModInit;
-import dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools.AprilFoolsForeshadowingModBlock;
-import dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools.AprilFoolsRedStoneModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.InjectedBlockAction;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.BlockLoader;
+import dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools.AprilFoolsForeshadowingModBlock;
+import dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools.AprilFoolsRedStoneModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.block.EventModBlockRegister;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.net.EventRegisterPacket;
 import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts.CTSIdentificationPacket;

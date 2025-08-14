@@ -3,11 +3,8 @@ package dev.puzzleshq.puzzleloader.cosmic.core.mixins;
 import dev.puzzleshq.puzzleloader.cosmic.game.CommonPuzzle;
 import finalforeach.cosmicreach.server.ServerLauncher;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerLauncher.class)
 public class MixinServerLauncherJoinWorld {

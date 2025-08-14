@@ -1,10 +1,12 @@
 package dev.puzzleshq.puzzleloader.cosmic.core.mixins.client;
 
-import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.*;
+import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ClientModInit;
+import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ClientPostModInit;
+import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ModInit;
+import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.PostModInit;
 import finalforeach.cosmicreach.BlockGame;
 import finalforeach.cosmicreach.gamestates.GameState;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

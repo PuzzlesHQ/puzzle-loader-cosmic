@@ -3,7 +3,6 @@ package dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts;
 import com.github.zafarkhaja.semver.Version;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import dev.puzzleshq.mod.api.IModContainer;
-import dev.puzzleshq.mod.info.ModInfo;
 import dev.puzzleshq.puzzleloader.cosmic.game.network.api.IServerIdentity;
 import dev.puzzleshq.puzzleloader.loader.util.ModFinder;
 import finalforeach.cosmicreach.accounts.Account;
@@ -16,7 +15,6 @@ import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 public class CTSModlistPacket extends GamePacket {
 
