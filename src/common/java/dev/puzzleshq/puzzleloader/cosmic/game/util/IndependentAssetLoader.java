@@ -20,6 +20,8 @@ import java.util.function.Function;
 
 public class IndependentAssetLoader {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | Independent Asset Loader");
+
     @SuppressWarnings("rawtypes")
     public static final Map<Class, Function<IndependentFileHandle, ?>> LOADER_MAP = new HashMap<>();
 
@@ -28,24 +30,32 @@ public class IndependentAssetLoader {
     }
 
     public static RawAssetLoader.RawFileHandle loadAsset(Identifier identifier) {
-        RawAssetLoader.RawFileHandle handle = RawAssetLoader.getLowLevelRelativeAsset(SaveLocation.getSaveFolder(), "/mods/" + identifier.getNamespace() + "/" + identifier.getName());
+        RawAssetLoader.RawFileHandle handle = RawAssetLoader.getLowLevelRelativeAssetErrors(SaveLocation.getSaveFolder(), "/mods/" + identifier.getNamespace() + "/" + identifier.getName(), false);
         if (handle != null) return handle;
-        handle = RawAssetLoader.getLowLevelClassPathAsset("assets/" + identifier.getNamespace() + "/" + identifier.getName());
+        handle = RawAssetLoader.getLowLevelClassPathAssetErrors("assets/" + identifier.getNamespace() + "/" + identifier.getName(), false);
         if (handle != null) return handle;
-        handle = RawAssetLoader.getLowLevelClassPathAsset(identifier.getNamespace() + "/" + identifier.getName());
+        handle = RawAssetLoader.getLowLevelClassPathAssetErrors(identifier.getNamespace() + "/" + identifier.getName(), false);
+        if (handle == null) {
+            LOGGER.error("Cannot find resource {}", identifier);
+            return null;
+        }
         return handle;
     }
 
     public static IndependentFileHandle loadAsset2(Identifier identifier) {
-        RawAssetLoader.RawFileHandle handle = RawAssetLoader.getLowLevelRelativeAsset(SaveLocation.getSaveFolder(), "/mods/" + identifier.getNamespace() + "/" + identifier.getName());
+        RawAssetLoader.RawFileHandle handle = RawAssetLoader.getLowLevelRelativeAssetErrors(SaveLocation.getSaveFolder(), "/mods/" + identifier.getNamespace() + "/" + identifier.getName(), false);
         if (handle != null) return new IndependentFileHandle(
                 handle, SaveLocation.getSaveFolder() + "/" + identifier.getNamespace() + "/" + identifier.getName(), Files.FileType.Absolute
         );
-        handle = RawAssetLoader.getLowLevelClassPathAsset("assets/" + identifier.getNamespace() + "/" + identifier.getName());
+        handle = RawAssetLoader.getLowLevelClassPathAssetErrors("assets/" + identifier.getNamespace() + "/" + identifier.getName(), false);
         if (handle != null) return new IndependentFileHandle(
                 handle, "assets/" + identifier.getNamespace() + "/" + identifier.getName(), Files.FileType.Classpath
         );
-        handle = RawAssetLoader.getLowLevelClassPathAsset(identifier.getNamespace() + "/" + identifier.getName());
+        handle = RawAssetLoader.getLowLevelClassPathAssetErrors(identifier.getNamespace() + "/" + identifier.getName(), false);
+        if (handle == null) {
+            LOGGER.error("Cannot find resource {}", identifier);
+            return null;
+        }
         return new IndependentFileHandle(
                 handle, identifier.getNamespace() + "/" + identifier.getName(), Files.FileType.Classpath
         );
