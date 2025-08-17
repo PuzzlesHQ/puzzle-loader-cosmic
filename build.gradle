@@ -196,12 +196,10 @@ tasks.register("buildServerJar", com.github.jengelman.gradle.plugins.shadow.task
 
     archiveClassifier = "server"
     from sourceSets.server.output
-    from sourceSets.common.output
 }
 
 tasks.register("buildServerSourcesJar", Jar) {
     from sourceSets.server.allSource
-    from sourceSets.common.allSource
     archiveClassifier = "server-sources"
 }
 
@@ -210,13 +208,23 @@ tasks.register("buildClientJar", com.github.jengelman.gradle.plugins.shadow.task
 
     archiveClassifier = "client"
     from sourceSets.client.output
-    from sourceSets.common.output
 }
 
 tasks.register("buildClientSourcesJar", Jar) {
     from sourceSets.client.allSource
-    from sourceSets.common.allSource
     archiveClassifier = "client-sources"
+}
+
+tasks.register("buildCommonJar", com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    mergeServiceFiles()
+
+    archiveClassifier = "common"
+    from sourceSets.common.output
+}
+
+tasks.register("buildCommonSourcesJar", Jar) {
+    from sourceSets.common.allSource
+    archiveClassifier = "common-sources"
 }
 
 processResources {
@@ -266,6 +274,9 @@ publishing {
 
             artifact source: buildServerJar, classifier: 'server', extension: 'jar'
             artifact source: buildServerSourcesJar, classifier: 'server-sources', extension: 'jar'
+
+            artifact source: buildCommonJar, classifier: 'server', extension: 'jar'
+            artifact source: buildCommonSourcesJar, classifier: 'server-sources', extension: 'jar'
 
             pom {
                 name = p_name
