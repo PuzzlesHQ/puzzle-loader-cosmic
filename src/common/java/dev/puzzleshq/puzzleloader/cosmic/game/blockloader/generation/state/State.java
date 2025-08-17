@@ -142,8 +142,6 @@ public class State implements HJsonSerializable {
             state.add("rotation", rotation);
         }
 
-        System.out.println(name + " |  " + state.toString(Stringify.FORMATTED));
-
         return state;
     }
 
