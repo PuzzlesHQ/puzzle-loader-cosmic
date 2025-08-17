@@ -6,42 +6,6 @@ import org.hjson.JsonValue;
 
 public class BlockEventReader {
 
-    public static void main(String[] args) {
-        fromString("""
-                {
-                    "parent":"base:block_events_2_tall_block_bottom",
-                    "stringId": "base:block_events_2_tall_crop_bottom",
-                    "triggers":
-                    {
-                        "onRandomTick":
-                        [
-                            {
-                                "actionId": "base:increment_param",
-                                "parameters": { "step": 1, "paramName": "growth" }
-                            },
-                            { "actionId": "base:update_src_block_state_arg" },
-                            {
-                                "actionId": "base:replace_block_state",
-                                "if": { "not": {"srcBlockState": { "has_tag": "1_tall" } } },
-                                "parameters": { "yOff": 1, "blockStateId": "self" }
-                            },
-                            {
-                                "actionId": "base:set_block_state_params",
-                                "if": { "not": {"srcBlockState": { "has_tag": "1_tall" } } },
-                                "parameters": { "yOff": 1, "params": { "part":"top" } }
-                            },
-                            {
-                                "actionId": "base:run_trigger",
-                                "if": { "not": {"srcBlockState": { "has_tag": "1_tall" } } },
-                                "parameters": { "updateSrcBlockState": true, "triggerId": "relayCopyToTop"}
-                            }
-                        ]
-                    }
-                }
-                
-                """);
-    }
-
     public static BlockEventGenerator fromString(String string) {
         JsonObject object = JsonObject.readHjson(string).asObject();
 
