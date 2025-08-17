@@ -44,8 +44,8 @@
 			"dependencies": "https://github.com/PuzzlesHQ/puzzle-loader-cosmic/releases/download/1.1.1-alpha/dependencies.json"
 		},
 		"1.2.1-alpha": {
-			"epoch": 1755456740,
-			"date": "2025/08/17T18:52:20",
+			"epoch": 1755460017,
+			"date": "2025/08/17T19:46:57",
 			"id": "1.2.1-alpha",
 			"phase": "alpha",
 			"maven-central": "dev.puzzleshq:puzzle-loader-cosmic:1.2.1-alpha",
