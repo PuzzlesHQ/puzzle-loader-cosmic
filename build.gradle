@@ -275,8 +275,8 @@ publishing {
             artifact source: buildServerJar, classifier: 'server', extension: 'jar'
             artifact source: buildServerSourcesJar, classifier: 'server-sources', extension: 'jar'
 
-            artifact source: buildCommonJar, classifier: 'server', extension: 'jar'
-            artifact source: buildCommonSourcesJar, classifier: 'server-sources', extension: 'jar'
+            artifact source: buildCommonJar, classifier: 'common', extension: 'jar'
+            artifact source: buildCommonSourcesJar, classifier: 'common-sources', extension: 'jar'
 
             pom {
                 name = p_name
