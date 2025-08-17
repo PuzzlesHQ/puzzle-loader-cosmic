@@ -1,6 +1,6 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts;
 
-import com.github.zafarkhaja.semver.Version;
+import com.github.villadora.semver.Version;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import dev.puzzleshq.mod.api.IModContainer;
 import dev.puzzleshq.puzzleloader.cosmic.game.network.api.IServerIdentity;
@@ -37,7 +37,7 @@ public class CTSModlistPacket extends GamePacket {
             String modId = readString(in);
             String modVersion = readString(in);
 
-            listOfMods.put(modId, Version.parse(modVersion));
+            listOfMods.put(modId, Version.valueOf(modVersion));
         }
 
     }

@@ -93,7 +93,7 @@ boolean usingSingleJar = false;
 boolean jitpackPuzzle = false;
 
 String jpVersion = "51854d60d4"
-String centralVersion = "1.0.9-alpha"
+String centralVersion = "1.0.12-alpha"
 
 String version = "0.4.15-alpha"
 
@@ -134,7 +134,7 @@ dependencies {
 
     allImplLoader "dev.puzzleshq:puzzle-annotations:1.0.0"
     allImplLoader "dev.puzzleshq:access-writer:1.0.4+c"
-    allImplLoader "dev.puzzleshq:mod-format-framework:1.0.0"
+    allImplLoader "dev.puzzleshq:mod-format-framework:1.1.1"
 
     allImplLoader "org.hjson:hjson:$hjson_version"
 
@@ -150,7 +150,7 @@ dependencies {
     }
     allImplLoader "net.sf.jopt-simple:jopt-simple:$jopt_simple_version"
 
-    allImplLoader "com.github.zafarkhaja:java-semver:0.10.2"
+    commonBundle "com.github.villadora:semver:0.0.3"
 
     allImplLoader 'org.slf4j:slf4j-ext:1.7.23'
     allImplLoader 'org.slf4j:slf4j-api:1.7.23'
@@ -165,7 +165,7 @@ tasks.register("runClient", JavaExec) {
     classpath += sourceSets.client.runtimeClasspath
     classpath += sourceSets.common.runtimeClasspath
 
-    args("--save-location=\"" + runDir.getAbsolutePath() + "\"", "--w1=test-world");
+    args("--save-location=\"" + runDir.getAbsolutePath() + "\"", "--join-world=test-world");
 
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ClientPiece"
     if (!runDir.exists()) runDir.mkdirs()

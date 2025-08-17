@@ -1,6 +1,6 @@
 package dev.puzzleshq.puzzleloader.cosmic.core.mixins.common;
 
-import com.github.zafarkhaja.semver.Version;
+import com.github.villadora.semver.Version;
 import dev.puzzleshq.puzzleloader.cosmic.game.network.api.IServerIdentity;
 import finalforeach.cosmicreach.networking.server.ServerIdentity;
 import org.spongepowered.asm.mixin.Mixin;
