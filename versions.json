@@ -1,7 +1,7 @@
 {
 	"latest": {
-		"*": "1.1.1-alpha",
-		"alpha": "1.1.1-alpha"
+		"*": "1.2.1-alpha",
+		"alpha": "1.2.1-alpha"
 	},
 	"existing-phases": [
 		"alpha"
@@ -42,6 +42,15 @@
 			"maven-central": "dev.puzzleshq:puzzle-loader-cosmic:1.1.1-alpha",
 			"maven-jitpack": "com.github.PuzzlesHQ:puzzle-loader-cosmic:1.1.1-alpha",
 			"dependencies": "https://github.com/PuzzlesHQ/puzzle-loader-cosmic/releases/download/1.1.1-alpha/dependencies.json"
+		},
+		"1.2.1-alpha": {
+			"epoch": 1755456740,
+			"date": "2025/08/17T18:52:20",
+			"id": "1.2.1-alpha",
+			"phase": "alpha",
+			"maven-central": "dev.puzzleshq:puzzle-loader-cosmic:1.2.1-alpha",
+			"maven-jitpack": "com.github.PuzzlesHQ:puzzle-loader-cosmic:1.2.1-alpha",
+			"dependencies": "https://github.com/PuzzlesHQ/puzzle-loader-cosmic/releases/download/1.2.1-alpha/dependencies.json"
 		}
 	}
 }
