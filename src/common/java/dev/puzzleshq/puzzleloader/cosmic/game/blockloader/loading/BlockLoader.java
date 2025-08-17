@@ -16,6 +16,8 @@ import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.util.GameTag;
 import finalforeach.cosmicreach.util.GameTagList;
 
+import java.util.Map;
+
 public class BlockLoader {
 
     public static final BlockLoader INSTANCE = new BlockLoader();
@@ -62,12 +64,8 @@ public class BlockLoader {
             }
         }
 
-//        Map<String, BlockModelGenerator> generatorMap = new HashMap<>();
-
         if (modelGenerators != null) {
             for (BlockModelGenerator modelGenerator : modelGenerators) {
-//                generatorMap.put(modelGenerator.getName(), modelGenerator);
-
                 ISidedModelLoader loader = ISidedModelLoader.getInstance();
 
                 loader.loadModel(modelGenerator, true);
@@ -93,7 +91,7 @@ public class BlockLoader {
 
             Block.blocksByStringId.put(generator.getId().toString(), b);
 
-            if (block instanceof IConnectedBlock) ISidedBlockConnector.getInstance().registerAsConnectedBlock(b, (ISidedBlockConnector.ConnectorFunction) block);
+            block.onRegistered(b);
             return b;
         }
 

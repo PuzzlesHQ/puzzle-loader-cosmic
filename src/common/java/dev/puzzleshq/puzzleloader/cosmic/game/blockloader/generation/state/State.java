@@ -5,6 +5,7 @@ import finalforeach.cosmicreach.util.Identifier;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
+import org.hjson.Stringify;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -140,6 +141,8 @@ public class State implements HJsonSerializable {
             }
             state.add("rotation", rotation);
         }
+
+        System.out.println(name + " |  " + state.toString(Stringify.FORMATTED));
 
         return state;
     }

@@ -1,6 +1,7 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools;
 
 import com.badlogic.gdx.math.Vector3;
+import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.AbstractModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event.BlockEventGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
@@ -10,14 +11,13 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.State
 import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.util.Identifier;
 
-public class AprilFoolsForeshadowingModBlock implements IModBlock {
+public class AprilFoolsForeshadowingModBlock extends AbstractModBlock {
 
-    BlockGenerator generator;
-    BlockModelGenerator modelGenerator;
-    BlockEventGenerator eventGenerator;
+    final BlockModelGenerator modelGenerator;
+    final BlockEventGenerator eventGenerator;
 
     public AprilFoolsForeshadowingModBlock() {
-        generator = new BlockGenerator(Identifier.of("base:foreshadowing"));
+        super(Identifier.of("base:foreshadowing"));
 
         State state = generator.createState("default");
         state.languageKey = "Foreshadowing";
@@ -57,4 +57,5 @@ public class AprilFoolsForeshadowingModBlock implements IModBlock {
     public BlockEventGenerator[] getEventGenerators() {
         return new BlockEventGenerator[]{eventGenerator};
     }
+
 }

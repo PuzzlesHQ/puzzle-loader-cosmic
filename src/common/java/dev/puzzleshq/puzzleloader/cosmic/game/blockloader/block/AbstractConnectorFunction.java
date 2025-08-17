@@ -1,4 +1,4 @@
-package dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected;
+package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block;
 
 import com.badlogic.gdx.math.Vector3;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.connected.ISidedBlockConnector;
@@ -7,6 +7,8 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.Model
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelFace;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.State;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedModelLoader;
+import dev.puzzleshq.puzzleloader.loader.LoaderConstants;
+import dev.puzzleshq.puzzleloader.loader.util.EnvType;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.rendering.IMeshData;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
@@ -15,7 +17,9 @@ import finalforeach.cosmicreach.util.constants.Direction;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
 
-public abstract class AbstractConnectedBlock implements ISidedBlockConnector.ConnectorFunction {
+import java.util.function.Function;
+
+public abstract class AbstractConnectorFunction implements ISidedBlockConnector.ConnectorFunction {
 
     BlockModelGenerator parentModelGenerator;
     BlockModelGenerator modelGenerator;
@@ -28,7 +32,7 @@ public abstract class AbstractConnectedBlock implements ISidedBlockConnector.Con
     private static final int corners = 16 | 32 | 64 | 128;
 
     boolean shouldCullClearFace = false;
-    private boolean use16TextureMode = false;
+    private TextureModes textureMode = TextureModes.TEXTURE_MODE_256;
     boolean shouldEndEdges = true;
 
     int emptyFace = 15;
@@ -36,27 +40,23 @@ public abstract class AbstractConnectedBlock implements ISidedBlockConnector.Con
     int loopCount;
     BlockModelGenerator connectedModelGenerator;
 
-    public AbstractConnectedBlock(
+    public AbstractConnectorFunction(
             Identifier id,
-            boolean use16TextureMode
+            TextureModes mode
     ) {
-        setMode(use16TextureMode);
+        setMode(mode);
 
         texturePath = Identifier.of("connected-textures", id.getName() + "/states/");
         defaultModelName = "model_connected_textures-|-" + id.getName() + "-|-base-block";
         parentModelName = "model_connected_textures-|-" + id.getName() + "-|-texture-cache";
         templateModelName = "model_connected_textures_bordered-|-" + id.getName() + "-|-d+%s-v+%d";
 
+        if (LoaderConstants.SIDE.equals(EnvType.SERVER)) return;
         parentModelGenerator = new BlockModelGenerator(parentModelName);
 
         parentModelGenerator.addTexture("xError", Identifier.of(texturePath + "state-error.png"));
-        if (use16TextureMode) {
-            for (int i = 0; i < 16; i++)
-                parentModelGenerator.addTexture("x" + i, Identifier.of(texturePath.toString() + "/state-" + i + ".png"));
-        } else {
-            for (int i = 0; i < 256; i++)
-                parentModelGenerator.addTexture("x" + i, Identifier.of(texturePath.toString() + (i & ~corners) + "/state-" + i + ".png"));
-        }
+        for (int i = 0; i < textureMode.textureCount; i++)
+            parentModelGenerator.addTexture("x" + i, textureMode.getTextureId(texturePath, i));
 
         modelGenerator = new BlockModelGenerator(parentModelName, defaultModelName);
         modelGenerator.createCuboid(Vector3.Zero, 16, 16, 16).setTextureIds("x0");
@@ -64,42 +64,38 @@ public abstract class AbstractConnectedBlock implements ISidedBlockConnector.Con
         ISidedModelLoader.getInstance().loadModel(parentModelGenerator, ISidedModelLoader.DEFAULT_ROTATION);
         ISidedModelLoader.getInstance().loadModel(modelGenerator, ISidedModelLoader.DEFAULT_ROTATION);
 
-        connectedModelGenerator = new BlockModelGenerator(parentModelName,"");
+        connectedModelGenerator = new BlockModelGenerator(parentModelName, "temp");
         connectedModelGenerator.createCuboid(Vector3.Zero, 16, 16, 16);
         connectedModelGenerator.isTransparent = true;
 
-        if (use16TextureMode) {
-            for (Direction d : Direction.ALL_DIRECTIONS) {
-                for (int i = 0; i < 16; i++)
-                    createModel(d, i);
-            }
-        } else {
-            for (Direction d : Direction.ALL_DIRECTIONS) {
-                for (int i = 0; i < 256; i++)
-                    createModel(d, i);
-            }
+        for (Direction d : Direction.ALL_DIRECTIONS) {
+            for (int i = 0; i < textureMode.modelCount; i++)
+                createModel(d, i);
         }
     }
 
-    protected void setMode(boolean use16TextureMode) {
-        this.use16TextureMode = use16TextureMode;
-        this.defaultStartingValue = use16TextureMode ? 0 : corners;
-        this.loopCount = use16TextureMode ? 12 : 24;
+    protected void setMode(TextureModes textureMode) {
+        this.textureMode = textureMode;
+        this.defaultStartingValue = textureMode.startValue;
+        this.loopCount = textureMode.loopCount;
     }
 
-    public boolean isUse16TextureMode() {
-        return use16TextureMode;
+    public TextureModes textureMode() {
+        return textureMode;
     }
 
     private void createModel(Direction direction, int i) {
-        String textureId = parentModelGenerator.textures.containsKey("x" + i) ? "x" + i : "xError";
+        String textureId = parentModelGenerator.textures.containsKey("x" + textureMode.getTextureNum(i)) ? "x" + textureMode.getMiniTextureId.apply(i) : "xError";
         String dir = ("LOCAL_" + direction.name());
 
         ModelCuboid cuboid = connectedModelGenerator.cuboids.getFirst();
         for (int j = 0; j < 6; j++) cuboid.faces[j] = null;
         try {
-            cuboid.faces[(int) ModelCuboid.class.getField(dir).get(null)] = new ModelFace();
-            cuboid.faces[(int) ModelCuboid.class.getField(dir).get(null)].textureId = textureId;
+            int id = (int) ModelCuboid.class.getField(dir).get(null);
+
+            cuboid.faces[id] = new ModelFace();
+            cuboid.faces[id].textureId = textureId;
+            cuboid.faces[id].uv = textureMode.getTextureUV(id);
         } catch (IllegalAccessException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
@@ -250,6 +246,90 @@ public abstract class AbstractConnectedBlock implements ISidedBlockConnector.Con
 
         meshFace(Direction.POS_Z, POS_Z, meshData, x, y, z, opaqueBitmask, blockLightLevels, skyLightLevels);
         meshFace(Direction.NEG_Z, NEG_Z, meshData, x, y, z, opaqueBitmask, blockLightLevels, skyLightLevels);
+    }
+
+    final static float[] defaultUv = new float[]{0, 0, 16, 16};
+
+    public enum TextureModes {
+//        TEXTURE_MODE_6(6, 16, 0,
+//                12, (i) -> "state-" + i + ".png",
+//                (i) -> switch (i) {
+//                    case 0 -> 0;
+//                    case 1, 2, 4, 8 -> 1;
+//                    case 3, 12 -> 2;
+//                    case 5, 6, 9, 10 -> 3;
+//                    case 7, 11, 13, 14 -> 4;
+//                    case 15 -> 5;
+//                    default -> throw new IllegalStateException("Unexpected value: " + i);
+//                },
+//                (i) -> switch (i) {
+//                    case 0, 15 -> defaultUv;
+//
+//                    case 1 -> QuadUvUtil.createRotatedUv(defaultUv, 2);
+//                    case 2 -> defaultUv;
+//                    case 4 -> QuadUvUtil.createRotatedUv(defaultUv, 1);
+//                    case 8 -> QuadUvUtil.createRotatedUv(defaultUv, 3);
+//
+//                    case 3 -> QuadUvUtil.createRotatedUv(defaultUv, 3);
+//                    case 12 -> QuadUvUtil.createRotatedUv(defaultUv, 3);
+//
+//                    case 5 -> QuadUvUtil.createRotatedUv(defaultUv, 0);
+//                    case 6 -> QuadUvUtil.createRotatedUv(defaultUv, 0);
+//                    case 9 -> QuadUvUtil.createRotatedUv(defaultUv, 0);
+//                    case 10 -> QuadUvUtil.createRotatedUv(defaultUv, 0);
+//
+//                    case 7 -> QuadUvUtil.createRotatedUv(defaultUv, 3);
+//                    case 11 -> QuadUvUtil.createRotatedUv(defaultUv, 1);
+//                    case 13 -> QuadUvUtil.createRotatedUv(defaultUv, 2);
+//                    case 14 -> defaultUv;
+//
+//                    default -> defaultUv;
+//                }
+//        ),
+        TEXTURE_MODE_16(16, 16, 0,
+                12, (i) -> "state-" + i + ".png", (i) -> i,
+                (i) -> defaultUv
+        ),
+        TEXTURE_MODE_256(256, 256, corners,
+                24, (i) -> (i & ~corners) + "state-" + i + ".png", (i) -> i,
+                (i) -> defaultUv
+        );
+
+        final int textureCount;
+        final int startValue;
+        final int loopCount;
+        final Function<Integer, String> identifierFunction;
+        final int modelCount;
+        final Function<Integer, Integer> getMiniTextureId;
+        final Function<Integer, float[]> getTextureIdUv;
+
+        TextureModes(
+                int textureCount, int modelCount,
+                int startValue, int loopCount,
+                Function<Integer, String> identifierFunction,
+                Function<Integer, Integer> getMiniTextureId,
+                Function<Integer, float[]> getTextureIdUv
+                ) {
+            this.textureCount = textureCount;
+            this.modelCount = modelCount;
+            this.startValue = startValue;
+            this.loopCount = loopCount;
+            this.identifierFunction = identifierFunction;
+            this.getMiniTextureId = getMiniTextureId;
+            this.getTextureIdUv = getTextureIdUv;
+        }
+
+        public Identifier getTextureId(Identifier texturePath, int i) {
+            return Identifier.of(texturePath.toString() + identifierFunction.apply(i));
+        }
+
+        public int getTextureNum(int i) {
+            return getMiniTextureId.apply(i);
+        }
+
+        public float[] getTextureUV(int id) {
+            return getTextureIdUv.apply(id);
+        }
     }
 
 }

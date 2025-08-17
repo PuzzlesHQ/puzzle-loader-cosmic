@@ -8,6 +8,7 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.InjectedBlockAct
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.BlockLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools.AprilFoolsForeshadowingModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools.AprilFoolsRedStoneModBlock;
+import dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected.ExampleConnectedBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.block.EventModBlockRegister;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.net.EventRegisterPacket;
 import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts.CTSIdentificationPacket;
@@ -51,6 +52,7 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
     public void register(EventModBlockRegister event) {
         event.register(new AprilFoolsRedStoneModBlock());
         event.register(new AprilFoolsForeshadowingModBlock());
+        event.register(new ExampleConnectedBlock());
     }
 
     @SubscribeEvent

@@ -1,6 +1,7 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools;
 
 import com.badlogic.gdx.math.Vector3;
+import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.AbstractModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelCuboid;
@@ -8,13 +9,12 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.Block
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.State;
 import finalforeach.cosmicreach.util.Identifier;
 
-public class AprilFoolsRedStoneModBlock implements IModBlock {
+public class AprilFoolsRedStoneModBlock extends AbstractModBlock {
 
-    BlockGenerator generator;
-    BlockModelGenerator modelGenerator;
+    final BlockModelGenerator modelGenerator;
 
     public AprilFoolsRedStoneModBlock() {
-        generator = new BlockGenerator(Identifier.of("base:red_stone"));
+        super(Identifier.of("base:red_stone"));
 
         State state = generator.createState("default");
         state.languageKey = "Red Stone";
