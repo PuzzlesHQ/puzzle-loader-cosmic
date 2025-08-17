@@ -51,7 +51,6 @@ public abstract class AbstractConnectorFunction implements ISidedBlockConnector.
         parentModelName = "model_connected_textures-|-" + id.getName() + "-|-texture-cache";
         templateModelName = "model_connected_textures_bordered-|-" + id.getName() + "-|-d+%s-v+%d";
 
-        if (LoaderConstants.SIDE.equals(EnvType.SERVER)) return;
         parentModelGenerator = new BlockModelGenerator(parentModelName);
 
         parentModelGenerator.addTexture("xError", Identifier.of(texturePath + "state-error.png"));
