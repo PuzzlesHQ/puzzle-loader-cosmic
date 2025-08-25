@@ -95,7 +95,7 @@ boolean jitpackPuzzle = false;
 String jpVersion = "51854d60d4"
 String centralVersion = "1.0.12-alpha"
 
-String version = "0.4.16-alpha"
+String crVersion = "0.4.16-alpha"
 
 var jar = files("./lib/Cosmic-Reach-0.4.10b.jar");
 
@@ -118,9 +118,9 @@ dependencies {
         commonImplementation(jar)
         serverImplementation(jar)
     } else {
-        clientImplementation("finalforeach:cosmic-reach:$version:client")
-        commonImplementation("finalforeach:cosmic-reach:$version:server")
-        serverImplementation("finalforeach:cosmic-reach:$version:server")
+        clientImplementation("finalforeach:cosmic-reach:$crVersion:client")
+        commonImplementation("finalforeach:cosmic-reach:$crVersion:server")
+        serverImplementation("finalforeach:cosmic-reach:$crVersion:server")
     }
 
     clientImplementation(sourceSets.common.output)
@@ -265,7 +265,7 @@ publishing {
         maven(MavenPublication) {
             groupId = p_group
             artifactId = p_id
-            version = this.version
+            crVersion = this.version
 
             from components.java
 
