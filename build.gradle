@@ -227,7 +227,7 @@ tasks.register("buildCommonSourcesJar", Jar) {
     archiveClassifier = "common-sources"
 }
 
-processResources {
+processCommonResources {
     def projectProperties = [
             "p_name": p_name,
             "p_version": ((String)version).contains(".") ? version : "69.69.69",
@@ -241,7 +241,7 @@ processResources {
 
     inputs.properties projectProperties
 
-    filesMatching(["puzzle_project.json"]) {
+    filesMatching(["puzzle_project.json", "puzzle.mod.json"]) {
         expand projectProperties
     }
 }

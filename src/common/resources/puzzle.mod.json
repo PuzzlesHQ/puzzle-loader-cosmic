@@ -1,13 +1,13 @@
 {
   "formatVersion": 3,
 
-  "display-name": "Puzzle Loader Cosmic",
-  "id": "puzzle-loader-cosmic",
-  "version": "1.0.0",
-  "description": "The cosmic side of Puzzle Loader",
+  "display-name": "$p_name",
+  "id": "$p_id",
+  "version": "$p_version",
+  "description": "$p_desc",
   "authors": [ "Mr-Zombii", "CrabKing", "repletsin5", "SinfullySoul", "tympanicblock61" ],
   "meta": {
-    "icon": "puzzle-loader-cosmic:icons/PuzzleLoaderIconx160.png"
+    "icon": "$p_id:icons/PuzzleLoaderIconx160.png"
   },
   "entrypoints": {
     "preLaunch": "dev.puzzleshq.puzzleloader.cosmic.core.PrePuzzle",
@@ -36,7 +36,7 @@
     }
   ],
   "depends": {
-    "puzzle-loader-core": ">=1.0.0"
+    "puzzle-loader-core": ">=1.0.12-alpha"
   },
   "access-writers": [
     "puzzle-loader-cosmic.manipulator"
