@@ -6,7 +6,8 @@
   "mixins": [
     "MixinGamePacket",
     "MixinProtocolSyncPacket",
-    "MixinServerIdentity"
+    "MixinServerIdentity",
+    "MixinZoneGenerator"
   ],
   "injectors": {
     "defaultRequire": 1
