@@ -21,7 +21,7 @@ public class MixinCommand {
     private final static String[] puzzle_loader_cosmic$empty = new String[0];
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
-    private static void clinit() {
+    private static void clinit(CallbackInfo ci) {
         List<Pair<String[], Supplier<Command>>> commandFactories = new ArrayList<>();
 
         EventRegisterCommand commandEvent = new EventRegisterCommand(commandFactories);
