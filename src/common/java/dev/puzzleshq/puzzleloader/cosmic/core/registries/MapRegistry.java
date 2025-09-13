@@ -4,6 +4,7 @@ import dev.puzzleshq.puzzleloader.cosmic.core.registries.exception.AlreadyFrozen
 import dev.puzzleshq.puzzleloader.cosmic.core.registries.exception.MissingEntryException;
 import dev.puzzleshq.puzzleloader.cosmic.core.registries.exception.NotReadableException;
 import dev.puzzleshq.puzzleloader.cosmic.core.registries.exception.NotWritableException;
+import dev.puzzleshq.puzzleloader.cosmic.game.GameRegistries;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.registry.EventRegisterObject;
 import dev.puzzleshq.puzzleloader.loader.LoaderConstants;
 import finalforeach.cosmicreach.util.Identifier;
@@ -50,7 +51,7 @@ public class MapRegistry<T> implements IRegistry<T> {
     @Override
     public T store(Identifier id, T value) {
         if(writable) {
-            LoaderConstants.CORE_EVENT_BUS.post(new EventRegisterObject(this, id, value));
+            GameRegistries.COSMIC_EVENT_BUS.post(new EventRegisterObject(this, id, value));
             values.put(id, value);
             return value;
         } else throw new NotWritableException(this);

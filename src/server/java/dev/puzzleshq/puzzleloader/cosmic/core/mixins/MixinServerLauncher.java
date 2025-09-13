@@ -1,6 +1,11 @@
 package dev.puzzleshq.puzzleloader.cosmic.core.mixins;
 
-import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.*;
+import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.server.ServerPreModInit;
+import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PreModInit;
+import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.server.ServerModInit;
+import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.ModInit;
+import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.server.ServerPostModInit;
+import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PostModInit;
 import finalforeach.cosmicreach.server.ServerLauncher;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

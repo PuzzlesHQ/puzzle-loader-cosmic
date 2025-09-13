@@ -5,6 +5,8 @@ import com.badlogic.gdx.files.FileHandle;
 import dev.puzzleshq.puzzleloader.loader.util.RawAssetLoader;
 import finalforeach.cosmicreach.io.SaveLocation;
 import finalforeach.cosmicreach.util.Identifier;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -15,7 +17,7 @@ import java.util.function.Function;
 
 public class IndependentAssetLoader {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | Independent Asset Loader");
+    private static final Logger LOGGER = LogManager.getLogger("Puzzle | Independent Asset Loader");
 
     @SuppressWarnings("rawtypes")
     public static final Map<Class, Function<IndependentFileHandle, ?>> LOADER_MAP = new HashMap<>();

@@ -1,7 +1,7 @@
 package dev.puzzleshq.puzzleloader.cosmic.core.mixins.client;
 
-import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ClientPreModInit;
-import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.PreModInit;
+import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.client.ClientPreModInit;
+import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PreModInit;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;

@@ -9,6 +9,7 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.Model
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.BlockGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.State;
 import finalforeach.cosmicreach.blockevents.BlockEventArgs;
+import finalforeach.cosmicreach.entities.IDamageSource;
 import finalforeach.cosmicreach.util.Identifier;
 
 public class AprilFoolsForeshadowingModBlock extends AbstractModBlock {
@@ -40,7 +41,12 @@ public class AprilFoolsForeshadowingModBlock extends AbstractModBlock {
 
     @Override
     public void onInteract(BlockEventArgs args) {
-        args.srcPlayer.getEntity().forceHit(1);
+        args.srcPlayer.getEntity().hit(new IDamageSource() {
+            @Override
+            public boolean isEntity() {
+                return false;
+            }
+        }, 1);
     }
 
     @Override

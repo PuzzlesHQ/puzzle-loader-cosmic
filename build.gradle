@@ -92,10 +92,10 @@ configurations {
 boolean usingSingleJar = false;
 boolean jitpackPuzzle = false;
 
-String jpVersion = "51854d60d4"
-String centralVersion = "1.0.12-alpha"
+String jpVersion = "79a4fd9a75"
+String centralVersion = "1.1.0-alpha"
 
-String crVersion = "0.4.16-alpha"
+String crVersion = "0.4.17-alpha"
 
 var jar = files("./lib/Cosmic-Reach-0.4.10b.jar");
 
@@ -111,9 +111,11 @@ dependencies {
 
     if (jitpackPuzzle) {
         clientBundle "com.github.PuzzlesHQ:puzzle-loader-core:$jpVersion:client"
+        serverBundle "com.github.PuzzlesHQ:puzzle-loader-core:$jpVersion:server"
         allImpl("com.github.PuzzlesHQ:puzzle-loader-core:$jpVersion:common")
     } else {
         clientBundle "dev.puzzleshq:puzzle-loader-core:$centralVersion:client"
+        serverBundle "dev.puzzleshq:puzzle-loader-core:$centralVersion:server"
         allImpl("dev.puzzleshq:puzzle-loader-core:$centralVersion:common")
     }
 
@@ -323,6 +325,7 @@ wrapper {
     distributionType = Wrapper.DistributionType.ALL
 }
 
+// TODO: replace w/ HJSON (jk, its perfect the way it is ;} )
 tasks.register("mkDeps") {
     File file = new File("$projectDir/dependencies.json")
 

@@ -1,8 +1,5 @@
 package dev.puzzleshq.puzzleloader.cosmic.game;
 
-import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.ModInit;
-import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.PostModInit;
-import dev.puzzleshq.puzzleloader.cosmic.core.modInitialises.PreModInit;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.InjectedBlockAction;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.BlockLoader;
@@ -15,6 +12,9 @@ import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts.CTSIdentificati
 import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts.CTSModlistPacket;
 import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.stc.STCModlistRequestPacket;
 import dev.puzzleshq.puzzleloader.loader.LoaderConstants;
+import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.ModInit;
+import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PostModInit;
+import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PreModInit;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.io.SaveLocation;
 import joptsimple.OptionParser;
