@@ -58,21 +58,4 @@ public class GenericTransformer {
         return writer.toByteArray();
     }
 
-//    private static byte[] transformClass(byte[] bytes) {
-//        return AccessTransformer24.transform(bytes);
-//    }
-
-//    private static byte[] transformClass(byte[] bytes, AbstractClassTransformer... transformers) {
-//        ClassReader reader = new ClassReader(bytes);
-//        ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES);
-//
-//        for (AbstractClassTransformer transformer : transformers) {
-//            transformer.setWriter(writer);
-//            transformer.setClassName(reader.getClassName().replaceAll("\\.", "/"));
-//            reader.accept(transformer, 2);
-//        }
-//
-//        return writer.toByteArray();
-//    }
-
 }

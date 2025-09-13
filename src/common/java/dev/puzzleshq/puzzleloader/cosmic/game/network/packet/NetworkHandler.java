@@ -4,15 +4,15 @@ import dev.puzzleshq.puzzleloader.loader.LoaderConstants;
 import dev.puzzleshq.puzzleloader.loader.util.EnvType;
 import finalforeach.cosmicreach.networking.NetworkIdentity;
 import io.netty.channel.ChannelHandlerContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class NetworkHandler {
 
-    static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | " + LoaderConstants.SIDE.name().toUpperCase() + "NetworkHandler");
+    static final Logger LOGGER = LogManager.getLogger("Puzzle | " + LoaderConstants.SIDE.name().toUpperCase() + "NetworkHandler");
 
     static final Map<Class<? extends PuzzlePacket>, PacketHandler> clientHandlers = new HashMap<>();
     static final Map<Class<? extends PuzzlePacket>, PacketHandler> serverHandlers = new HashMap<>();

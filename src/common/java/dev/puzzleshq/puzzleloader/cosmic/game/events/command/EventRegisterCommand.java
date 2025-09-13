@@ -5,7 +5,6 @@ import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.chat.commands.Command;
 import net.neoforged.bus.api.Event;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 

@@ -5,8 +5,6 @@ import com.badlogic.gdx.files.FileHandle;
 import dev.puzzleshq.puzzleloader.loader.util.RawAssetLoader;
 import finalforeach.cosmicreach.io.SaveLocation;
 import finalforeach.cosmicreach.util.Identifier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

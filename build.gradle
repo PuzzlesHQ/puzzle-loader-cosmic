@@ -105,6 +105,10 @@ dependencies {
     serverCompileOnly "org.jetbrains:annotations:24.0.0"
     commonCompileOnly "org.jetbrains:annotations:24.0.0"
 
+    allImpl("net.neoforged:bus:$eventbus_version") {
+        exclude group: "org.apache.logging.log4j", module: "log4j-api"
+    }
+
     if (jitpackPuzzle) {
         clientBundle "com.github.PuzzlesHQ:puzzle-loader-core:$jpVersion:client"
         allImpl("com.github.PuzzlesHQ:puzzle-loader-core:$jpVersion:common")
@@ -139,9 +143,6 @@ dependencies {
     allImplLoader "org.hjson:hjson:$hjson_version"
 
     allImplLoader "org.reflections:reflections:$reflections_version"
-    allImplLoader("net.neoforged:bus:$eventbus_version") {
-        exclude group: "org.apache.logging.log4j", module: "log4j-api"
-    }
 
     allImplLoader annotationProcessor("io.github.llamalad7:mixinextras-fabric:$mixin_extras_version")
     allImplLoader("net.fabricmc:sponge-mixin:$mixin_version") {
@@ -152,11 +153,8 @@ dependencies {
 
     commonBundle "com.github.villadora:semver:0.0.3"
 
-    allImplLoader 'org.slf4j:slf4j-ext:1.7.23'
-    allImplLoader 'org.slf4j:slf4j-api:1.7.23'
-    allImplLoader "org.apache.logging.log4j:log4j-api:$slf4j_version"
-    allImplLoader "org.apache.logging.log4j:log4j-core:$slf4j_version"
-    allImplLoader "org.apache.logging.log4j:log4j-slf4j-impl:$slf4j_version"
+    allImplLoader "org.apache.logging.log4j:log4j-api:$log4j_version"
+    allImplLoader "org.apache.logging.log4j:log4j-core:$log4j_version"
 }
 
 var runDir = file("./run")

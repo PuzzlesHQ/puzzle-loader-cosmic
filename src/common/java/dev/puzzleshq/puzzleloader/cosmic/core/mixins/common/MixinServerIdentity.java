@@ -17,7 +17,8 @@ public class MixinServerIdentity implements IServerIdentity {
     @Unique
     boolean puzzleLoader$isModded;
 
-    Map<String, Version> modList = new HashMap<>();
+    @Unique
+    Map<String, Version> puzzle_loader_cosmic$modList = new HashMap<>();
 
     @Override
     public void setModdedState(String clientName, boolean isModded) {
@@ -26,11 +27,11 @@ public class MixinServerIdentity implements IServerIdentity {
     }
 
     public void setModList(Map<String, Version> modList) {
-        this.modList = modList;
+        this.puzzle_loader_cosmic$modList = modList;
     }
 
     public Map<String, Version> getModList() {
-        return modList;
+        return puzzle_loader_cosmic$modList;
     }
 
     @Override

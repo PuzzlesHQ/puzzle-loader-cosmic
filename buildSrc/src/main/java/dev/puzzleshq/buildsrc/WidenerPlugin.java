@@ -24,8 +24,6 @@ public abstract class WidenerPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project target) {
-        System.err.println("WidenerPlugin Activated");
-
         var t = target.getExtensions().create("widenerPlugin", WidenerPlugin.class);
 
         target.afterEvaluate(project -> {

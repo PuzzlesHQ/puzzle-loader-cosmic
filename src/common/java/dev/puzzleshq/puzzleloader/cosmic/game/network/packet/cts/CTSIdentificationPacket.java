@@ -9,7 +9,7 @@ import finalforeach.cosmicreach.networking.NetworkSide;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
 
 public class CTSIdentificationPacket extends GamePacket {
 
@@ -37,8 +37,8 @@ public class CTSIdentificationPacket extends GamePacket {
             Account account = ServerSingletons.getAccount(identity);
 
             ((IServerIdentity) identity).setModdedState(clientName, true);
-            LoggerFactory.getLogger("Server").info("Account \"{}\" has joined as a modded client, the client being used is identified as \"{}\"", account.getDisplayName(), clientName);
-            LoggerFactory.getLogger("Server").info("Getting modlist from player ID: \"{}\", Name: \"{}\"", account.getUniqueId(), account.getDisplayName());
+            LogManager.getLogger("Server").info("Account \"{}\" has joined as a modded client, the client being used is identified as \"{}\"", account.getDisplayName(), clientName);
+            LogManager.getLogger("Server").info("Getting modlist from player ID: \"{}\", Name: \"{}\"", account.getUniqueId(), account.getDisplayName());
 
             identity.send(new STCModlistRequestPacket());
         }

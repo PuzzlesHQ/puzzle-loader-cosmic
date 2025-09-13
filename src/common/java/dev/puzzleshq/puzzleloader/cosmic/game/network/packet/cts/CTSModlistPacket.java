@@ -12,7 +12,7 @@ import finalforeach.cosmicreach.networking.NetworkSide;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.*;
 
@@ -31,7 +31,7 @@ public class CTSModlistPacket extends GamePacket {
     public void receive(ByteBuf in) {
         int listLength = readInt(in);
 
-        listOfMods = new HashMap();
+        listOfMods = new HashMap<>();
 
         for (int i = 0; i < listLength; i++) {
             String modId = readString(in);
@@ -66,7 +66,7 @@ public class CTSModlistPacket extends GamePacket {
                     if (!clientsMods.contains(modId)) {
                         missingMods.add(mod);
                     } else {
-                        if (!modVersion.equals(modVersion)) {
+                        if (!listOfMods.get(modId).equals(modVersion)) {
                             missingMods.add(mod);
                         }
                     }
@@ -92,7 +92,7 @@ public class CTSModlistPacket extends GamePacket {
                     missingModsTxt.append(modErrString).append("\n");
                 }
 
-                LoggerFactory.getLogger("Server").info("Disconnecting player ID: \"{}\", Name: \"{}\" due to modlist not being the same.", account.getUniqueId(), account.getDisplayName());
+                LogManager.getLogger("Server").info("Disconnecting player ID: \"{}\", Name: \"{}\" due to modlist not being the same.", account.getUniqueId(), account.getDisplayName());
                 ServerSingletons.SERVER.kick(missingModsTxt.toString(), identity);
                 ctx.close();
             }

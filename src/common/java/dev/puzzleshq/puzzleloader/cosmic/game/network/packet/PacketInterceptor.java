@@ -8,8 +8,8 @@ import dev.puzzleshq.puzzleloader.cosmic.game.events.net.EventRegisterPacket;
 import finalforeach.cosmicreach.networking.GamePacket;
 import finalforeach.cosmicreach.util.logging.AnsiColours;
 import net.neoforged.bus.api.SubscribeEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -22,7 +22,7 @@ public class PacketInterceptor {
     public static final int PUZZLE_PACKET_RANGE_FIRST = 9000;
     public static final int PUZZLE_PACKET_RANGE_LAST = 9999;
 
-    static Logger LOGGER = LoggerFactory.getLogger("PacketInterceptor");
+    static Logger LOGGER = LogManager.getLogger("PacketInterceptor");
 
     public static Set<Integer> PUZZLE_RESERVED_PACKET_IDS = new HashSet<>();
 
