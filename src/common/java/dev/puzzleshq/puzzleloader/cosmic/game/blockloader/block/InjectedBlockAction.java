@@ -1,8 +1,8 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block;
 
-import finalforeach.cosmicreach.blockevents.BlockEventArgs;
-import finalforeach.cosmicreach.blockevents.actions.ActionId;
-import finalforeach.cosmicreach.blockevents.actions.IBlockAction;
+import finalforeach.cosmicreach.gameevents.ActionId;
+import finalforeach.cosmicreach.gameevents.blockevents.BlockEventArgs;
+import finalforeach.cosmicreach.gameevents.blockevents.actions.IBlockAction;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

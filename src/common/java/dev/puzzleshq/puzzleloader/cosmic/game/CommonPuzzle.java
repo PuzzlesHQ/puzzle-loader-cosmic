@@ -15,7 +15,7 @@ import dev.puzzleshq.puzzleloader.loader.LoaderConstants;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.ModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PostModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PreModInit;
-import finalforeach.cosmicreach.blockevents.BlockEvents;
+import finalforeach.cosmicreach.gameevents.blockevents.BlockEvents;
 import finalforeach.cosmicreach.io.SaveLocation;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;

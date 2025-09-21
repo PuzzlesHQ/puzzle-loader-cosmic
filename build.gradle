@@ -89,7 +89,6 @@ configurations {
 
 }
 
-boolean usingSingleJar = false;
 boolean jitpackPuzzle = false;
 
 String jpVersion = "79a4fd9a75"
@@ -97,7 +96,8 @@ String centralVersion = "1.1.0-alpha"
 
 String crVersion = "0.4.17-alpha"
 
-var jar = files("./lib/Cosmic-Reach-0.4.10b.jar");
+var jar = files("./lib/Cosmic-Reach-0.4.17b.jar")
+boolean usingSingleJar = true
 
 dependencies {
 

@@ -3,8 +3,8 @@ package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event.BlockEventGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.BlockGenerator;
-import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.blocks.Block;
+import finalforeach.cosmicreach.gameevents.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.util.Identifier;
 
 public interface IModBlock {

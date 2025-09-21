@@ -8,8 +8,8 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.Block
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelCuboid;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.BlockGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.State;
-import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.entities.IDamageSource;
+import finalforeach.cosmicreach.gameevents.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.util.Identifier;
 
 public class AprilFoolsForeshadowingModBlock extends AbstractModBlock {
