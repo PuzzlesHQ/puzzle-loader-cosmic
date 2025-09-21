@@ -8,12 +8,13 @@
 /build
 
 # buildSrc
-buildSrc/.gradle
-buildSrc/build
+/buildSrc/.gradle
+/buildSrc/build
 /buildSrc/gradlew
 /buildSrc/gradlew.bat
 /dependencies.json
 
-run
+/run
 
-puzzle-query-language/build
+/puzzle-query-language/build
+/lib
