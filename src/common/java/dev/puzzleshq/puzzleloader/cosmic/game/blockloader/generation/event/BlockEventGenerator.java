@@ -18,7 +18,7 @@ public class BlockEventGenerator implements HJsonSerializable {
     public static final Identifier DEFAULT_BLOCK_EVENTS_ID = Identifier.of("base", "block_events_default");
 
     final Identifier id;
-    final Identifier parentId;
+    Identifier parentId;
     final Map<String, TriggerGroup> triggerMap = new HashMap<>();
 
     final static Map<Identifier, BlockEventGenerator> GENERATOR_MAP = new ConcurrentHashMap<>();
@@ -66,6 +66,12 @@ public class BlockEventGenerator implements HJsonSerializable {
         return this.triggerMap.get(name);
     }
 
+    public TriggerGroup getOrCreateTriggerGroup(String name) {
+        TriggerGroup group = this.triggerMap.get(name);
+        if (group == null) this.triggerMap.put(name, group = new TriggerGroup(name));
+        return group;
+    }
+
     public TriggerGroup putTriggerGroup(TriggerGroup group) {
         return this.triggerMap.put(group.name, group);
     }
@@ -101,10 +107,11 @@ public class BlockEventGenerator implements HJsonSerializable {
     }
 
     public void inheritParentContents() {
-        if (getParent() == null) return;
-        for (Map.Entry<String, TriggerGroup> groupEntry : getParent().triggerMap.entrySet()) {
+        BlockEventGenerator generator = getParent();
+        if (generator == null) return;
+        for (Map.Entry<String, TriggerGroup> groupEntry : generator.triggerMap.entrySet()) {
             if (!triggerMap.containsKey(groupEntry.getKey())) triggerMap.put(groupEntry.getKey(), groupEntry.getValue());
-            else getTriggerGroup(groupEntry.getKey()).triggers.addAll(getParent().triggerMap.get(groupEntry.getKey()).triggers);
+            else getTriggerGroup(groupEntry.getKey()).triggers.addAll(generator.triggerMap.get(groupEntry.getKey()).triggers);
         }
     }
 
@@ -120,5 +127,9 @@ public class BlockEventGenerator implements HJsonSerializable {
 
         if (index == -1) group1.triggers.addLast(trigger);
         else group1.triggers.add(index, trigger);
+    }
+
+    public void setParent(Identifier id) {
+        parentId = id;
     }
 }

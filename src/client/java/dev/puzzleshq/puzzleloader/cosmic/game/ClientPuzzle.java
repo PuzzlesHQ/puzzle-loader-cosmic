@@ -34,15 +34,6 @@ public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPost
 
     @Override
     public void onClientPostInit() {
-//        Threads.runOnMainThread(() -> {
-//            for (int i = 0; i < 16; i++) {
-//                BlockModelJsonTexture texture = new BlockModelJsonTexture();
-//                texture.fileName = Identifier.of("connected-textures", "test/glass_" + i + ".png").toString();
-//                texture.initialize();
-//            }
-//        });
-//        Threads.runOnMainThread(ConnectedBlock16Connector::generate);
-//        ISidedBlockConnector.getInstance().registerStateAsConnectedBlock(Block.getInstance("glass").getDefaultBlockState(), ConnectedBlock16Connector::connect);
     }
 
     @Override
@@ -56,9 +47,7 @@ public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPost
 
             return new Pixmap(bytes, 0, bytes.length);
         });
-        IndependentAssetLoader.registerLoadingMethod(Texture.class, (handle) -> {
-            return new Texture(handle);
-        });
+        IndependentAssetLoader.registerLoadingMethod(Texture.class, Texture::new);
 
         IndependentAssetLoader.registerLoadingMethod(SoundBuffer.class, (h) -> {
             SoundFileType type = SoundFileType.getByFileEnding(h.getHandle().getFile());
