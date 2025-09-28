@@ -6,7 +6,6 @@ import dev.puzzleshq.puzzleloader.cosmic.core.registries.exception.NotReadableEx
 import dev.puzzleshq.puzzleloader.cosmic.core.registries.exception.NotWritableException;
 import dev.puzzleshq.puzzleloader.cosmic.game.GameRegistries;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.registry.EventRegisterObject;
-import dev.puzzleshq.puzzleloader.loader.LoaderConstants;
 import finalforeach.cosmicreach.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 

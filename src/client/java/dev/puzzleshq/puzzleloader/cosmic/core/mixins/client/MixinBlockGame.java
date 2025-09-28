@@ -2,10 +2,8 @@ package dev.puzzleshq.puzzleloader.cosmic.core.mixins.client;
 
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.client.ClientModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.client.ClientPostModInit;
-import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.client.ClientPreModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.ModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PostModInit;
-import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PreModInit;
 import finalforeach.cosmicreach.BlockGame;
 import finalforeach.cosmicreach.gamestates.GameState;
 import org.spongepowered.asm.mixin.Mixin;

@@ -4,9 +4,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IConnectedBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
-import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.connected.ISidedBlockConnector;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event.BlockEventGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.BlockGenerator;
@@ -15,8 +13,6 @@ import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.gameevents.blockevents.BlockEvents;
 import finalforeach.cosmicreach.util.GameTag;
 import finalforeach.cosmicreach.util.GameTagList;
-
-import java.util.Map;
 
 public class BlockLoader {
 

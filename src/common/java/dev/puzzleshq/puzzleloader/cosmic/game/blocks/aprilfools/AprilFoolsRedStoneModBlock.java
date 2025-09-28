@@ -2,7 +2,6 @@ package dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools;
 
 import com.badlogic.gdx.math.Vector3;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.AbstractModBlock;
-import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelCuboid;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.BlockGenerator;
