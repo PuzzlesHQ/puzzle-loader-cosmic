@@ -24,11 +24,15 @@ public class MixinServerLauncher {
     @Redirect(method = "main", at = @At(value = "INVOKE", target = "Ljava/security/CodeSource;getLocation()Ljava/net/URL;"))
     private static URL getLocation(CodeSource instance) {
         try {
-            /* added the non-existant /e/ to the end because it automatically gets the parent file*/
-            return new File("./e/").toURL();
+            return new File(".").getAbsoluteFile().toURI().toURL();
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Redirect(method = "main", at = @At(value = "INVOKE", target = "Ljava/io/File;getParentFile()Ljava/io/File;"))
+    private static File getParentFile(File instance) {
+        return instance;
     }
 
     @Inject(method = "main", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/networking/server/ServerSingletons;create()V", shift = At.Shift.BEFORE))

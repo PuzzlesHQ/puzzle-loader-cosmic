@@ -165,7 +165,7 @@ tasks.register("runClient", JavaExec) {
     classpath += sourceSets.client.runtimeClasspath
     classpath += sourceSets.common.runtimeClasspath
 
-    args("--save-location=\"" + runDir.getAbsolutePath() + "\"", "--join-world=test-world");
+    args("--save-location=\"" + runDir.getAbsolutePath() + "\"");
 
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ClientPiece"
     if (!runDir.exists()) runDir.mkdirs()
@@ -176,7 +176,7 @@ tasks.register("runServer", JavaExec) {
     classpath += sourceSets.server.runtimeClasspath
     classpath += sourceSets.common.runtimeClasspath
 
-    args("--save-location=\"" + runDir.getAbsolutePath() + "\"", "--join-world=test-world");
+    args("--save-location=\"" + runDir.getAbsolutePath() + "\"");
 
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ServerPiece"
     if (!runDir.exists()) runDir.mkdirs()
