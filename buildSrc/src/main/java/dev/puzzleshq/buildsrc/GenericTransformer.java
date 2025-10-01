@@ -17,29 +17,32 @@ public class GenericTransformer {
             byte[] bytes = byteStream.readAllBytes();
             byteStream.close();
 
-            ZipInputStream input = new ZipInputStream(new ByteArrayInputStream(bytes));
-            ZipOutputStream output = new ZipOutputStream(new FileOutputStream(out));
-            ZipEntry entry = input.getNextEntry();
-            while (entry != null) {
-                String entryName = entry.getName();
+            FileOutputStream output = new FileOutputStream(out);
+            output.write(bytes);
 
-                if (entryName.contains("module-info") || entryName.contains("package-info")) {
-                    output.putNextEntry(entry);
-                    output.write(input.readAllBytes());
-                } else if (entryName.endsWith(".class")) {
-                    byte[] classBytes = transformClass(entryName, input.readAllBytes());
-                    if (classBytes != null) {
-                        output.putNextEntry(entry);
-                        output.write(classBytes);
-                    }
-                } else {
-                    output.putNextEntry(entry);
-                    output.write(input.readAllBytes());
-                }
-
-                entry = input.getNextEntry();
-            }
-            input.close();
+//            ZipInputStream input = new ZipInputStream(new ByteArrayInputStream(bytes));
+//            ZipOutputStream output = new ZipOutputStream(new FileOutputStream(out));
+//            ZipEntry entry = input.getNextEntry();
+//            while (entry != null) {
+//                String entryName = entry.getName();
+//
+//                if (entryName.contains("module-info") || entryName.contains("package-info")) {
+//                    output.putNextEntry(entry);
+//                    output.write(input.readAllBytes());
+//                } else if (entryName.endsWith(".class")) {
+//                    byte[] classBytes = transformClass(entryName, input.readAllBytes());
+//                    if (classBytes != null) {
+//                        output.putNextEntry(entry);
+//                        output.write(classBytes);
+//                    }
+//                } else {
+//                    output.putNextEntry(entry);
+//                    output.write(input.readAllBytes());
+//                }
+//
+//                entry = input.getNextEntry();
+//            }
+//            input.close();
             output.close();
 
         } catch (IOException e) {
@@ -51,7 +54,7 @@ public class GenericTransformer {
         if (entryName.contains("io/netty")) return bytes;
 
         ClassReader reader = new ClassReader(bytes);
-        ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES);
+        ClassWriter writer = new ClassWriter(reader, 0);
 
         reader.accept(new AccessTransformerASM(writer), 0);
 

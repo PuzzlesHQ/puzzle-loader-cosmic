@@ -21,7 +21,7 @@ import java.security.CodeSource;
 @Mixin(ServerLauncher.class)
 public class MixinServerLauncher {
 
-    @Redirect(method = "main", at = @At(value = "INVOKE", target = "Ljava/security/CodeSource;getLocation()Ljava/net/URL;"))
+    @Redirect(method = "main", at = @At(value = "INVOKE", target = "Ljava/security/CodeSource;getLocation()Ljava/net/URL;"), require = 0)
     private static URL getLocation(CodeSource instance) {
         try {
             return new File(".").getAbsoluteFile().toURI().toURL();
@@ -30,7 +30,7 @@ public class MixinServerLauncher {
         }
     }
 
-    @Redirect(method = "main", at = @At(value = "INVOKE", target = "Ljava/io/File;getParentFile()Ljava/io/File;"))
+    @Redirect(method = "main", at = @At(value = "INVOKE", target = "Ljava/io/File;getParentFile()Ljava/io/File;"), require = 0)
     private static File getParentFile(File instance) {
         return instance;
     }

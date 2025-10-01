@@ -36,7 +36,6 @@
     }
   ],
   "depends": {
-    "puzzle-loader-core": ">=1.0.12-alpha"
   },
   "access-writers": [
     "puzzle-loader-cosmic.manipulator"

@@ -1,6 +1,9 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.network.packet;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.ObjectIntMap;
+import com.badlogic.gdx.utils.ObjectMap;
 import dev.puzzleshq.puzzleloader.cosmic.game.GameRegistries;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.net.EventPacketBucketReceiveIntercept;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.net.EventPacketReceiveIntercept;
@@ -12,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
@@ -46,11 +50,11 @@ public class PacketInterceptor {
                 }
             };
 
-            int numId = GamePacket.idsToPackets.size + 1;
-            GamePacket.idsToPackets.put(numId, supplier);
-            GamePacket.packetsToIntIds.put(packetClass, numId);
-            GamePacket.packetNamesToIntIds.put(packetClass.getName(), numId);
-            GamePacket.packetNamesToClasses.put(packetClass.getName(), packetClass);
+            int numId = idsToPackets().size + 1;
+            idsToPackets().put(numId, supplier);
+            packetsToIntIds().put(packetClass, numId);
+            packetNamesToIntIds().put(packetClass.getName(), numId);
+            packetNamesToClasses().put(packetClass.getName(), packetClass);
             LOGGER.info("Registered {}Lazy{} Packet {}\"{}\"{} with numeral ID {}#{}", AnsiColours.BRIGHT_GREEN, AnsiColours.RESET, AnsiColours.BLUE, packetClass.getName(), AnsiColours.RESET, AnsiColours.PURPLE, numId);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -69,11 +73,11 @@ public class PacketInterceptor {
                 }
             };
 
-            int numId = GamePacket.idsToPackets.size + 1;
-            GamePacket.idsToPackets.put(numId, supplier);
-            GamePacket.packetsToIntIds.put(packetClass, numId);
-            GamePacket.packetNamesToIntIds.put(strId, numId);
-            GamePacket.packetNamesToClasses.put(strId, packetClass);
+            int numId = idsToPackets().size + 1;
+            idsToPackets().put(numId, supplier);
+            packetsToIntIds().put(packetClass, numId);
+            packetNamesToIntIds().put(strId, numId);
+            packetNamesToClasses().put(strId, packetClass);
             LOGGER.info("Registered {}Lazy{} Packet {}\"{}\"{} with numeral ID {}#{}", AnsiColours.BRIGHT_GREEN, AnsiColours.RESET, AnsiColours.BLUE, strId, AnsiColours.RESET, AnsiColours.PURPLE, numId);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -91,10 +95,10 @@ public class PacketInterceptor {
                     return null;
                 }
             };
-            GamePacket.idsToPackets.put(numId, supplier);
-            GamePacket.packetsToIntIds.put(packetClass, numId);
-            GamePacket.packetNamesToIntIds.put(strId, numId);
-            GamePacket.packetNamesToClasses.put(strId, packetClass);
+            idsToPackets().put(numId, supplier);
+            packetsToIntIds().put(packetClass, numId);
+            packetNamesToIntIds().put(strId, numId);
+            packetNamesToClasses().put(strId, packetClass);
             LOGGER.info("Registered {}Regular{} Packet {}\"{}\"{} with numeral ID {}#{}", AnsiColours.BRIGHT_YELLOW, AnsiColours.RESET, AnsiColours.BLUE, strId, AnsiColours.RESET, AnsiColours.PURPLE, numId);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -112,14 +116,55 @@ public class PacketInterceptor {
                     return null;
                 }
             };
-            GamePacket.idsToPackets.put(numId, supplier);
-            GamePacket.packetsToIntIds.put(packetClass, numId);
-            GamePacket.packetNamesToIntIds.put(strId, numId);
-            GamePacket.packetNamesToClasses.put(strId, packetClass);
+
+            idsToPackets().put(numId, supplier);
+            packetsToIntIds().put(packetClass, numId);
+            packetNamesToIntIds().put(strId, numId);
+            packetNamesToClasses().put(strId, packetClass);
             LOGGER.info("Registered {}Reserved{} Packet {}\"{}\"{} with numeral ID {}#{}", AnsiColours.BRIGHT_PURPLE, AnsiColours.RESET, AnsiColours.BLUE, strId, AnsiColours.RESET, AnsiColours.PURPLE, numId);
 
             PUZZLE_RESERVED_PACKET_IDS.add(numId);
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static IntMap<Supplier<? extends GamePacket>> idsToPackets() {
+        try {
+            Field field = GamePacket.class.getDeclaredField("idsToPackets");
+            field.setAccessible(true);
+            return (IntMap<Supplier<? extends GamePacket>>) field.get(null);
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static ObjectIntMap<Class<? extends GamePacket>> packetsToIntIds() {
+        try {
+            Field field = GamePacket.class.getDeclaredField("packetsToIntIds");
+            field.setAccessible(true);
+            return (ObjectIntMap<Class<? extends GamePacket>>) field.get(null);
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static ObjectIntMap<String> packetNamesToIntIds() {
+        try {
+            Field field = GamePacket.class.getDeclaredField("packetNamesToIntIds");
+            field.setAccessible(true);
+            return (ObjectIntMap<String>) field.get(null);
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static ObjectMap<String, Class<? extends GamePacket>> packetNamesToClasses() {
+        try {
+            Field field = GamePacket.class.getDeclaredField("packetNamesToClasses");
+            field.setAccessible(true);
+            return (ObjectMap<String, Class<? extends GamePacket>>) field.get(null);
+        } catch (IllegalAccessException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
     }

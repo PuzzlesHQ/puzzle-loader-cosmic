@@ -45,8 +45,15 @@ repositories {
             it.includeModule "finalforeach", "cosmic-reach"
         }
     }
+    mavenLocal()
     mavenCentral()
     maven { url 'https://jitpack.io' }
+    maven { url "https://maven.google.com/" }
+    maven { url "https://libraries.minecraft.net" }
+    maven {
+        name "neoforged"
+        url "https://maven.neoforged.net/release"
+    }
 }
 
 sourceSets {
@@ -92,9 +99,10 @@ configurations {
 boolean jitpackPuzzle = false;
 
 String jpVersion = "79a4fd9a75"
-String centralVersion = "1.1.2-alpha"
+String centralVersion = "0.0.0-alpha"
+//String centralVersion = "1.1.2-alpha"
 
-String crVersion = "0.5.0-alpha"
+final String crVersion = "0.5.2-alpha"
 
 var jar = files("./lib/Cosmic-Reach-0.4.17b.jar")
 boolean usingSingleJar = false
@@ -151,12 +159,27 @@ dependencies {
         exclude group: "com.google.code.gson", module: "gson"
         exclude group: "com.google.guava", module: "guava"
     }
+    commonBundle "net.sf.jopt-simple:jopt-simple:$jopt_simple_version"
+    commonBundle "com.google.guava:guava:$guava_version"
+
     allImplLoader "net.sf.jopt-simple:jopt-simple:$jopt_simple_version"
     allImplLoader "org.apache.logging.log4j:log4j-api:$log4j_version"
     allImplLoader "org.apache.logging.log4j:log4j-core:$log4j_version"
+    allImplLoader "org.apache.commons:commons-compress:1.28.0"
+    allImplLoader 'io.sigpipe:jbsdiff:1.0'
 
     allImplLoader "com.github.villadora:semver:0.0.3"
 
+    // Paradox Stuff
+    allImplLoader "org.slf4j:slf4j-api:2.0.17"
+    allImplLoader 'org.apache.commons:commons-configuration2:2.12.0'
+    allImplLoader "com.mojang:brigadier:1.0.18"
+    allImplLoader "org.apache.logging.log4j:log4j-slf4j2-impl:2.19.0"
+    allImplLoader 'org.fusesource.jansi:jansi:2.2.0'
+    allImplLoader 'org.jline:jline:3.25.0'
+    allImplLoader 'commons-beanutils:commons-beanutils:1.9.4'
+    allImplLoader 'commons-logging:commons-logging:1.3.2'
+    allImplLoader 'commons-io:commons-io:2.15.1'
 }
 
 var runDir = file("./run")
@@ -265,7 +288,6 @@ publishing {
         maven(MavenPublication) {
             groupId = p_group
             artifactId = p_id
-            crVersion = this.version
 
             from components.java
 

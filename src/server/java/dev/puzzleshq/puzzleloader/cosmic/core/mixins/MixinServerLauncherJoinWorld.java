@@ -12,10 +12,6 @@ public class MixinServerLauncherJoinWorld {
     @ModifyConstant(
             method = "main",
             constant = @Constant(stringValue = "server-world-1")
-//            at = @At(
-//                    value = "INVOKE_ASSIGN",
-//                    target = "Lfinalforeach/cosmicreach/server/ServerLauncher;serverWorldName()Ljava/lang/String;"
-//            )
     )
     private static String joinWorld(String old) {
         return CommonPuzzle.autoJoinWorldName == null ? "server-world-1" : CommonPuzzle.autoJoinWorldName;
