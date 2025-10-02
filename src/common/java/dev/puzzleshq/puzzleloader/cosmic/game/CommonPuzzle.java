@@ -10,6 +10,7 @@ import dev.puzzleshq.puzzleloader.cosmic.game.events.net.EventRegisterPacket;
 import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts.CTSIdentificationPacket;
 import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts.CTSModlistPacket;
 import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.stc.STCModlistRequestPacket;
+import dev.puzzleshq.puzzleloader.loader.LoaderConfig;
 import dev.puzzleshq.puzzleloader.loader.LoaderConstants;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.ModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PostModInit;
@@ -67,7 +68,7 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
     }
 
     public void loadArgs() {
-        String[] args = LoaderConstants.CLIConfiguration.COMMAND_LINE_ARGUMENTS;
+        String[] args = LoaderConfig.COMMAND_LINE_ARGUMENTS;
 
         OptionParser parser = new OptionParser();
         parser.allowsUnrecognizedOptions();

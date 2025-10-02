@@ -11,25 +11,36 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ClientSidedTex
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedModelLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedTextureLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.util.IndependentAssetLoader;
-import dev.puzzleshq.puzzleloader.loader.LoaderConstants;
+import dev.puzzleshq.puzzleloader.loader.LoaderConfig;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.client.ClientModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.client.ClientPostModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.client.ClientPreModInit;
+import dev.puzzleshq.puzzleloader.loader.transformers.GLFWTransformer;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWImage;
+import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.List;
 
 public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPostModInit {
 
-
     @Override
     public void onClientInit() {
         loadArgs();
+        PuzzleIcons.setIcon();
+        PuzzleIcons.disposeIcon();
     }
 
     @Override
@@ -69,8 +80,8 @@ public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPost
         });
     }
 
-    public static void loadArgs() {
-        String[] args = LoaderConstants.CLIConfiguration.COMMAND_LINE_ARGUMENTS;
+    private static void loadArgs() {
+        String[] args = LoaderConfig.COMMAND_LINE_ARGUMENTS;
 
         OptionParser parser = new OptionParser();
         parser.allowsUnrecognizedOptions();

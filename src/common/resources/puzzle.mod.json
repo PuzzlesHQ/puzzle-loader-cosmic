@@ -7,7 +7,7 @@
   "description": "$p_desc",
   "authors": [ "Mr-Zombii", "CrabKing", "repletsin5", "SinfullySoul", "tympanicblock61" ],
   "meta": {
-    "icon": "$p_id:icons/PuzzleLoaderIconx160.png"
+    "icon": "puzzle-loader-core:icons/puzzle-loader-icon-16.png"
   },
   "entrypoints": {
     "preLaunch": "dev.puzzleshq.puzzleloader.cosmic.core.PrePuzzle",

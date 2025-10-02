@@ -8,6 +8,7 @@
     "MixinBlockJsonModel",
     "MixinChunkMeshGroup",
     "MixinLwjgl3Launcher",
+    "MixinLwjglApplication",
     "autojoin.MainMenuInit",
     "autojoin.PreAlphaPreambleInit"
   ],

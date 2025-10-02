@@ -99,8 +99,8 @@ configurations {
 boolean jitpackPuzzle = false;
 
 String jpVersion = "79a4fd9a75"
-String centralVersion = "0.0.0-alpha"
-//String centralVersion = "1.1.2-alpha"
+//String centralVersion = "0.0.0-alpha"
+String centralVersion = "1.2.0-alpha"
 
 final String crVersion = "0.5.2-alpha"
 
@@ -195,6 +195,15 @@ tasks.register("runClient", JavaExec) {
     workingDir(runDir)
 }
 
+tasks.register("runVanillaClient", JavaExec) {
+    classpath += sourceSets.client.runtimeClasspath
+    classpath += sourceSets.common.runtimeClasspath
+
+    mainClass = "finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher"
+    if (!runDir.exists()) runDir.mkdirs()
+    workingDir(runDir)
+}
+
 tasks.register("runServer", JavaExec) {
     classpath += sourceSets.server.runtimeClasspath
     classpath += sourceSets.common.runtimeClasspath
@@ -202,6 +211,15 @@ tasks.register("runServer", JavaExec) {
     args("--save-location=\"" + runDir.getAbsolutePath() + "\"");
 
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ServerPiece"
+    if (!runDir.exists()) runDir.mkdirs()
+    workingDir(runDir)
+}
+
+tasks.register("runVanillaServer", JavaExec) {
+    classpath += sourceSets.server.runtimeClasspath
+    classpath += sourceSets.common.runtimeClasspath
+
+    mainClass = "finalforeach.cosmicreach.server.ServerLauncher"
     if (!runDir.exists()) runDir.mkdirs()
     workingDir(runDir)
 }

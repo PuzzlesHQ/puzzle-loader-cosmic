@@ -24,6 +24,7 @@ public class STCModlistRequestPacket extends GamePacket {
     @Override
     public void write() {}
 
+    @SuppressWarnings("unchecked")
     @Override
     public void handle(NetworkIdentity identity, ChannelHandlerContext channelHandlerContext) {
         if (identity.getSide() == NetworkSide.CLIENT) {
