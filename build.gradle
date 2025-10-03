@@ -103,7 +103,7 @@ boolean jitpackPuzzle = false;
 
 String jpVersion = "79a4fd9a75"
 //String centralVersion = "0.0.0-alpha"
-String centralVersion = "1.2.0-alpha"
+String centralVersion = "1.2.1-alpha"
 
 final String crVersion = "0.5.2-alpha"
 
