@@ -44,7 +44,7 @@ public abstract class AbstractConnectorFunction implements ISidedBlockConnector.
     ) {
         setMode(mode);
 
-        texturePath = Identifier.of("connected-textures", id.getName() + "/states/");
+        texturePath = Identifier.of("connected-textures-" + id.getNamespace(), id.getName() + "/states/");
         defaultModelName = "model_connected_textures-|-" + id.getName() + "-|-base-block";
         parentModelName = "model_connected_textures-|-" + id.getName() + "-|-texture-cache";
         templateModelName = "model_connected_textures_bordered-|-" + id.getName() + "-|-d+%s-v+%d";
@@ -248,47 +248,12 @@ public abstract class AbstractConnectorFunction implements ISidedBlockConnector.
     final static float[] defaultUv = new float[]{0, 0, 16, 16};
 
     public enum TextureModes {
-//        TEXTURE_MODE_6(6, 16, 0,
-//                12, (i) -> "state-" + i + ".png",
-//                (i) -> switch (i) {
-//                    case 0 -> 0;
-//                    case 1, 2, 4, 8 -> 1;
-//                    case 3, 12 -> 2;
-//                    case 5, 6, 9, 10 -> 3;
-//                    case 7, 11, 13, 14 -> 4;
-//                    case 15 -> 5;
-//                    default -> throw new IllegalStateException("Unexpected value: " + i);
-//                },
-//                (i) -> switch (i) {
-//                    case 0, 15 -> defaultUv;
-//
-//                    case 1 -> QuadUvUtil.createRotatedUv(defaultUv, 2);
-//                    case 2 -> defaultUv;
-//                    case 4 -> QuadUvUtil.createRotatedUv(defaultUv, 1);
-//                    case 8 -> QuadUvUtil.createRotatedUv(defaultUv, 3);
-//
-//                    case 3 -> QuadUvUtil.createRotatedUv(defaultUv, 3);
-//                    case 12 -> QuadUvUtil.createRotatedUv(defaultUv, 3);
-//
-//                    case 5 -> QuadUvUtil.createRotatedUv(defaultUv, 0);
-//                    case 6 -> QuadUvUtil.createRotatedUv(defaultUv, 0);
-//                    case 9 -> QuadUvUtil.createRotatedUv(defaultUv, 0);
-//                    case 10 -> QuadUvUtil.createRotatedUv(defaultUv, 0);
-//
-//                    case 7 -> QuadUvUtil.createRotatedUv(defaultUv, 3);
-//                    case 11 -> QuadUvUtil.createRotatedUv(defaultUv, 1);
-//                    case 13 -> QuadUvUtil.createRotatedUv(defaultUv, 2);
-//                    case 14 -> defaultUv;
-//
-//                    default -> defaultUv;
-//                }
-//        ),
         TEXTURE_MODE_16(16, 16, 0,
                 12, (i) -> "state-" + i + ".png", (i) -> i,
                 (i) -> defaultUv
         ),
         TEXTURE_MODE_256(256, 256, corners,
-                24, (i) -> (i & ~corners) + "state-" + i + ".png", (i) -> i,
+                24, (i) -> (i & ~corners) + "/state-" + i + ".png", (i) -> i,
                 (i) -> defaultUv
         );
 

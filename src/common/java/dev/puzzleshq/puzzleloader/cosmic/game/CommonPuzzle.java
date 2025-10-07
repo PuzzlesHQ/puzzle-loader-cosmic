@@ -16,6 +16,7 @@ import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.ModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PostModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PreModInit;
 import finalforeach.cosmicreach.io.SaveLocation;
+import finalforeach.cosmicreach.singletons.GameSingletons;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
@@ -36,13 +37,6 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
     @Override
     public void onInit() {
         loadArgs();
-
-        EventModBlockRegister event = new EventModBlockRegister();
-        GameRegistries.COSMIC_EVENT_BUS.post(event);
-
-        for (IModBlock modBlock : event.getBlocks()) {
-            BlockLoader.INSTANCE.generate(modBlock);
-        }
     }
 
     @SubscribeEvent
@@ -61,6 +55,14 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
 
     @Override
     public void onPostInit() {
+        GameSingletons.loadingQueue.addLast(() -> {
+            EventModBlockRegister event = new EventModBlockRegister();
+            GameRegistries.COSMIC_EVENT_BUS.post(event);
+
+            for (IModBlock modBlock : event.getBlocks()) {
+                BlockLoader.INSTANCE.generate(modBlock);
+            }
+        });
     }
 
     @Override

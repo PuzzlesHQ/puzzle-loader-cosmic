@@ -1,5 +1,4 @@
 import dev.puzzleshq.buildsrc.DepUtils
-import dev.puzzleshq.buildsrc.WidenerPlugin
 import org.hjson.JsonArray
 import org.hjson.JsonObject
 import org.hjson.Stringify
@@ -20,12 +19,6 @@ String mavenUrl = System.getenv("MAVEN_URL")
 
 String envRepo = System.getenv("MAVEN_REPO");
 String mavenRepo = envRepo != null ? envRepo : "releases";
-
-apply plugin: WidenerPlugin
-
-widenerPlugin {
-    widenerPath.set(file("$projectDir/src/common/resources/puzzle-loader-cosmic.manipulator"))
-}
 
 java {
     sourceCompatibility = '17'
@@ -53,6 +46,8 @@ repositories {
     maven { url 'https://jitpack.io' }
     maven { url "https://maven.google.com/" }
     maven { url "https://libraries.minecraft.net" }
+    maven { url "https://repo1.maven.org/maven2/" }
+    maven { url "https://maven.bawnorton.com/releases" }
     maven {
         name "neoforged"
         url "https://maven.neoforged.net/release"
@@ -103,12 +98,37 @@ boolean jitpackPuzzle = false;
 
 String jpVersion = "79a4fd9a75"
 //String centralVersion = "0.0.0-alpha"
-String centralVersion = "1.2.1-alpha"
+String centralVersion = "1.3.0-alpha"
 
-final String crVersion = "0.5.2-alpha"
+final String crVersion = "0.5.5-alpha"
 
 var jar = files("./lib/Cosmic-Reach-0.4.17b.jar")
 boolean usingSingleJar = false
+
+final HashMap<String, String>[] excludes = new HashMap<String, String>[]{
+        ["group": "org.slf4j", "module": "slf4j-api"] as HashMap,
+        ["group": "com.google.code.gson", "module": "gson"] as HashMap,
+        ["group": "org.apache.logging.log4j", "module": "log4j-core"] as HashMap,
+        ["group": "org.apache.logging.log4j", "module": "log4j-api"] as HashMap,
+        ["group": "org.javassist", "module": "javassist"] as HashMap,
+        ["group": "com.google.errorprone", "module": "error_prone_annotations"] as HashMap,
+        ["group": "com.google.guava", "module": "guava"] as HashMap,
+        ["group": "com.google.guava", "module": "failureaccess"] as HashMap,
+        ["group": "com.google.guava", "module": "listenablefuture"] as HashMap,
+        ["group": "com.google.j2objc", "module": "j2objc-annotations"] as HashMap,
+        ["group": "org.jspecify", "module": "jspecify"] as HashMap,
+        ["group": "org.apache.commons", "module": "commons-compress"] as HashMap,
+        ["group": "org.apache.commons", "module": "commons-lang3"] as HashMap,
+        ["group": "commons-io", "module": "commons-io"] as HashMap,
+        ["group": "commons-codec", "module": "commons-codec"] as HashMap,
+        ["group": "com.google.code.findbugs", "module": "jsr305"] as HashMap,
+        ["group": "org.ow2.asm", "module": "asm"] as HashMap,
+        ["group": "org.ow2.asm", "module": "asm-tree"] as HashMap,
+        ["group": "org.ow2.asm", "module": "asm-commons"] as HashMap,
+        ["group": "org.ow2.asm", "module": "asm-analysis"] as HashMap,
+        ["group": "org.ow2.asm", "module": "asm-util"] as HashMap,
+        ["group": "net.jodah", "module": "typetools"] as HashMap,
+}
 
 dependencies {
 
@@ -116,9 +136,8 @@ dependencies {
     serverCompileOnly "org.jetbrains:annotations:24.0.0"
     commonCompileOnly "org.jetbrains:annotations:24.0.0"
 
-    allImpl("net.neoforged:bus:$eventbus_version") {
-        exclude group: "org.apache.logging.log4j", module: "log4j-api"
-    }
+    allImpl("net.neoforged:bus:$eventbus_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImpl("net.jodah:typetools:$typetools_version") { for (HashMap<String, String> map : excludes) exclude map }
 
     if (jitpackPuzzle) {
         clientBundle "com.github.PuzzlesHQ:puzzle-loader-core:$jpVersion:client"
@@ -143,46 +162,47 @@ dependencies {
     clientImplementation(sourceSets.common.output)
     serverImplementation(sourceSets.common.output)
 
-    allImplLoader "org.ow2.asm:asm:$asm_version"
-    allImplLoader "org.ow2.asm:asm-tree:$asm_version"
-    allImplLoader "org.ow2.asm:asm-util:$asm_version"
-    allImplLoader "org.ow2.asm:asm-analysis:$asm_version"
-    allImplLoader "org.ow2.asm:asm-commons:$asm_version"
+    allImplLoader ("io.sigpipe:jbsdiff:$jbsdiff_version") { for (HashMap<String, String> map : excludes) exclude map }
 
-    allImplLoader "dev.puzzleshq:puzzle-annotations:1.0.0"
-    allImplLoader "dev.puzzleshq:access-writer:1.0.4+c"
-    allImplLoader "dev.puzzleshq:mod-format-framework:1.1.1"
+    allImplLoader("net.fabricmc:sponge-mixin:$mixin_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader annotationProcessor("io.github.llamalad7:mixinextras-common:$mixin_extras_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:$mixin_squared_version")) { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader("com.github.PuzzlesHQ:mixinconstraints-java8:$mixin_constraints_version") { for (HashMap<String, String> map : excludes) exclude map }
 
-    allImplLoader "org.hjson:hjson:$hjson_version"
+    allImplLoader ("net.sf.jopt-simple:jopt-simple:$jopt_simple_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("com.google.guava:guava:$google_guava_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("com.google.code.gson:gson:$gson_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("org.javassist:javassist:$javassist_version") { for (HashMap<String, String> map : excludes) exclude map }
 
-    allImplLoader "org.reflections:reflections:$reflections_version"
+    allImplLoader ("com.github.villadora:semver:$semver_version") { for (HashMap<String, String> map : excludes) exclude map }
 
-    allImplLoader annotationProcessor("io.github.llamalad7:mixinextras-fabric:$mixin_extras_version")
-    allImplLoader("net.fabricmc:sponge-mixin:$mixin_version") {
-        exclude group: "com.google.code.gson", module: "gson"
-        exclude group: "com.google.guava", module: "guava"
-    }
-    commonBundle "net.sf.jopt-simple:jopt-simple:$jopt_simple_version"
-    commonBundle "com.google.guava:guava:$guava_version"
+    allImplLoader ("org.apache.logging.log4j:log4j-api:$log4j_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("org.apache.logging.log4j:log4j-core:$log4j_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("org.reflections:reflections:$reflections_version") { for (HashMap<String, String> map : excludes) exclude map }
 
-    allImplLoader "net.sf.jopt-simple:jopt-simple:$jopt_simple_version"
-    allImplLoader "org.apache.logging.log4j:log4j-api:$log4j_version"
-    allImplLoader "org.apache.logging.log4j:log4j-core:$log4j_version"
-    allImplLoader "org.apache.commons:commons-compress:1.28.0"
-    allImplLoader 'io.sigpipe:jbsdiff:1.0'
+    allImplLoader ("org.ow2.asm:asm:$asm_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("org.ow2.asm:asm-tree:$asm_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("org.ow2.asm:asm-util:$asm_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("org.ow2.asm:asm-analysis:$asm_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("org.ow2.asm:asm-commons:$asm_version") { for (HashMap<String, String> map : excludes) exclude map }
 
-    allImplLoader "com.github.villadora:semver:0.0.3"
+    allImplLoader ("dev.puzzleshq:puzzle-annotations:$puzzle_annotations_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("dev.puzzleshq:access-writer:$puzzle_access_writer_version" ) { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("dev.puzzleshq:mod-format-framework:$puzzle_mod_format_framework_version") { for (HashMap<String, String> map : excludes) exclude map }
 
-    // Paradox Stuff
-    allImplLoader "org.slf4j:slf4j-api:2.0.17"
-    allImplLoader 'org.apache.commons:commons-configuration2:2.12.0'
-    allImplLoader "com.mojang:brigadier:1.0.18"
-    allImplLoader "org.apache.logging.log4j:log4j-slf4j2-impl:2.19.0"
-    allImplLoader 'org.fusesource.jansi:jansi:2.2.0'
-    allImplLoader 'org.jline:jline:3.25.0'
-    allImplLoader 'commons-beanutils:commons-beanutils:1.9.4'
-    allImplLoader 'commons-logging:commons-logging:1.3.2'
-    allImplLoader 'commons-io:commons-io:2.15.1'
+    allImplLoader ("org.jspecify:jspecify:$jspecify_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("com.google.errorprone:error_prone_annotations:$google_error_prone_annotations_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("com.google.guava:failureaccess:$google_failureaccess_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("com.google.guava:listenablefuture:$google_listenablefuture_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("com.google.j2objc:j2objc-annotations:$google_j2objc_annotations_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("com.google.code.findbugs:jsr305:$google_findbugs_jsr305_version") { for (HashMap<String, String> map : excludes) exclude map }
+
+    allImplLoader ("org.apache.commons:commons-compress:$apache_commons_compress_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("org.apache.commons:commons-lang3:$apache_commons_lang3_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("commons-codec:commons-codec:$apache_commons_codec_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImplLoader ("commons-io:commons-io:$apache_commons_io_version") { for (HashMap<String, String> map : excludes) exclude map }
+
+    allImplLoader ("org.hjson:hjson:$hjson_version") {for (HashMap<String, String> map : excludes) exclude map }
 }
 
 var runDir = file("./run")
@@ -192,7 +212,7 @@ tasks.register("runClient", JavaExec) {
     classpath += sourceSets.common.runtimeClasspath
 
     args("--save-location=\"" + runDir.getAbsolutePath() + "\"");
-
+//    jvmArgs += '--add-opens=java.base/java.lang=ALL-UNNAMED'
     mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ClientPiece"
     if (!runDir.exists()) runDir.mkdirs()
     workingDir(runDir)

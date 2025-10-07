@@ -17,7 +17,7 @@ public class BlockModelGenerator {
     public String parentModel;
 
     public List<ModelCuboid> cuboids;
-    public Map<String, Identifier> textures;
+    public Map<String, ModelTexture> textures;
 
     public boolean isTransparent = false;
     public boolean canCullSelf = true;
@@ -55,7 +55,14 @@ public class BlockModelGenerator {
             String id,
             Identifier location
     ) {
-        this.textures.put(id, location);
+        this.textures.put(id, new ModelTexture(location));
+    }
+
+    public void addTexture(
+            String id,
+            ModelTexture texture
+    ) {
+        this.textures.put(id, texture);
     }
 
     public ModelCuboid createCuboid(
@@ -82,9 +89,11 @@ public class BlockModelGenerator {
         JsonObject textures = new JsonObject();
         if (parentModel != null) modelJson.add("parent", parentModel);
         modelJson.add("isTransparent", isTransparent);
-        for (Map.Entry<String, Identifier> texture : this.textures.entrySet()) {
+        for (Map.Entry<String, ModelTexture> texture : this.textures.entrySet()) {
             JsonObject textureObj = new JsonObject();
-            textureObj.add("fileName", texture.getValue().toString());
+            textureObj.add("fileName", texture.getValue().getRegularTexture().toString());
+            if (texture.getValue().getEmissiveTexture() != null)
+                textureObj.add("emissivefileName", texture.getValue().getEmissiveTexture().toString());
             textures.add(texture.getKey(), textureObj);
         }
         if (!textures.isEmpty())

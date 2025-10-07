@@ -1,11 +1,14 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.client;
 
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import dev.puzzleshq.annotation.documentation.Note;
 import dev.puzzleshq.annotation.stability.Experimental;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelCuboid;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelFace;
+import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelTexture;
+import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedModelLoader;
 import dev.puzzleshq.puzzleloader.loader.util.ReflectionUtil;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonCuboid;
@@ -13,6 +16,7 @@ import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonCuboidFace;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonTexture;
 import finalforeach.cosmicreach.util.Identifier;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +33,7 @@ public class BlockModelBuilder {
         this.name = name;
         try {
             modelJson = (BlockModelJson) ReflectionUtil.getConstructor(BlockModelJson.class).newInstance();
+            setPool(new OrderedMap<>());
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -38,18 +43,38 @@ public class BlockModelBuilder {
         this(generator.getName());
 
         modelJson.isTransparent = generator.isTransparent;
-        modelJson.cullsSelf = generator.canCullSelf;
+        // added to make sure the game does not crash if this gets removed, as we are unsure if this variable is used in the base game.
         try {
-            ReflectionUtil.getField(modelJson, "textures").set(modelJson, new OrderedMap<>());
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            throw new RuntimeException(e);
+            ReflectionUtil.getField(modelJson, "cullsSelf").set(modelJson, generator.canCullSelf);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            System.err.println("remove \"cullsSelf\" attribute in BlockModelBuilder and BlockModelGenerator as it has been removed from the base game!");
         }
 
-        for (Map.Entry<String, Identifier> entry : generator.textures.entrySet()) {
+        for (Map.Entry<String, ModelTexture> entry : generator.textures.entrySet()) {
             addTexture(entry.getKey(), entry.getValue());
         }
         for (ModelCuboid cuboid : generator.cuboids) {
             addCuboid(cuboid);
+        }
+        if (generator.parentModel != null) {
+            BlockModelJson parent = (BlockModelJson) ISidedModelLoader.getInstance().loadModel(generator.parentModel);
+
+            if (parent.getTextures() != null) {
+                for (ObjectMap.Entry<String, BlockModelJsonTexture> entry : parent.getTextures().entries()) {
+                    if (!modelJson.getTextures().containsKey(entry.key)) {
+                        modelJson.getTextures().put(entry.key, entry.value);
+                    }
+                }
+            }
+
+            if (generator.cuboids.isEmpty()) {
+                try {
+                    BlockModelJsonCuboid[] cuboids = (BlockModelJsonCuboid[]) ReflectionUtil.getField(BlockModelJson.class, "cuboids").get(modelJson);
+                    if (cuboids != null) for (BlockModelJsonCuboid cuboid : cuboids) addCuboid(cuboid);
+                } catch (IllegalAccessException | NoSuchFieldException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
@@ -61,9 +86,12 @@ public class BlockModelBuilder {
         }
     }
 
-    public void addTexture(String id, Identifier location) {
+    public void addTexture(String id, ModelTexture location) {
         BlockModelJsonTexture texture = new BlockModelJsonTexture();
-        texture.fileName = location.toString();
+        texture.fileName = location.getRegularTexture().toString();
+        if (location.getEmissiveTexture() != null) {
+            texture.emissivefileName = location.getEmissiveTexture().toString();
+        }
         modelJson.getTextures().put(id, texture);
     }
 
@@ -121,25 +149,24 @@ public class BlockModelBuilder {
     }
 
     public BlockModelJson build() {
-        try {
-            ReflectionUtil.getField(BlockModelJson.class, "cuboids").set(modelJson, cuboids.toArray(BlockModelJsonCuboid[]::new));
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
-
-        return modelJson;
+        return build(0, 0, 0);
     }
 
 
-    public BlockModelJson build(int x, int y, int z) {
+    public BlockModelJson build(int rotX, int rotY, int rotZ) {
         try {
             ReflectionUtil.getField(BlockModelJson.class, "cuboids").set(modelJson, cuboids.toArray(BlockModelJsonCuboid[]::new));
         } catch (IllegalAccessException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
+        try {
+            ReflectionUtil.getMethod(modelJson, "initialize", int.class, int.class, int.class).invoke(modelJson, rotX, rotY, rotZ);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
 
         try {
-            ReflectionUtil.getMethod(modelJson, "initialize", int.class, int.class, int.class).invoke(modelJson, x, y, z);
+            ReflectionUtil.getMethod(modelJson, "initShader").invoke(modelJson);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

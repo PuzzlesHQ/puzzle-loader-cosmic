@@ -7,31 +7,18 @@ import de.pottgames.tuningfork.*;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.connected.ClientSidedBlockConnector;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.connected.ISidedBlockConnector;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ClientSidedModelLoader;
-import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ClientSidedTextureLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedModelLoader;
-import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedTextureLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.util.IndependentAssetLoader;
 import dev.puzzleshq.puzzleloader.loader.LoaderConfig;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.client.ClientModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.client.ClientPostModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.client.ClientPreModInit;
-import dev.puzzleshq.puzzleloader.loader.transformers.GLFWTransformer;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWImage;
-import org.lwjgl.system.MemoryStack;
-import org.lwjgl.system.MemoryUtil;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.List;
 
 public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPostModInit {
@@ -50,7 +37,6 @@ public class ClientPuzzle implements ClientPreModInit, ClientModInit, ClientPost
     @Override
     public void onClientPreInit() {
         ISidedModelLoader.CONTEXTUAL_INSTANCE.set(new ClientSidedModelLoader());
-        ISidedTextureLoader.CONTEXTUAL_INSTANCE.set(new ClientSidedTextureLoader());
         ISidedBlockConnector.CONTEXTUAL_INSTANCE.set(new ClientSidedBlockConnector());
 
         IndependentAssetLoader.registerLoadingMethod(Pixmap.class, (handle) -> {

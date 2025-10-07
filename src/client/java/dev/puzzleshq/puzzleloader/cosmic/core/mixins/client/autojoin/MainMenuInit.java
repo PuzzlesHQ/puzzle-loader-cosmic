@@ -36,7 +36,7 @@ public class MainMenuInit extends GameState {
                 String worldFileContents = Gdx.files.absolute(worldInfoFile.getAbsolutePath()).readString(StandardCharsets.UTF_8.name());
                 World world = puzzle_loader_cosmic$JSON.fromJson(World.class, worldFileContents);
                 world.worldFolderName = CommonPuzzle.autoJoinWorldName;
-                LoadingGame.switchToLoadingState();
+                LoadingGame.switchToLoadingState(() -> {});
                 Threads.runOnMainThread(() -> GameState.IN_GAME.loadWorld(world.worldFolderName));
             }
             puzzle_loader_cosmic$wasLoaded = true;

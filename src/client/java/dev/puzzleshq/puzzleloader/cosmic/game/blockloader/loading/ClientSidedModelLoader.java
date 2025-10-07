@@ -9,6 +9,7 @@ import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
 import finalforeach.cosmicreach.util.Identifier;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,25 +17,6 @@ import java.util.Map;
 public class ClientSidedModelLoader implements ISidedModelLoader {
 
     private static final Map<ModelKey, BlockModel> CLIENT_MODEL_CACHE = new HashMap<>();
-
-    public BlockModelJson loadModelExperimental(BlockModelBuilder builder, float[] rotation) {
-        ModelKey key = new ModelKey(builder.getName(), (int) rotation[0], (int) rotation[1], (int) rotation[2]);
-        if (CLIENT_MODEL_CACHE.containsKey(key)) return (BlockModelJson) CLIENT_MODEL_CACHE.get(key);
-
-        BlockModelJson json = builder.build((int) rotation[0], (int) rotation[1], (int) rotation[2]);
-        CLIENT_MODEL_CACHE.put(key, json);
-        return json;
-    }
-
-    public BlockModelJson loadModelExperimental(BlockModelGenerator generator, float[] rotation) {
-        ModelKey key = new ModelKey(generator.getName(), (int) rotation[0], (int) rotation[1], (int) rotation[2]);
-        if (CLIENT_MODEL_CACHE.containsKey(key)) return (BlockModelJson) CLIENT_MODEL_CACHE.get(key);
-
-        BlockModelBuilder builder = new BlockModelBuilder(generator);
-        BlockModelJson json = builder.build((int) rotation[0], (int) rotation[1], (int) rotation[2]);
-        CLIENT_MODEL_CACHE.put(key, json);
-        return json;
-    }
 
     @Override
     public boolean hasModel(String name, float[] rotation) {
@@ -45,7 +27,7 @@ public class ClientSidedModelLoader implements ISidedModelLoader {
     @Override
     public void loadModel(BlockModelGenerator modelGenerator, boolean coverAllRotations) {
         if (!coverAllRotations) {
-            loadModel(modelGenerator.getName(), modelGenerator.toString(), State.DEFAULT_ROTATION);
+            setCulling(loadModel(modelGenerator.getName(), modelGenerator.toString(), State.DEFAULT_ROTATION), modelGenerator);
             return;
         }
 
@@ -57,7 +39,7 @@ public class ClientSidedModelLoader implements ISidedModelLoader {
                     floats[0] = x;
                     floats[1] = y;
                     floats[2] = z;
-                    loadModel(modelGenerator.getName(), modelGenerator.toString(), floats);
+                    setCulling(loadModel(modelGenerator.getName(), modelGenerator.toString(), floats), modelGenerator);
                 }
             }
         }
@@ -66,7 +48,7 @@ public class ClientSidedModelLoader implements ISidedModelLoader {
     @Override
     public void loadModel(BlockModelGenerator modelGenerator, boolean coverAllRotations, boolean override) {
         if (!coverAllRotations) {
-            loadModel(modelGenerator.getName(), modelGenerator.toString(), State.DEFAULT_ROTATION, override);
+            setCulling(loadModel(modelGenerator.getName(), modelGenerator.toString(), State.DEFAULT_ROTATION, override), modelGenerator);
             return;
         }
 
@@ -78,20 +60,31 @@ public class ClientSidedModelLoader implements ISidedModelLoader {
                     floats[0] = x;
                     floats[1] = y;
                     floats[2] = z;
-                    loadModel(modelGenerator.getName(), modelGenerator.toString(), floats, override);
+                    setCulling(loadModel(modelGenerator.getName(), modelGenerator.toString(), floats, override), modelGenerator);
                 }
             }
         }
     }
 
+    private static BlockModel setCulling(BlockModel model, BlockModelGenerator modelGenerator) {
+        // added to make sure the game does not crash if this gets removed, as we are unsure if this variable is used in the base game.
+        try {
+            Field field = ReflectionUtil.getField(model, "cullsSelf");
+            field.set(model, modelGenerator.canCullSelf);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            System.err.println("remove \"cullsSelf\" attribute in BlockModelBuilder and BlockModelGenerator as it has been removed from the base game!");
+        }
+        return model;
+    }
+
     @Override
     public BlockModel loadModel(BlockModelGenerator modelGenerator, float[] rotation) {
-        return loadModel(modelGenerator.getName(), modelGenerator.toString(), rotation, false);
+        return setCulling(loadModel(modelGenerator.getName(), modelGenerator.toString(), rotation, false), modelGenerator);
     }
 
     @Override
     public BlockModel loadModel(BlockModelGenerator modelGenerator, float[] rotation, boolean override) {
-        return loadModel(modelGenerator.getName(), modelGenerator.toString(), rotation, override);
+        return setCulling(loadModel(modelGenerator.getName(), modelGenerator.toString(), rotation, override), modelGenerator);
     }
 
     private BlockModel fromJson(String json, float[] rotation) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {

@@ -23,10 +23,12 @@ public class PuzzleIcons {
 
     static GLFWImage.Buffer imageBuf;
     public static void disposeIcon() {
+        if (imageBuf == null) return;
         imageBuf.free();
     }
 
     public static void setIcon() {
+        if (imageBuf == null) return;
         GLFW.glfwSetWindowIcon(window, imageBuf);
     }
 

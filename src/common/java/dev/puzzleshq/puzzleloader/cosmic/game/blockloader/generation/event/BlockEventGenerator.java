@@ -100,7 +100,7 @@ public class BlockEventGenerator implements HJsonSerializable {
 
         if (GENERATOR_MAP.get(parentId) != null) return GENERATOR_MAP.get(parentId);
         String ns = parentId.getNamespace();
-        String path = "block_events/" + parentId.getName() + ".json";
+        String path = "/game_events/block_events/" + parentId.getName() + ".json";
 
         FileHandle handle = GameAssetLoader.loadAsset(Identifier.of(ns, path));
         return BlockEventReader.fromString(handle.readString());
