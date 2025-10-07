@@ -433,3 +433,8 @@ tasks.register("mkDeps") {
 
     file.write(object.toString(Stringify.FORMATTED))
 }
+
+wrapper {
+    gradleVersion = "8.14"
+    distributionType = Wrapper.DistributionType.ALL
+}
