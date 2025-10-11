@@ -48,7 +48,7 @@ repositories {
         url 'https://jitpack.io' 
     }
     maven {
-        name = 'Goofle'
+        name = 'Google'
         url "https://maven.google.com/" 
     }
     maven {
