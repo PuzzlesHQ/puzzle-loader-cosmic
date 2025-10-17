@@ -113,9 +113,9 @@ boolean jitpackPuzzle = false;
 
 String jpVersion = "79a4fd9a75"
 //String centralVersion = "0.0.0-alpha"
-String centralVersion = "1.3.0-alpha"
+String centralVersion = "1.3.1-alpha"
 
-final String crVersion = "0.5.5-alpha"
+final String crVersion = "0.5.7-alpha"
 
 var jar = files("./lib/Cosmic-Reach-0.4.17b.jar")
 boolean usingSingleJar = false
