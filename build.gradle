@@ -5,9 +5,12 @@ import org.hjson.Stringify
 
 plugins {
     id 'java'
+    id 'jigsaw-cosmic-reach'
     id 'maven-publish'
-    id("io.github.sgtsilvio.gradle.maven-central-publishing") version "0.4.0"
-    id 'com.gradleup.shadow' version '8.3.6'
+}
+
+jigsawGame {
+    splitSourceSets()
 }
 
 def ref = System.getenv("GITHUB_REF")
@@ -67,6 +70,10 @@ repositories {
         name "neoforged"
         url "https://maven.neoforged.net/release"
     }
+    maven {
+        name = 'Puzzle'
+        url = 'https://maven.puzzleshq.dev/releases/'
+    }
 }
 
 sourceSets {
@@ -87,179 +94,26 @@ configurations {
     commonImplementation.extendsFrom(allImpl)
     serverImplementation.extendsFrom(allImpl)
 
-    allImplLoader
-    clientImplementation.extendsFrom(allImplLoader)
-    commonImplementation.extendsFrom(allImplLoader)
-    serverImplementation.extendsFrom(allImplLoader)
+    clientDependency
+    serverDependency
+    commonDependency
 
-    clientBundle
-    commonBundle
-    serverBundle
-
-    clientImplementation.extendsFrom(clientBundle)
-    commonImplementation.extendsFrom(commonBundle)
-    serverImplementation.extendsFrom(serverBundle)
-
-    clientInternal
-    serverInternal
-
-    clientImplementation.extendsFrom(clientInternal)
-    serverImplementation.extendsFrom(serverInternal)
-    serverImplementation.extendsFrom(commonBundle)
-
-}
-
-boolean jitpackPuzzle = false;
-
-String jpVersion = "79a4fd9a75"
-//String centralVersion = "0.0.0-alpha"
-String centralVersion = "1.3.1-alpha"
-
-final String crVersion = "0.5.7-alpha"
-
-var jar = files("./lib/Cosmic-Reach-0.4.17b.jar")
-boolean usingSingleJar = false
-
-final HashMap<String, String>[] excludes = new HashMap<String, String>[]{
-        ["group": "org.slf4j", "module": "slf4j-api"] as HashMap,
-        ["group": "com.google.code.gson", "module": "gson"] as HashMap,
-        ["group": "org.apache.logging.log4j", "module": "log4j-core"] as HashMap,
-        ["group": "org.apache.logging.log4j", "module": "log4j-api"] as HashMap,
-        ["group": "org.javassist", "module": "javassist"] as HashMap,
-        ["group": "com.google.errorprone", "module": "error_prone_annotations"] as HashMap,
-        ["group": "com.google.guava", "module": "guava"] as HashMap,
-        ["group": "com.google.guava", "module": "failureaccess"] as HashMap,
-        ["group": "com.google.guava", "module": "listenablefuture"] as HashMap,
-        ["group": "com.google.j2objc", "module": "j2objc-annotations"] as HashMap,
-        ["group": "org.jspecify", "module": "jspecify"] as HashMap,
-        ["group": "org.apache.commons", "module": "commons-compress"] as HashMap,
-        ["group": "org.apache.commons", "module": "commons-lang3"] as HashMap,
-        ["group": "commons-io", "module": "commons-io"] as HashMap,
-        ["group": "commons-codec", "module": "commons-codec"] as HashMap,
-        ["group": "com.google.code.findbugs", "module": "jsr305"] as HashMap,
-        ["group": "org.ow2.asm", "module": "asm"] as HashMap,
-        ["group": "org.ow2.asm", "module": "asm-tree"] as HashMap,
-        ["group": "org.ow2.asm", "module": "asm-commons"] as HashMap,
-        ["group": "org.ow2.asm", "module": "asm-analysis"] as HashMap,
-        ["group": "org.ow2.asm", "module": "asm-util"] as HashMap,
-        ["group": "net.jodah", "module": "typetools"] as HashMap,
 }
 
 dependencies {
 
-    clientCompileOnly "org.jetbrains:annotations:24.0.0"
-    serverCompileOnly "org.jetbrains:annotations:24.0.0"
-    commonCompileOnly "org.jetbrains:annotations:24.0.0"
+    allCompileOnly "org.jetbrains:annotations:24.0.0"
 
-    allImpl("net.neoforged:bus:$eventbus_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImpl("net.jodah:typetools:$typetools_version") { for (HashMap<String, String> map : excludes) exclude map }
+    allImpl("net.neoforged:bus:$eventbus_version")
+    allImpl("net.jodah:typetools:$typetools_version")
 
-    if (jitpackPuzzle) {
-        clientBundle "com.github.PuzzlesHQ:puzzle-loader-core:$jpVersion:client"
-        serverBundle "com.github.PuzzlesHQ:puzzle-loader-core:$jpVersion:server"
-        allImpl("com.github.PuzzlesHQ:puzzle-loader-core:$jpVersion:common")
-    } else {
-        clientBundle "dev.puzzleshq:puzzle-loader-core:$centralVersion:client"
-        serverBundle "dev.puzzleshq:puzzle-loader-core:$centralVersion:server"
-        allImpl("dev.puzzleshq:puzzle-loader-core:$centralVersion:common")
-    }
+    cosmicReach("finalforeach:cosmic-reach:${cosmic_reach_version}")
+    puzzleLoader("dev.puzzleshq:puzzle-loader-core:${puzzle_core_version}")
 
-    if (usingSingleJar) {
-        clientImplementation(jar)
-        commonImplementation(jar)
-        serverImplementation(jar)
-    } else {
-        clientImplementation("finalforeach:cosmic-reach:$crVersion:client")
-        commonImplementation("finalforeach:cosmic-reach:$crVersion:server")
-        serverImplementation("finalforeach:cosmic-reach:$crVersion:server")
-    }
-
-    clientImplementation(sourceSets.common.output)
-    serverImplementation(sourceSets.common.output)
-
-    allImplLoader ("io.sigpipe:jbsdiff:$jbsdiff_version") { for (HashMap<String, String> map : excludes) exclude map }
-
-    allImplLoader("net.fabricmc:sponge-mixin:$mixin_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader annotationProcessor("io.github.llamalad7:mixinextras-common:$mixin_extras_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:$mixin_squared_version")) { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader("com.github.PuzzlesHQ:mixinconstraints-java8:$mixin_constraints_version") { for (HashMap<String, String> map : excludes) exclude map }
-
-    allImplLoader ("net.sf.jopt-simple:jopt-simple:$jopt_simple_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("com.google.guava:guava:$google_guava_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("com.google.code.gson:gson:$gson_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("org.javassist:javassist:$javassist_version") { for (HashMap<String, String> map : excludes) exclude map }
-
-    allImplLoader ("com.github.villadora:semver:$semver_version") { for (HashMap<String, String> map : excludes) exclude map }
-
-    allImplLoader ("org.apache.logging.log4j:log4j-api:$log4j_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("org.apache.logging.log4j:log4j-core:$log4j_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("org.reflections:reflections:$reflections_version") { for (HashMap<String, String> map : excludes) exclude map }
-
-    allImplLoader ("org.ow2.asm:asm:$asm_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("org.ow2.asm:asm-tree:$asm_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("org.ow2.asm:asm-util:$asm_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("org.ow2.asm:asm-analysis:$asm_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("org.ow2.asm:asm-commons:$asm_version") { for (HashMap<String, String> map : excludes) exclude map }
-
-    allImplLoader ("dev.puzzleshq:puzzle-annotations:$puzzle_annotations_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("dev.puzzleshq:access-writer:$puzzle_access_writer_version" ) { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("dev.puzzleshq:mod-format-framework:$puzzle_mod_format_framework_version") { for (HashMap<String, String> map : excludes) exclude map }
-
-    allImplLoader ("org.jspecify:jspecify:$jspecify_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("com.google.errorprone:error_prone_annotations:$google_error_prone_annotations_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("com.google.guava:failureaccess:$google_failureaccess_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("com.google.guava:listenablefuture:$google_listenablefuture_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("com.google.j2objc:j2objc-annotations:$google_j2objc_annotations_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("com.google.code.findbugs:jsr305:$google_findbugs_jsr305_version") { for (HashMap<String, String> map : excludes) exclude map }
-
-    allImplLoader ("org.apache.commons:commons-compress:$apache_commons_compress_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("org.apache.commons:commons-lang3:$apache_commons_lang3_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("commons-codec:commons-codec:$apache_commons_codec_version") { for (HashMap<String, String> map : excludes) exclude map }
-    allImplLoader ("commons-io:commons-io:$apache_commons_io_version") { for (HashMap<String, String> map : excludes) exclude map }
-
-    allImplLoader ("org.hjson:hjson:$hjson_version") {for (HashMap<String, String> map : excludes) exclude map }
-}
-
-var runDir = file("./run")
-
-tasks.register("runClient", JavaExec) {
-    classpath += sourceSets.client.runtimeClasspath
-    classpath += sourceSets.common.runtimeClasspath
-
-    args("--save-location=\"" + runDir.getAbsolutePath() + "\"");
-//    jvmArgs += '--add-opens=java.base/java.lang=ALL-UNNAMED'
-    mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ClientPiece"
-    if (!runDir.exists()) runDir.mkdirs()
-    workingDir(runDir)
-}
-
-tasks.register("runVanillaClient", JavaExec) {
-    classpath += sourceSets.client.runtimeClasspath
-    classpath += sourceSets.common.runtimeClasspath
-
-    mainClass = "finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher"
-    if (!runDir.exists()) runDir.mkdirs()
-    workingDir(runDir)
-}
-
-tasks.register("runServer", JavaExec) {
-    classpath += sourceSets.server.runtimeClasspath
-    classpath += sourceSets.common.runtimeClasspath
-
-    args("--save-location=\"" + runDir.getAbsolutePath() + "\"");
-
-    mainClass = "dev.puzzleshq.puzzleloader.loader.launch.pieces.ServerPiece"
-    if (!runDir.exists()) runDir.mkdirs()
-    workingDir(runDir)
-}
-
-tasks.register("runVanillaServer", JavaExec) {
-    classpath += sourceSets.server.runtimeClasspath
-    classpath += sourceSets.common.runtimeClasspath
-
-    mainClass = "finalforeach.cosmicreach.server.ServerLauncher"
-    if (!runDir.exists()) runDir.mkdirs()
-    workingDir(runDir)
+    // just for dependencies.json
+    clientDependency "dev.puzzleshq:puzzle-loader-core:${puzzle_core_version}:client"
+    commonDependency "dev.puzzleshq:puzzle-loader-core:${puzzle_core_version}:common"
+    serverDependency "dev.puzzleshq:puzzle-loader-core:${puzzle_core_version}:server"
 }
 
 java {
@@ -270,35 +124,14 @@ java {
     targetCompatibility = '17'
 }
 
-tasks.register("buildServerJar", com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
-    mergeServiceFiles()
-
-    archiveClassifier = "server"
-    from sourceSets.server.output
-}
-
 tasks.register("buildServerSourcesJar", Jar) {
     from sourceSets.server.allSource
     archiveClassifier = "server-sources"
 }
 
-tasks.register("buildClientJar", com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
-    mergeServiceFiles()
-
-    archiveClassifier = "client"
-    from sourceSets.client.output
-}
-
 tasks.register("buildClientSourcesJar", Jar) {
     from sourceSets.client.allSource
     archiveClassifier = "client-sources"
-}
-
-tasks.register("buildCommonJar", com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
-    mergeServiceFiles()
-
-    archiveClassifier = "common"
-    from sourceSets.common.output
 }
 
 tasks.register("buildCommonSourcesJar", Jar) {
@@ -429,8 +262,9 @@ tasks.register("mkDeps") {
     File file = new File("$projectDir/dependencies.json")
 
     JsonObject object = new JsonObject();
-    add("client", object, configurations.clientBundle, "implementation")
-    add("server", object, configurations.serverBundle, "implementation")
+    add("client", object, configurations.clientDependency, "implementation")
+    add("server", object, configurations.serverDependency, "implementation")
+    add("common", object, configurations.commonDependency, "implementation")
     add("common", object, configurations.allImpl, "implementation")
 
     JsonArray repos = new JsonArray()

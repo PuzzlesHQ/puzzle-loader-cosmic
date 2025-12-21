@@ -1,1 +1,26 @@
+buildscript {
+    repositories {
+        maven {
+            name "JitPack"
+            url "https://jitpack.io"
+        }
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        maven {
+            name = 'Puzzle'
+            url = 'https://maven.puzzleshq.dev/releases/'
+        }
+        mavenCentral()
+        gradlePluginPortal()
+        mavenLocal()
+    }
+    dependencies {
+        classpath ("dev.puzzleshq:jigsaw-suite:$puzzle_jigsaw_suite_version") {
+            changing: true
+        }
+    }
+}
+
 rootProject.name = p_id
