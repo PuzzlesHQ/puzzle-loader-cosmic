@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "MixinCommand",
+    "MixinGameAssetLoader",
     "MixinGameEvents",
     "MixinGamePacket",
     "MixinProtocolSyncPacket",
