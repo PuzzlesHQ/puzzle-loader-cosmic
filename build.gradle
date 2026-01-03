@@ -225,6 +225,11 @@ publishing {
     }
 }
 
+tasks.publishMavenPublicationToPuzzleHQsMavenRepository.dependsOn(tasks.transformJars)
+tasks.publishMavenPublicationToPuzzleHQsMavenRepository.mustRunAfter(tasks.transformJars)
+tasks.publishMavenPublicationToMavenCentral.dependsOn(tasks.transformJars)
+tasks.publishMavenPublicationToMavenCentral.mustRunAfter(tasks.transformJars)
+
 if (ref != null) {
     signing {
         useGpgCmd()
