@@ -179,11 +179,12 @@
 			"dependencies": "https://github.com/PuzzlesHQ/puzzle-loader-cosmic/releases/download/1.5.2-alpha/dependencies.json"
 		},
 		"1.5.3-alpha": {
-			"epoch": 1767477293,
-			"date": "2026/01/03T21:54:53",
+			"epoch": 1767477927,
+			"date": "2026/01/03T22:05:27",
 			"id": "1.5.3-alpha",
 			"phase": "alpha",
 			"maven-central": "dev.puzzleshq:puzzle-loader-cosmic:1.5.3-alpha",
+			"maven-puzzle": "dev.puzzleshq:puzzle-loader-cosmic:1.5.3-alpha",
 			"maven-jitpack": "com.github.PuzzlesHQ:puzzle-loader-cosmic:1.5.3-alpha",
 			"dependencies": "https://github.com/PuzzlesHQ/puzzle-loader-cosmic/releases/download/1.5.3-alpha/dependencies.json"
 		}
