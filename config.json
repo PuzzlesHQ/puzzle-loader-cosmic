@@ -1,8 +1,10 @@
 {
   "uses-maven-central": true,
+  "uses-maven-puzzle": true,
   "uses-jitpack": true,
   "uses-gradle-dependencies-json": true,
 
   "jitpack-location":"com.github.PuzzlesHQ:puzzle-loader-cosmic:",
   "maven-central-location":"dev.puzzleshq:puzzle-loader-cosmic:"
+  "maven-puzzle-location":"dev.puzzleshq:puzzle-loader-cosmic:"
 }
