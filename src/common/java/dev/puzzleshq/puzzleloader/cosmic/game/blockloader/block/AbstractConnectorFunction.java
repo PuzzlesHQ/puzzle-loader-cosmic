@@ -85,7 +85,7 @@ public abstract class AbstractConnectorFunction implements ISidedBlockConnector.
         String textureId = parentModelGenerator.textures.containsKey("x" + textureMode.getTextureNum(i)) ? "x" + textureMode.getMiniTextureId.apply(i) : "xError";
         String dir = ("LOCAL_" + direction.name());
 
-        ModelCuboid cuboid = connectedModelGenerator.cuboids.getFirst();
+        ModelCuboid cuboid = connectedModelGenerator.cuboids.get(0);
         for (int j = 0; j < 6; j++) cuboid.faces[j] = null;
         try {
             int id = (int) ModelCuboid.class.getField(dir).get(null);

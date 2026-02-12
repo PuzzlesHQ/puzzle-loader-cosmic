@@ -7,7 +7,7 @@ import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.LoadingGame;
 import finalforeach.cosmicreach.gamestates.MainMenu;
-import finalforeach.cosmicreach.io.SaveLocation;
+import finalforeach.cosmicreach.util.SaveLocation;
 import finalforeach.cosmicreach.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

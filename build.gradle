@@ -25,8 +25,8 @@ String envRepo = System.getenv("MAVEN_REPO");
 String mavenRepo = envRepo != null ? envRepo : "releases";
 
 java {
-    sourceCompatibility = '17'
-    targetCompatibility = '17'
+    sourceCompatibility = '24'
+    targetCompatibility = '24'
 }
 
 repositories {

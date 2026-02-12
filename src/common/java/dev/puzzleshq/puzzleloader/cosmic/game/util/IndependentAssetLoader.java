@@ -3,8 +3,8 @@ package dev.puzzleshq.puzzleloader.cosmic.game.util;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.files.FileHandle;
 import dev.puzzleshq.puzzleloader.loader.util.RawAssetLoader;
-import finalforeach.cosmicreach.io.SaveLocation;
 import finalforeach.cosmicreach.util.Identifier;
+import finalforeach.cosmicreach.util.SaveLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

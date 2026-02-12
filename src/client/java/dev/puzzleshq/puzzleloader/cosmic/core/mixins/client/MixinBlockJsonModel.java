@@ -4,11 +4,13 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedModelLoa
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(BlockModelJson.class)
 public class MixinBlockJsonModel {
 
-    private static final float[] xyz = new float[3];
+    @Unique
+    private static final float[] puzzle_loader_cosmic$xyz = new float[3];
 
     /**
      * @author Mr_Zombii
@@ -16,10 +18,10 @@ public class MixinBlockJsonModel {
      */
     @Overwrite
     public static BlockModelJson getInstance(String modelName, int rotX, int rotY, int rotZ) {
-        xyz[0] = rotX;
-        xyz[1] = rotY;
-        xyz[2] = rotZ;
-        return (BlockModelJson) ISidedModelLoader.getInstance().loadModel(modelName, xyz);
+        puzzle_loader_cosmic$xyz[0] = rotX;
+        puzzle_loader_cosmic$xyz[1] = rotY;
+        puzzle_loader_cosmic$xyz[2] = rotZ;
+        return (BlockModelJson) ISidedModelLoader.getInstance().loadModel(modelName, puzzle_loader_cosmic$xyz);
     }
 
     /**
