@@ -4,7 +4,7 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.client.BlockModelBuild
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.State;
 import dev.puzzleshq.puzzleloader.loader.util.ReflectionUtil;
-import finalforeach.cosmicreach.GameAssetLoader;
+import finalforeach.cosmicreach.util.assets.GameAssetLoader;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
 import finalforeach.cosmicreach.util.Identifier;

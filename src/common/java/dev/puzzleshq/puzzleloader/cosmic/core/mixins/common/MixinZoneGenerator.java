@@ -16,16 +16,16 @@ import java.util.function.Supplier;
 @Mixin(ZoneGenerator.class)
 public abstract class MixinZoneGenerator {
     @Shadow
-    public static void registerZoneGenerator(ZoneGenerator zoneGenerator) {}
+    public static void registerZoneGenerator(String saveKey, Supplier<ZoneGenerator> zoneGeneratorSupplier) {}
 
-    @Inject(method = "registerZoneGenerators", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/worldgen/ZoneGenerator;registerZoneGenerator(Lfinalforeach/cosmicreach/worldgen/ZoneGenerator;)V", ordinal = 0))
+    @Inject(method = "registerZoneGenerators", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/worldgen/ZoneGenerator;registerZoneGenerator(Ljava/lang/String;Ljava/util/function/Supplier;)V", ordinal = 0))
     private static void registerZoneGenerators(CallbackInfo ci) {
         List<Supplier<ZoneGenerator>> zoneGenerators = new ArrayList<>();
 
         GameRegistries.COSMIC_EVENT_BUS.post(new EventRegisterZoneGenerator(zoneGenerators));
 
         for (Supplier<ZoneGenerator> generatorSupplier : zoneGenerators) {
-            registerZoneGenerator(generatorSupplier.get());
+            registerZoneGenerator(generatorSupplier.get().getSaveKey(), generatorSupplier);
         }
 
     }

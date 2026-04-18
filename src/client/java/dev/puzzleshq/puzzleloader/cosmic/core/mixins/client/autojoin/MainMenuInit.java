@@ -3,7 +3,7 @@ package dev.puzzleshq.puzzleloader.cosmic.core.mixins.client.autojoin;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import dev.puzzleshq.puzzleloader.cosmic.game.CommonPuzzle;
-import finalforeach.cosmicreach.Threads;
+import finalforeach.cosmicreach.util.Threads;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.LoadingGame;
 import finalforeach.cosmicreach.gamestates.MainMenu;

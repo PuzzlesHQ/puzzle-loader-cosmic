@@ -2,7 +2,7 @@ package dev.puzzleshq.puzzleloader.cosmic.core.mixins.common;
 
 import dev.puzzleshq.mod.api.IModContainer;
 import dev.puzzleshq.puzzleloader.loader.util.ModFinder;
-import finalforeach.cosmicreach.util.GameAssetLoaderUtils;
+import finalforeach.cosmicreach.util.assets.GameAssetLoaderUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
