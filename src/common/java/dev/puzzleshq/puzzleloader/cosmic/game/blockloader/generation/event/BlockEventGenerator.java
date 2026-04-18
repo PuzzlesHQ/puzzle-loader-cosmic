@@ -3,7 +3,7 @@ package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event;
 import com.badlogic.gdx.files.FileHandle;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.InjectedBlockAction;
 import dev.puzzleshq.puzzleloader.cosmic.game.util.HJsonSerializable;
-import finalforeach.cosmicreach.GameAssetLoader;
+import finalforeach.cosmicreach.util.assets.GameAssetLoader;
 import finalforeach.cosmicreach.gameevents.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.util.Identifier;
 import org.hjson.JsonObject;
