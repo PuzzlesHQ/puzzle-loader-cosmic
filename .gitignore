@@ -16,5 +16,6 @@
 
 /run
 
-/puzzle-query-language/build
 /lib
+/src/common/java/dev/puzzleshq/puzzleloader/cosmic/game/blockloader/generation/model/interfaces/*.java
+/src/common/java/dev/puzzleshq/puzzleloader/cosmic/game/blockloader/generation/model/interfaces/impl/**.java

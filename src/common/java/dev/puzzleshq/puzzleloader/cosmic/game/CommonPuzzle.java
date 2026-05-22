@@ -11,7 +11,6 @@ import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts.CTSIdentificati
 import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts.CTSModlistPacket;
 import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.stc.STCModlistRequestPacket;
 import dev.puzzleshq.puzzleloader.loader.LoaderConfig;
-import dev.puzzleshq.puzzleloader.loader.LoaderConstants;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.ModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PostModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PreModInit;

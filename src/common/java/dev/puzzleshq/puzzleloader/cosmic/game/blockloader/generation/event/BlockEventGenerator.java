@@ -10,6 +10,7 @@ import org.hjson.JsonObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
@@ -115,18 +116,14 @@ public class BlockEventGenerator implements HJsonSerializable {
         }
     }
 
+    public void add(String group, Consumer<BlockEventArgs> consumer) {
+        inject(-1, group, consumer);
+    }
+
     public void inject(int index, String group, Consumer<BlockEventArgs> argsConsumer) {
-        long id = System.nanoTime();
-
-        InjectedBlockAction.CONSUMER_MAP.put(id, argsConsumer);
-
         TriggerGroup group1 = getTriggerGroup(group);
         if (group1 == null) group1 = createTriggerGroup(group);
-
-        Trigger trigger = new Trigger("puzzle:injected_method").setParameter("injected_method_id", id);
-
-        if (index == -1) group1.triggers.addLast(trigger);
-        else group1.triggers.add(index, trigger);
+        group1.inject(index, argsConsumer);
     }
 
     public void setParent(Identifier id) {

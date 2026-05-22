@@ -1,9 +1,11 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model;
 
+import dev.puzzleshq.annotation.documentation.Note;
 import dev.puzzleshq.puzzleloader.cosmic.game.util.HJsonSerializable;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
 
+@Note("This class is subject to change as I refactor the block model package")
 public class ModelFace implements HJsonSerializable {
 
     public float[] uv = new float[]{0, 0, 16, 16};

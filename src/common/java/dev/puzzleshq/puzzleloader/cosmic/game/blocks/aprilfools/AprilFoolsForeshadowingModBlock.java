@@ -35,7 +35,7 @@ public class AprilFoolsForeshadowingModBlock extends AbstractModBlock {
 
         eventGenerator = new BlockEventGenerator(BlockEventGenerator.DEFAULT_BLOCK_EVENTS_ID, Identifier.of("puzzle", "foreshadowing_event"));
         eventGenerator.inheritParentContents();
-        eventGenerator.inject(-1, "onInteract", this::onInteract);
+        eventGenerator.add("onInteract", this::onInteract);
     }
 
     @Override

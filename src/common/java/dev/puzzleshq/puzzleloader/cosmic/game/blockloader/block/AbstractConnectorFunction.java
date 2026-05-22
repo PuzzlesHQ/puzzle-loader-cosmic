@@ -38,16 +38,18 @@ public abstract class AbstractConnectorFunction implements ISidedBlockConnector.
     int loopCount;
     BlockModelGenerator connectedModelGenerator;
 
+    public static final String GENERATED_MODEL_PREFIX = "MODEL_CONNECTED_BLOCKS_";
+
     public AbstractConnectorFunction(
             Identifier id,
             TextureModes mode
     ) {
         setMode(mode);
 
-        texturePath = Identifier.of("connected-textures-" + id.getNamespace(), id.getName() + "/states/");
-        defaultModelName = "model_connected_textures-|-" + id.getName() + "-|-base-block";
-        parentModelName = "model_connected_textures-|-" + id.getName() + "-|-texture-cache";
-        templateModelName = "model_connected_textures_bordered-|-" + id.getName() + "-|-d+%s-v+%d";
+        texturePath = Identifier.of(id.getNamespace(), "textures/blocks/" + id.getName() + "/states/");
+        defaultModelName = GENERATED_MODEL_PREFIX + id.getName() + "-|-base-block";
+        parentModelName = GENERATED_MODEL_PREFIX + id.getName() + "-|-texture-cache";
+        templateModelName = GENERATED_MODEL_PREFIX + id.getName() + "-|-d+%s-v+%d";
 
         parentModelGenerator = new BlockModelGenerator(parentModelName);
 

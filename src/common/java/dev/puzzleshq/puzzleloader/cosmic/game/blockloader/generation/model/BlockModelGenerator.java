@@ -1,6 +1,7 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model;
 
 import com.badlogic.gdx.math.Vector3;
+import dev.puzzleshq.annotation.documentation.Note;
 import finalforeach.cosmicreach.util.Identifier;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
@@ -12,11 +13,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+@Note("This class is subject to change as I refactor the block model package")
 public class BlockModelGenerator {
 
     public String parentModel;
 
     public List<ModelCuboid> cuboids;
+    public List<ModelPlane> planes;
     public Map<String, ModelTexture> textures;
 
     public boolean isTransparent = false;
@@ -30,6 +33,7 @@ public class BlockModelGenerator {
 
     public BlockModelGenerator(String parentModel, String name) {
         this.cuboids = new ArrayList<>();
+        this.planes = new ArrayList<>();
         this.textures = new HashMap<>();
 
         this.parentModel = parentModel;
@@ -63,6 +67,13 @@ public class BlockModelGenerator {
             ModelTexture texture
     ) {
         this.textures.put(id, texture);
+    }
+
+    public ModelPlane addPlane(
+            ModelPlane plane
+    ) {
+        this.planes.add(plane);
+        return plane;
     }
 
     public ModelCuboid createCuboid(
@@ -105,6 +116,13 @@ public class BlockModelGenerator {
         }
         if (!cuboids.isEmpty())
             modelJson.add("cuboids", cuboids);
+        JsonArray planes = new JsonArray();
+        for (ModelPlane plane : this.planes) {
+            planes.add(plane.toHJson());
+        }
+        if (!planes.isEmpty()) {
+            modelJson.add("planes", planes);
+        }
 
         return modelJson;
     }

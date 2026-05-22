@@ -7,6 +7,7 @@ import org.hjson.JsonArray;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class TriggerGroup implements HJsonSerializable {
@@ -34,14 +35,20 @@ public class TriggerGroup implements HJsonSerializable {
         this.triggers.addAll(List.of(triggers));
     }
 
+    public void add(Consumer<BlockEventArgs> consumer) {
+        inject(-1, consumer);
+    }
+
     public void inject(int index, Consumer<BlockEventArgs> argsConsumer) {
-        long id = System.nanoTime();
+        long time = System.nanoTime();
+        long hash = Objects.hash(time, name, argsConsumer);
+        long id = Objects.hash(time, hash);
 
         InjectedBlockAction.CONSUMER_MAP.put(id, argsConsumer);
 
         Trigger trigger = new Trigger("puzzle:injected_method").setParameter("injected_method_id", id);
 
-        if (index == -1) triggers.addLast(trigger);
+        if (index == -1) triggers.add(trigger);
         else triggers.add(index, trigger);
     }
 
