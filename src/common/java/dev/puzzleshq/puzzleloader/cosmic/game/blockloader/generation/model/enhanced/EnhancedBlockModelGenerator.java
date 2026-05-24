@@ -251,11 +251,13 @@ public class EnhancedBlockModelGenerator extends BlockModelGenerator {
                     }
                     newCube(planes, c.min, c.max, inflate, pivot, rotation, group);
                     if (makeCollider){
-                        c.min.sub(c.max.x * inflate / 2,
+                        c.min.sub(
+                                c.max.x * inflate / 2,
                                 c.max.y * inflate / 2,
-                                c.max.z * inflate / 2);
-                        c.min.add(8, 0, 8);
+                                c.max.z * inflate / 2
+                        );
                         c.max.scl(inflate + 1);
+                        c.min.add(8, 0, 8);
                         c.max.add(c.min);
                     }
 

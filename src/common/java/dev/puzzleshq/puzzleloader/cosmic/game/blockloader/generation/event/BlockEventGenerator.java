@@ -1,16 +1,14 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event;
 
 import com.badlogic.gdx.files.FileHandle;
-import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.InjectedBlockAction;
 import dev.puzzleshq.puzzleloader.cosmic.game.util.HJsonSerializable;
-import finalforeach.cosmicreach.util.assets.GameAssetLoader;
 import finalforeach.cosmicreach.gameevents.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.util.Identifier;
+import finalforeach.cosmicreach.util.assets.GameAssetLoader;
 import org.hjson.JsonObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 

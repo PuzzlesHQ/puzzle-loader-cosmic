@@ -16,6 +16,7 @@ import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.client.ClientPreModInit;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;

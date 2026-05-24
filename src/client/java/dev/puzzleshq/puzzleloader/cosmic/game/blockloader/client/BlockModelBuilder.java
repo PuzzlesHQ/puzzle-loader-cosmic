@@ -14,9 +14,7 @@ import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonCuboid;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonCuboidFace;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonTexture;
-import finalforeach.cosmicreach.util.Identifier;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;

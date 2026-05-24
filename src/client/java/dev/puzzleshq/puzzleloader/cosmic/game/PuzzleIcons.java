@@ -2,7 +2,6 @@ package dev.puzzleshq.puzzleloader.cosmic.game;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWImage;
-import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 import org.spongepowered.asm.mixin.Unique;
 
