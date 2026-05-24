@@ -6,7 +6,6 @@ import dev.puzzleshq.puzzleloader.cosmic.game.util.HJsonSerializable;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
 
-@Note("This class is subject to change as I refactor the block model package")
 public class ModelCuboid implements HJsonSerializable {
 
     public static final int LOCAL_NEG_X = 0;

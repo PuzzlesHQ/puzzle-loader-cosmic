@@ -5,7 +5,6 @@ import finalforeach.cosmicreach.util.Identifier;
 
 import javax.annotation.Nullable;
 
-@Note("This class is subject to change as I refactor the block model package")
 public class ModelTexture {
 
     private Identifier regularTexture;

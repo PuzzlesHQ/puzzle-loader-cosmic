@@ -7,7 +7,6 @@ import org.hjson.JsonArray;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 
-@Note("This class is subject to change as I refactor the block model package")
 public class ModelPlane implements HJsonSerializable {
 
     private final Vector3[] vertices = new Vector3[]{

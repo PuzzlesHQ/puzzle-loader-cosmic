@@ -1,13 +1,11 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.enhanced;
 
 import com.badlogic.gdx.math.Vector3;
-import dev.puzzleshq.annotation.documentation.Note;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelCuboid;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelPlane;
 
 import java.util.List;
 
-@Note("This class is subject to change as I refactor the block model package")
 public class ModelPartGroup {
     private boolean isVisible = true;
     public List<ModelCuboid> cuboids;

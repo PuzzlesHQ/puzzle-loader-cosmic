@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-@Note("This class is subject to change as I refactor the block model package")
 public class BlockModelGenerator {
 
     public String parentModel;

@@ -18,8 +18,6 @@ import org.hjson.Stringify;
 
 import java.util.*;
 
-@Experimental
-@Note("This class is subject to change as I refactor the block model package")
 public class EnhancedBlockModelGenerator extends BlockModelGenerator {
 
     public final Map<String, ModelPartGroup> groups = new HashMap<>();
