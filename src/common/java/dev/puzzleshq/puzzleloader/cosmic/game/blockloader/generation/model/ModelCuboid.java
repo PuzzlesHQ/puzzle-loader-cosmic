@@ -1,7 +1,6 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model;
 
 import com.badlogic.gdx.math.Vector3;
-import dev.puzzleshq.annotation.documentation.Note;
 import dev.puzzleshq.puzzleloader.cosmic.game.util.HJsonSerializable;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;

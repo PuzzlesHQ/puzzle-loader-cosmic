@@ -1,6 +1,5 @@
 package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model;
 
-import dev.puzzleshq.annotation.documentation.Note;
 import finalforeach.cosmicreach.util.Identifier;
 
 import javax.annotation.Nullable;
