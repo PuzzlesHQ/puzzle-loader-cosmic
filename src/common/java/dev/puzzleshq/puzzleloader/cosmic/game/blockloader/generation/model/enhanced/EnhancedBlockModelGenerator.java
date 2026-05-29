@@ -354,7 +354,6 @@ public class EnhancedBlockModelGenerator extends BlockModelGenerator {
             String groupName = bone.get("name").asString();
             JsonValue cubes = bone.get("cubes");
 
-            ModelPartGroup group = generator.groups.get(groupName);
             if (cubes != null) {
                 JsonArray cubesArray = cubes.asArray();
                 cubesArray.forEach(cubeValue -> {

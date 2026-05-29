@@ -39,7 +39,7 @@ public class IndependentAssetLoader {
         return handle;
     }
 
-    public static IndependentFileHandle loadAsset2(Identifier identifier) {
+    public static IndependentFileHandle loadAssetToGDXHandle(Identifier identifier) {
         RawAssetLoader.RawFileHandle handle = RawAssetLoader.getLowLevelRelativeAssetErrors(SaveLocation.getSaveFolder(), "/mods/" + identifier.getNamespace() + "/" + identifier.getName(), false);
         if (handle != null) return new IndependentFileHandle(
                 handle, SaveLocation.getSaveFolder() + "/" + identifier.getNamespace() + "/" + identifier.getName(), Files.FileType.Absolute
@@ -59,7 +59,7 @@ public class IndependentAssetLoader {
     }
 
     public static <T> T loadResource(Identifier identifier, Class<?> clazz) {
-        IndependentFileHandle handle = loadAsset2(identifier);
+        IndependentFileHandle handle = loadAssetToGDXHandle(identifier);
 
         if (handle == null) return null;
         if (!LOADER_MAP.containsKey(clazz)) throw new RuntimeException(clazz + " does not have a registered loading method for this class");
