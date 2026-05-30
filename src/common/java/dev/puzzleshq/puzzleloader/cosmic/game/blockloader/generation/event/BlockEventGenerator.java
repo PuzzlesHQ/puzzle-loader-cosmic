@@ -109,8 +109,17 @@ public class BlockEventGenerator implements HJsonSerializable {
         BlockEventGenerator generator = getParent();
         if (generator == null) return;
         for (Map.Entry<String, TriggerGroup> groupEntry : generator.triggerMap.entrySet()) {
-            if (!triggerMap.containsKey(groupEntry.getKey())) triggerMap.put(groupEntry.getKey(), groupEntry.getValue());
-            else getTriggerGroup(groupEntry.getKey()).triggers.addAll(generator.triggerMap.get(groupEntry.getKey()).triggers);
+            String groupName = groupEntry.getKey();
+            TriggerGroup group = groupEntry.getValue();
+
+            if (!triggerMap.containsKey(groupName)) {
+                triggerMap.put(groupName, new TriggerGroup(group));
+                continue;
+            }
+            TriggerGroup existingGroup = getTriggerGroup(groupName);
+            for (Trigger trigger : group.triggers) {
+                existingGroup.triggers.add(new Trigger(trigger));
+            }
         }
     }
 

@@ -3,6 +3,7 @@ package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block;
 import finalforeach.cosmicreach.gameevents.ActionId;
 import finalforeach.cosmicreach.gameevents.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.gameevents.blockevents.actions.IBlockAction;
+import finalforeach.cosmicreach.util.logging.AnsiColours;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,6 +18,7 @@ public class InjectedBlockAction implements IBlockAction {
 
     @Override
     public void act(BlockEventArgs blockEventArgs) {
+        System.out.println(AnsiColours.BG_RED +  "Executing trigger " + injected_method_id + AnsiColours.RESET);
         CONSUMER_MAP.get(injected_method_id).accept(blockEventArgs);
     }
 

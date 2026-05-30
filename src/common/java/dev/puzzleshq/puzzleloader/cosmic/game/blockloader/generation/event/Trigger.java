@@ -5,26 +5,41 @@ import finalforeach.cosmicreach.util.Identifier;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
+import org.hjson.Stringify;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Trigger implements HJsonSerializable {
-        String actionId = null;
-        JsonObject condition;
-        Map<String, JsonValue> parameters = new HashMap<>();
+    String actionId;
+    JsonObject condition;
+    Map<String, JsonValue> parameters = new HashMap<>();
 
-        public Trigger(String actionId) {
-            this.actionId = actionId;
-            this.condition = null;
-        }
+    public Trigger(String actionId) {
+        this.actionId = actionId;
+        this.condition = null;
+    }
 
-        public Trigger(String actionId, JsonObject condition) {
-            this.actionId = actionId;
-            this.condition = condition;
-        }
+    public Trigger(String actionId, JsonObject condition) {
+        this.actionId = actionId;
+        this.condition = condition;
+    }
 
-        public void setCondition(JsonObject argsPredicate) {
+    public Trigger(Trigger trigger) {
+        this.actionId = trigger.actionId;
+
+        if (trigger.condition != null)
+            this.condition = JsonValue.readHjson(trigger.condition.toString()).asObject();
+
+        trigger.parameters.forEach((key, value) -> {
+            if (value == null)
+                this.parameters.put(key, null);
+            else
+                this.parameters.put(key, JsonValue.readHjson(value.toString()));
+        });
+    }
+
+    public void setCondition(JsonObject argsPredicate) {
             this.condition = argsPredicate;
         }
 

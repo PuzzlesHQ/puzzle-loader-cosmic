@@ -3,6 +3,7 @@ package dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.InjectedBlockAction;
 import dev.puzzleshq.puzzleloader.cosmic.game.util.HJsonSerializable;
 import finalforeach.cosmicreach.gameevents.blockevents.BlockEventArgs;
+import finalforeach.cosmicreach.util.logging.AnsiColours;
 import org.hjson.JsonArray;
 
 import java.util.ArrayList;
@@ -12,12 +13,19 @@ import java.util.function.Consumer;
 
 public class TriggerGroup implements HJsonSerializable {
 
-    List<Trigger> triggers = new ArrayList<>();
+    final List<Trigger> triggers = new ArrayList<>();
 
     final String name;
 
     public TriggerGroup(String name) {
         this.name = name;
+    }
+
+    public TriggerGroup(TriggerGroup tg) {
+        this.name = tg.name;
+        for (Trigger trigger : tg.triggers) {
+            this.triggers.add(new Trigger(trigger));
+        }
     }
 
     public Trigger createTrigger(String actionId) {
@@ -45,6 +53,7 @@ public class TriggerGroup implements HJsonSerializable {
         long id = Objects.hash(time, hash);
 
         InjectedBlockAction.CONSUMER_MAP.put(id, argsConsumer);
+        System.out.println(AnsiColours.BG_RED +  "Added trigger " + this.name + " with hash " + hash + " with id " + id + AnsiColours.RESET);
 
         Trigger trigger = new Trigger("puzzle:injected_method").setParameter("injected_method_id", id);
 
