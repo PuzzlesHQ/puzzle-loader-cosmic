@@ -18,7 +18,6 @@ public class InjectedBlockAction implements IBlockAction {
 
     @Override
     public void act(BlockEventArgs blockEventArgs) {
-        System.out.println(AnsiColours.BG_RED +  "Executing trigger " + injected_method_id + AnsiColours.RESET);
         CONSUMER_MAP.get(injected_method_id).accept(blockEventArgs);
     }
 

@@ -53,7 +53,6 @@ public class TriggerGroup implements HJsonSerializable {
         long id = Objects.hash(time, hash);
 
         InjectedBlockAction.CONSUMER_MAP.put(id, argsConsumer);
-        System.out.println(AnsiColours.BG_RED +  "Added trigger " + this.name + " with hash " + hash + " with id " + id + AnsiColours.RESET);
 
         Trigger trigger = new Trigger("puzzle:injected_method").setParameter("injected_method_id", id);
 

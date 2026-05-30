@@ -178,16 +178,6 @@ public class PacketInterceptor {
         INTERCEPTED_PACKET_COUNT++;
         short packetID = packet.packetID;
         String packetClassName = packet.getClass().getName();
-//
-//        switch (packetClassName) {
-//            case "finalforeach.cosmicreach.networking.packets.MessagePacket":
-//                MessagePacket messagePacket = (MessagePacket) packet;
-//                System.out.println("Recived Msg: " + messagePacket.message + "from: " + messagePacket.playerUniqueId);
-//                break;
-//            default:
-//                break;
-//        }
-
     }
 
     @SubscribeEvent
