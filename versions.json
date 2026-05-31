@@ -7,6 +7,15 @@
 		"alpha"
 	],
 	"versions": {
+		"69.69.69-alpha"": {
+			"epoch": 0,
+			"date": "1996-1-1T10:58:00",
+			"id": "69.69.69-alpha",
+			"phase": "alpha",
+			"maven-central": "dev.puzzleshq:puzzle-loader-cosmic:69.69.69-alpha",
+			"maven-jitpack": "com.github.PuzzlesHQ:puzzle-loader-cosmic:69.69.69-alpha",
+			"dependencies": "https://github.com/PuzzlesHQ/puzzle-loader-cosmic/releases/latest/dependencies.json"
+		},
 		"1.0.0-alpha": {
 			"epoch": 1754451604,
 			"date": "2025/08/06T03:40:04",
