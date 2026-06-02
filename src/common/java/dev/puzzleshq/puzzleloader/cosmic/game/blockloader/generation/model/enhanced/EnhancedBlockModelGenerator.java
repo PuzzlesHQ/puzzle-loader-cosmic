@@ -289,10 +289,6 @@ public class EnhancedBlockModelGenerator extends BlockModelGenerator {
                             U+(sZ*2)+(sX*2), V+sZ, U+(sZ*2)+sX, V+sZ+sY
                     };
 
-                    if (sX == 4.5 && sZ == 4.5 && sY == 9) {
-                        System.out.println(Arrays.toString(PZ));
-                    }
-
                     fix(textureWidth, textureHeight, PY);
                     fix(textureWidth, textureHeight, NY);
                     fix(textureWidth, textureHeight, PX);
