@@ -283,7 +283,7 @@ public class EnhancedBlockModelGenerator extends BlockModelGenerator {
                             U+sZ+sX, V+sZ, U+sZ, V+sZ+sY
                     };
                     float[] NX = new float[]{
-                            U+sZ*2+sX, V+sZ, U+sZ+sX, V+sZ+sY
+                            U+(sZ*2)+sX, V+sZ, U+sZ+sX, V+sZ+sY
                     };
                     float[] PZ = new float[]{
                             U+(sZ*2)+(sX*2), V+sZ, U+(sZ*2)+sX, V+sZ+sY
