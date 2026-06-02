@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GameSingletons.class)
 public class MixinGameSingletons {
 
-    @Inject(method = "postCreate", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blocks/Block;loadAllBlocks(Lcom/badlogic/gdx/utils/Queue;)V", shift = At.Shift.AFTER))
+    @Inject(method = "postCreate", at = @At(value = "HEAD"))
     private static void postCreate(CallbackInfo ci) {
         ModInit.invoke();
         ClientModInit.invoke();
