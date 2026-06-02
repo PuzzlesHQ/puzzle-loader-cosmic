@@ -210,6 +210,8 @@ public class EnhancedBlockModelGenerator extends BlockModelGenerator {
             Vector3 rotation = new Vector3();
             if (cubes != null) {
                 JsonArray cubesArray = cubes.asArray();
+                Vector3 min = new Vector3();
+                Vector3 max = new Vector3();
                 cubesArray.forEach(cubeValue -> {
                     JsonObject cubeObject = cubeValue.asObject();
                     ModelPlane[] planes = new ModelPlane[]{
@@ -221,16 +223,15 @@ public class EnhancedBlockModelGenerator extends BlockModelGenerator {
                     JsonArray size = cubeObject.get("size").asArray();
                     JsonArray uv = cubeObject.get("uv").asArray();
                     float inflate = cubeObject.getFloat("inflate", 0);
-                    ModelCuboid c = generator.createCuboid(Vector3.Zero, 0, 0, 0);
-                    c.max.set(
-                            size.get(0).asFloat(),
-                            size.get(1).asFloat(),
-                            size.get(2).asFloat()
-                    );
-                    c.min.set(
+                    min.set(
                             origin.get(0).asFloat(),
                             origin.get(1).asFloat(),
                             origin.get(2).asFloat()
+                    );
+                    max.set(
+                            size.get(0).asFloat(),
+                            size.get(1).asFloat(),
+                            size.get(2).asFloat()
                     );
 
                     pivot.setZero();
@@ -245,12 +246,14 @@ public class EnhancedBlockModelGenerator extends BlockModelGenerator {
                         JsonArray rotation2 = rotationValue.asArray();
                         rotation.set(rotation2.get(0).asFloat(), rotation2.get(1).asFloat(), rotation2.get(2).asFloat());
                     }
-                    newCube(planes, c.min, c.max, inflate, pivot, rotation, group);
+                    newCube(planes, min, max, inflate, pivot, rotation, group);
+                    ModelCuboid c = null;
                     if (makeCollider){
+                        c = generator.createCuboid(min, max);
                         c.min.sub(
-                                c.max.x * inflate / 2,
-                                c.max.y * inflate / 2,
-                                c.max.z * inflate / 2
+                                (c.max.x * inflate) / 2,
+                                (c.max.y * inflate) / 2,
+                                (c.max.z * inflate) / 2
                         );
                         c.max.scl(inflate + 1);
                         c.min.add(8, 0, 8);
@@ -283,8 +286,12 @@ public class EnhancedBlockModelGenerator extends BlockModelGenerator {
                             U+sZ*2+sX, V+sZ, U+sZ+sX, V+sZ+sY
                     };
                     float[] PZ = new float[]{
-                            U+sZ*2+sX*2, V+sZ, U+sZ*2+sX, V+sZ+sY
+                            U+(sZ*2)+(sX*2), V+sZ, U+(sZ*2)+sX, V+sZ+sY
                     };
+
+                    if (sX == 4.5 && sZ == 4.5 && sY == 9) {
+                        System.out.println(Arrays.toString(PZ));
+                    }
 
                     fix(textureWidth, textureHeight, PY);
                     fix(textureWidth, textureHeight, NY);
@@ -300,17 +307,16 @@ public class EnhancedBlockModelGenerator extends BlockModelGenerator {
                     setUVs(planes[ModelCuboid.LOCAL_POS_Z].setUvRotation(0), PZ, false, false);
                     setUVs(planes[ModelCuboid.LOCAL_NEG_Z].setUvRotation(270), NZ, false, false);
 
-                    Arrays.fill(c.faces, null);
-
                     if (makeCollider){
+                        Arrays.fill(c.faces, null);
                         generator.addCuboidToGroup(groupName, c);
                     }
-                    generator.addPlaneToGroup(groupName, planes[0]);
-                    generator.addPlaneToGroup(groupName, planes[1]);
-                    generator.addPlaneToGroup(groupName, planes[2]);
-                    generator.addPlaneToGroup(groupName, planes[3]);
-                    generator.addPlaneToGroup(groupName, planes[4]);
-                    generator.addPlaneToGroup(groupName, planes[5]);
+                    generator.addPlaneToGroup(groupName, planes[ModelCuboid.LOCAL_POS_X]);
+                    generator.addPlaneToGroup(groupName, planes[ModelCuboid.LOCAL_NEG_X]);
+                    generator.addPlaneToGroup(groupName, planes[ModelCuboid.LOCAL_POS_Y]);
+                    generator.addPlaneToGroup(groupName, planes[ModelCuboid.LOCAL_NEG_Y]);
+                    generator.addPlaneToGroup(groupName, planes[ModelCuboid.LOCAL_POS_Z]);
+                    generator.addPlaneToGroup(groupName, planes[ModelCuboid.LOCAL_NEG_Z]);
                 });
             }
         });
