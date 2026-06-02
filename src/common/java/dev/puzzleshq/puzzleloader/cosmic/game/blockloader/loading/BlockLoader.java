@@ -4,16 +4,21 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.Queue;
+import dev.puzzleshq.puzzleloader.cosmic.game.GameRegistries;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.event.BlockEventGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.BlockGenerator;
+import dev.puzzleshq.puzzleloader.cosmic.game.events.block.EventModBlockRegister;
 import dev.puzzleshq.puzzleloader.cosmic.game.util.ImmutableMapWrapper;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.gameevents.blockevents.BlockEvents;
 import finalforeach.cosmicreach.util.GameTag;
 import finalforeach.cosmicreach.util.GameTagList;
+import finalforeach.cosmicreach.util.logging.Logger;
+import finalforeach.cosmicreach.util.logging.LoggerLevel;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -54,6 +59,17 @@ public class BlockLoader {
         });
         json.setSerializer(GameTagList.class, GameTagList.GAME_TAG_JSON_SERIALIZER);
 
+    }
+
+    public static void injectIntoQueue(Queue<Runnable> queue) {
+        queue.addLast(() -> {
+            EventModBlockRegister event = new EventModBlockRegister();
+            GameRegistries.COSMIC_EVENT_BUS.post(event);
+
+            for (IModBlock modBlock : event.getBlocks()) {
+                BlockLoader.INSTANCE.generate(modBlock);
+            }
+        });
     }
 
     public Block generate(IModBlock block) {
@@ -120,6 +136,22 @@ public class BlockLoader {
 
     public Block getVanillaFromModdedBlock(IModBlock block) {
         return internalModdedToVanillaBlockMap.get(block);
+    }
+
+    public boolean wasLoadedByGlobalBlockLoader(Block block) {
+        return VANILLA_TO_MODDED_BLOCK_MAP.containsKey(block);
+    }
+
+    public boolean wasLoadedByGlobalBlockLoader(IModBlock block) {
+        return MODDED_TO_VANILLA_BLOCK_MAP.containsKey(block);
+    }
+
+    public static IModBlock getModdedFromVanillaBlockGlobal(Block block) {
+        return VANILLA_TO_MODDED_BLOCK_MAP.get(block);
+    }
+
+    public static Block getVanillaFromModdedBlockGlobal(IModBlock block) {
+        return MODDED_TO_VANILLA_BLOCK_MAP.get(block);
     }
 
 }

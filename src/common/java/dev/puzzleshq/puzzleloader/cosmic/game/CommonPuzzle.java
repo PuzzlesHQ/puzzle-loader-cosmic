@@ -54,14 +54,7 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
 
     @Override
     public void onPostInit() {
-        GameSingletons.loadingQueue.addLast(() -> {
-            EventModBlockRegister event = new EventModBlockRegister();
-            GameRegistries.COSMIC_EVENT_BUS.post(event);
 
-            for (IModBlock modBlock : event.getBlocks()) {
-                BlockLoader.INSTANCE.generate(modBlock);
-            }
-        });
     }
 
     @Override

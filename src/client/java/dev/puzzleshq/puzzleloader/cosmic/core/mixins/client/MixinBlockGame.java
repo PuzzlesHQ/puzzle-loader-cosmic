@@ -16,16 +16,6 @@ public class MixinBlockGame {
 
     /**
      * {@link BlockGame#create()}
-     * {@link finalforeach.cosmicreach.ClientSingletons#}
-     */
-    @Inject(method = "create", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/ClientSingletons;create()V", shift = At.Shift.AFTER))
-    private static void init(CallbackInfo ci) {
-        ModInit.invoke();
-        ClientModInit.invoke();
-    }
-
-    /**
-     * {@link BlockGame#create()}
      * {@link finalforeach.cosmicreach.gamestates.GameState#switchToGameState(GameState)}
      */
     @Inject(method = "create", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/gamestates/GameState;switchToGameState(Lfinalforeach/cosmicreach/gamestates/GameState;)V", shift = At.Shift.AFTER))

@@ -7,6 +7,7 @@
     "MixinBlockGame",
     "MixinBlockJsonModel",
     "MixinChunkMeshGroup",
+    "MixinGameSingletons",
     "MixinLwjgl3Launcher",
     "MixinLwjglApplication",
     "autojoin.MainMenuInit",

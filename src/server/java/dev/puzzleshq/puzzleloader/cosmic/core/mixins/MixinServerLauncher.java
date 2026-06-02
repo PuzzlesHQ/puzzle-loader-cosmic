@@ -41,12 +41,6 @@ public class MixinServerLauncher {
         ServerPreModInit.invoke();
     }
 
-    @Inject(method = "main", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/networking/server/ServerSingletons;create()V", shift = At.Shift.AFTER))
-    private static void init(String[] args, CallbackInfo ci) {
-        ModInit.invoke();
-        ServerModInit.invoke();
-    }
-
     @Inject(method = "main", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/networking/netty/NettyServer;run()V", shift = At.Shift.BEFORE))
     private static void initPost(String[] args, CallbackInfo ci) {
         PostModInit.invoke();
