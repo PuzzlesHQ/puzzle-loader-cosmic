@@ -5,6 +5,7 @@ import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.connected.ISidedBlockC
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.BlockModelGenerator;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelCuboid;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelFace;
+import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.model.ModelTexture;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.generation.state.State;
 import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.ISidedModelLoader;
 import finalforeach.cosmicreach.blocks.BlockState;
@@ -47,6 +48,7 @@ public abstract class AbstractConnectorFunction implements ISidedBlockConnector.
         setMode(mode);
 
         texturePath = Identifier.of(id.getNamespace(), "textures/blocks/" + id.getName() + "/states/");
+        final Identifier texturePath2 = Identifier.of(id.getNamespace(), "textures/blocks/" + id.getName() + "/states2/");
         defaultModelName = GENERATED_MODEL_PREFIX + id.getName() + "-|-base-block";
         parentModelName = GENERATED_MODEL_PREFIX + id.getName() + "-|-texture-cache";
         templateModelName = GENERATED_MODEL_PREFIX + id.getName() + "-|-d+%s-v+%d";
@@ -54,8 +56,10 @@ public abstract class AbstractConnectorFunction implements ISidedBlockConnector.
         parentModelGenerator = new BlockModelGenerator(parentModelName);
 
         parentModelGenerator.addTexture("xError", Identifier.of(texturePath + "state-error.png"));
-        for (int i = 0; i < textureMode.textureCount; i++)
-            parentModelGenerator.addTexture("x" + i, textureMode.getTextureId(texturePath, i));
+        for (int i = 0; i < textureMode.textureCount; i++) {
+            ModelTexture texture = new ModelTexture(textureMode.getTextureId(texturePath, i));
+            parentModelGenerator.addTexture("x" + i, texture);
+        }
 
         modelGenerator = new BlockModelGenerator(parentModelName, defaultModelName);
         modelGenerator.createCuboid(Vector3.Zero, 16, 16, 16).setTextureIds("x0");

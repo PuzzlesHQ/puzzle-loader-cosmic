@@ -11,12 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GamePacket.class)
 public abstract class MixinGamePacket {
 
-    @Shadow
-    protected static <T extends GamePacket> void registerPacket(String strId, int numId, Class<T> packetClass) {
-    }
-
-    @Inject(method = "registerPacket(Ljava/lang/Class;)V", at = @At("HEAD"), cancellable = true)
-    private static <T extends GamePacket> void registerPacket(Class<T> packetClass, CallbackInfo ci) {
+    @Inject(method = "registerPacket(Ljava/lang/String;ILjava/lang/Class;)V", at = @At("HEAD"), cancellable = true)
+    private static <T extends GamePacket> void registerPacketMixin(String strId, int numId, Class<T> packetClass, CallbackInfo ci) {
         String packetName = packetClass.getCanonicalName();
         if (packetName == null) {
             String reason = "Packet class must have a canonical name";
@@ -39,13 +35,6 @@ public abstract class MixinGamePacket {
     private static <T extends GamePacket> void registerPacket(String strId, int numId, Class<T> packetClass, CallbackInfo ci) {
         PacketInterceptor.registerPacket(strId, numId, packetClass);
         ci.cancel();
-    }
-
-    @Inject(method = "registerPackets", at = @At("TAIL"))
-    private static void clinit(CallbackInfo ci) {
-        PacketInterceptor.callRegisterPacket();
-
-        PacketInterceptor.init();
     }
 
 }
