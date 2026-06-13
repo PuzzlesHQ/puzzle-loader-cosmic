@@ -2,45 +2,48 @@ package dev.puzzleshq.puzzleloader.cosmic.core.mixins.common;
 
 import com.badlogic.gdx.utils.ObjectIntMap;
 import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.PacketInterceptor;
-import finalforeach.cosmicreach.RuntimeInfo;
 import finalforeach.cosmicreach.networking.GamePacket;
-import finalforeach.cosmicreach.networking.NetworkIdentity;
-import finalforeach.cosmicreach.networking.NetworkSide;
 import finalforeach.cosmicreach.networking.packets.meta.ProtocolSyncPacket;
-import finalforeach.cosmicreach.util.logging.Logger;
-import io.netty.channel.ChannelHandlerContext;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mixin(ProtocolSyncPacket.class)
 public abstract class MixinProtocolSyncPacket extends GamePacket {
 
-    @Shadow public String gameVersion;
-
-    @Shadow public static Runnable onConnect;
-
-    public void write() {
+    @Inject(method = "write", at = @At("HEAD"))
+    private void initPacketInterceptor(CallbackInfo ci) {
         PacketInterceptor.init();
+    }
 
-        this.writeInt(packetNamesToIntIds.size - PacketInterceptor.PUZZLE_RESERVED_PACKET_IDS.size());
+    @Unique
+    private final ObjectIntMap<String> puzzle_loader_cosmic$nameToIdMap = new ObjectIntMap<>();
+    @Unique
+    private final AtomicBoolean puzzle_loader_cosmic$isLoaded = new AtomicBoolean(false);
 
-        for (ObjectIntMap.Entry<String> packetNamesToIntId : packetNamesToIntIds) {
-            if (!PacketInterceptor.PUZZLE_RESERVED_PACKET_IDS.contains(packetNamesToIntId.value)) {
-                this.writeString(packetNamesToIntId.key);
-                this.writeInt(packetNamesToIntId.value);
+    @Redirect(method = "write", at = @At(value = "FIELD", target = "Lfinalforeach/cosmicreach/networking/packets/meta/ProtocolSyncPacket;packetNamesToIntIds:Lcom/badlogic/gdx/utils/ObjectIntMap;", opcode = Opcodes.GETSTATIC))
+    private ObjectIntMap<String> test() {
+        if (puzzle_loader_cosmic$isLoaded.get()) {
+            return puzzle_loader_cosmic$nameToIdMap;
+        }
+
+        puzzle_loader_cosmic$isLoaded.set(true);
+
+        puzzle_loader_cosmic$nameToIdMap.clear();
+        packetNamesToIntIds.forEach((packetNamesToIntId) -> {
+            if (PacketInterceptor.PUZZLE_RESERVED_PACKET_IDS.contains(packetNamesToIntId.value)) {
+                return;
             }
-        }
+            puzzle_loader_cosmic$nameToIdMap.put(packetNamesToIntId.key, packetNamesToIntId.value);
+        });
 
-        this.writeString(this.gameVersion);
+        return puzzle_loader_cosmic$nameToIdMap;
     }
 
-    @Override
-    public void handle(NetworkIdentity identity, ChannelHandlerContext channelHandlerContext) {
-        String var10000 = this.getClass().getSimpleName();
-        Logger.info("Got " + var10000 + " with game version: " + this.gameVersion);
-        if (identity.getSide() != NetworkSide.SERVER) {
-            identity.send(new ProtocolSyncPacket(RuntimeInfo.version));
-            onConnect.run();
-        }
-    }
 }

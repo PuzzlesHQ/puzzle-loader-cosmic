@@ -27,6 +27,5 @@ public abstract class MixinZoneGenerator {
         for (Supplier<ZoneGenerator> generatorSupplier : zoneGenerators) {
             registerZoneGenerator(generatorSupplier.get().getSaveKey(), generatorSupplier);
         }
-
     }
 }
