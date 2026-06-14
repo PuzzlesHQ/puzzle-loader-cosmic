@@ -1,20 +1,15 @@
 package dev.puzzleshq.puzzleloader.cosmic.game;
 
-import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.block.IModBlock;
-import dev.puzzleshq.puzzleloader.cosmic.game.blockloader.loading.BlockLoader;
 import dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools.AprilFoolsForeshadowingModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blocks.aprilfools.AprilFoolsRedStoneModBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.blocks.connected.ExampleConnectedBlock;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.block.EventModBlockRegister;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.net.EventRegisterPacket;
-import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts.CTSIdentificationPacket;
-import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.cts.CTSModlistPacket;
-import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.stc.STCModlistRequestPacket;
+import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.packets.PacketModListExchange;
 import dev.puzzleshq.puzzleloader.loader.LoaderConfig;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.ModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PostModInit;
 import dev.puzzleshq.puzzleloader.loader.mod.entrypoint.common.PreModInit;
-import finalforeach.cosmicreach.singletons.GameSingletons;
 import finalforeach.cosmicreach.util.SaveLocation;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
@@ -47,9 +42,7 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
 
     @SubscribeEvent
     public void register(EventRegisterPacket event) {
-        event.registerReservedPacket("identification-packet", 9000, CTSIdentificationPacket.class);
-        event.registerReservedPacket("modlist-request-packet", 9001, STCModlistRequestPacket.class);
-        event.registerReservedPacket("modlist-send-packet", 9002, CTSModlistPacket.class);
+        event.registerPacket("modlist-exchange-packet", 9000, PacketModListExchange.class);
     }
 
     @Override

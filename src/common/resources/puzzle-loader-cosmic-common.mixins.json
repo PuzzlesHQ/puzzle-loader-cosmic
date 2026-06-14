@@ -7,9 +7,9 @@
     "MixinCommand",
     "MixinGameAssetLoaderUtils",
     "MixinGameEvents",
-    "MixinGamePacket",
     "MixinGamePacketRegistry",
     "MixinGameSingletons",
+    "MixinLoginPacket",
     "MixinProtocolSyncPacket",
     "MixinServerIdentity",
     "MixinZoneGenerator"

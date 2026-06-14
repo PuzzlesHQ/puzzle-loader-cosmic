@@ -20,7 +20,4 @@ public class EventRegisterPacket extends Event {
         PacketInterceptor.registerPacket(strId, numId, packetClass);
     }
 
-    public <T extends GamePacket> void registerReservedPacket(String strId, int numId, Class<T> packetClass) {
-        PacketInterceptor.registerReservedPacket(strId, numId, packetClass);
-    }
 }

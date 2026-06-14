@@ -12,8 +12,8 @@ public class MixinGamePacketRegistry {
 
     @Inject(method = "registerPackets", at = @At("TAIL"))
     private static void registerPacketsMixin(CallbackInfo ci) {
-        PacketInterceptor.callRegisterPacket();
         PacketInterceptor.init();
+        PacketInterceptor.callRegisterPacket();
     }
 
 }
