@@ -143,6 +143,7 @@ public class PacketInterceptor {
         GameRegistries.NETWORK_EVENT_BUS.post(new EventRegisterPacket());
     }
 
+    @SubscribeEvent
     public void onEvent(EventReceiveClientModList event) {
         Set<PacketModListExchange.MiniModInfo> playerMods = event.getModList();
 
