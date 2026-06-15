@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinGamePacket {
 
     @Inject(method = "flushToContext", at = @At("TAIL"))
-    private void receivePacket(ChannelHandlerContext ctx, CallbackInfo ci) {
+    private void sendPacket(ChannelHandlerContext ctx, CallbackInfo ci) {
         EventPacketSendIntercept sendIntercept = new EventPacketSendIntercept();
         sendIntercept.setPacket((GamePacket)(Object)this);
         GameRegistries.NETWORK_EVENT_BUS.post(sendIntercept);
