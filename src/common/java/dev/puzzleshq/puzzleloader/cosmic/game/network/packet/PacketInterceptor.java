@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.ObjectIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import dev.puzzleshq.mod.api.IModContainer;
 import dev.puzzleshq.puzzleloader.cosmic.game.GameRegistries;
-import dev.puzzleshq.puzzleloader.cosmic.game.events.net.EventPacketBucketReceiveIntercept;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.net.EventPacketReceiveIntercept;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.net.EventRegisterPacket;
 import dev.puzzleshq.puzzleloader.cosmic.game.events.net.mods.EventMissingMod;
@@ -14,7 +13,6 @@ import dev.puzzleshq.puzzleloader.cosmic.game.events.net.mods.EventModVersionMis
 import dev.puzzleshq.puzzleloader.cosmic.game.events.net.mods.EventReceiveClientModList;
 import dev.puzzleshq.puzzleloader.cosmic.game.network.packet.packets.PacketModListExchange;
 import dev.puzzleshq.puzzleloader.loader.util.ModFinder;
-import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.networking.GamePacket;
 import finalforeach.cosmicreach.networking.server.ServerIdentity;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
@@ -139,14 +137,6 @@ public class PacketInterceptor {
     @SubscribeEvent
     public void onEvent(EventPacketReceiveIntercept packetSingle) {
         modifyPacket(packetSingle.getPacket());
-    }
-
-    @SubscribeEvent
-    public void onEvent(EventPacketBucketReceiveIntercept packetBucket) {
-        Array<GamePacket> bucket = packetBucket.getPacketBucket();
-        for (int i = 0; i < bucket.size; i++) {
-            modifyPacket(bucket.get(i));
-        }
     }
 
     public static void callRegisterPacket() {
