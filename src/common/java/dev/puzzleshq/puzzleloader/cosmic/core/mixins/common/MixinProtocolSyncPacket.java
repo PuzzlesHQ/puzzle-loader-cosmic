@@ -108,30 +108,27 @@ public abstract class MixinProtocolSyncPacket extends GamePacket {
         puzzle_loader_cosmic$isLoaded.set(true);
 
         puzzle_loader_cosmic$nameToIdMap.clear();
-        packetNamesToIntIds.forEach((packetNamesToIntId) -> {
+        for (ObjectIntMap.Entry<String> packetNamesToIntId : packetNamesToIntIds) {
             if (PacketInterceptor.PUZZLE_ID_TO_PACKET_NAME.containsKey(packetNamesToIntId.value)) {
-                return;
+                continue;
             }
             puzzle_loader_cosmic$nameToIdMap.put(packetNamesToIntId.key, packetNamesToIntId.value);
-        });
+        }
 
         return puzzle_loader_cosmic$nameToIdMap;
     }
 
-    @Inject(method = "handle", at = @At("HEAD"))
+    @Inject(method = "handle", at = @At("TAIL"))
     private void handlePacket(NetworkIdentity identity, ChannelHandlerContext ctx, CallbackInfo ci) {
-        switch (identity.getSide()) {
-            case CLIENT -> {
-                PacketInterceptor.LOGGER.log(Level.INFO, "Joined \"{}\" Server", puzzle_loader$client_name);
-            }
-            case SERVER -> {
-                PacketInterceptor.LOGGER.log(Level.INFO, "\"{}\" Client Joined", puzzle_loader$client_name);
-                ((IServerIdentity)identity).setModdedState(
-                        puzzle_loader$client_name,
-                        puzzle_loader_cosmic$is_modded
-                );
-            }
+        if (identity.isClient()) {
+            PacketInterceptor.LOGGER.log(Level.INFO, "Joined \"{}\" Server", puzzle_loader$client_name);
+            return;
         }
+        PacketInterceptor.LOGGER.log(Level.INFO, "\"{}\" Client Joined", puzzle_loader$client_name);
+        ((IServerIdentity)identity).setModdedState(
+                puzzle_loader$client_name,
+                puzzle_loader_cosmic$is_modded
+        );
     }
 
 }

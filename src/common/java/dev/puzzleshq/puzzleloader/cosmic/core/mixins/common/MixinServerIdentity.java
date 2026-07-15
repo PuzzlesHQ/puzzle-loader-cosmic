@@ -41,6 +41,7 @@ public class MixinServerIdentity implements IServerIdentity {
 
     @Override
     public String getClientName() {
+        if (puzzleLoader$name == null) return "vanilla";
         return puzzleLoader$name;
     }
 }
