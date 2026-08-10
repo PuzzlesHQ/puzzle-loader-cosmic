@@ -14,7 +14,7 @@
 /buildSrc/gradlew.bat
 /dependencies.json
 
-/run
+/runs
 
 /lib
 /src/common/java/dev/puzzleshq/puzzleloader/cosmic/game/blockloader/generation/model/interfaces/*.java
