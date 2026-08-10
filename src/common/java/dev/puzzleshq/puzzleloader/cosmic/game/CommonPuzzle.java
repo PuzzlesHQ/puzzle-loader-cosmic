@@ -35,9 +35,9 @@ public class CommonPuzzle implements PreModInit, ModInit, PostModInit {
 
     @SubscribeEvent
     public void register(EventModBlockRegister event) {
-        event.register(new AprilFoolsRedStoneModBlock());
-        event.register(new AprilFoolsForeshadowingModBlock());
-        event.register(new ExampleConnectedBlock());
+//        event.register(new AprilFoolsRedStoneModBlock());
+//        event.register(new AprilFoolsForeshadowingModBlock());
+//        event.register(new ExampleConnectedBlock());
     }
 
     @SubscribeEvent

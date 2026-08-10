@@ -1,0 +1,67 @@
+{
+"zoneId": "base:earth",
+"currentOrbitId": null,
+"isProne": false,
+"entity": {
+	"uniqueId": {
+		"time": 1782859808911,
+		"rand": -1085886535
+	},
+	"isOnGround": true,
+	"collidedY": true,
+	"viewDirection": {
+		"x": 0.69987607,
+		"y": -0.68358177,
+		"z": -0.20709793
+	},
+	"position": {
+		"x": 985.8029,
+		"y": 27,
+		"z": 373.47263
+	},
+	"lastPosition": {
+		"x": 985.8029,
+		"y": 27,
+		"z": 373.47263
+	},
+	"viewPositionOffset": {
+		"y": 1.8
+	},
+	"localBoundingBox": {
+		"min": {
+			"x": -0.25,
+			"z": -0.25
+		},
+		"max": {
+			"x": 0.25,
+			"y": 1.9,
+			"z": 0.25
+		},
+		"cnt": {
+			"y": 0.95
+		},
+		"dim": {
+			"x": 0.5,
+			"y": 1.9,
+			"z": 0.5
+		}
+	},
+	"age": 183.30658,
+	"tags": [
+		"player",
+		"no_save_in_chunks"
+	],
+	"lastClientUpdateTick": 498
+},
+"inventory": {
+	"slots": "Q1JCAgQKc2xvdHMabnVtYmVyT2ZTbG90cxMAAwIAAABQ",
+	"numberOfSlots": 40
+},
+"selectedHotbarSlot": 0,
+"equipment": {
+	"slots": "Q1JCAhAIYmFjawhoZWFkCnNsb3RzGm51bWJlck9mU2xvdHMKaXRlbXMMc2xvdElkFG91dHB1dE9ubHkIdGFncxMEAwYABBIIAAMKBwwKDgAEAgAAAAIAAgIAAAICBA==",
+	"numberOfSlots": 2
+},
+"gamemode": "survival",
+"achievements": {}
+}
