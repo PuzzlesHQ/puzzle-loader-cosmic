@@ -104,7 +104,6 @@ public class BlockLoader {
 
             for (String stateKey : blockStateKeysToAdd) {
                 BlockState blockState = b.blockStates.get(stateKey);
-                blockState.rotation = new float[]{0, 0, 0};
                 blockState.stringId = stateKey;
                 blockState.initialize(b);
                 blockState.initTagList();
