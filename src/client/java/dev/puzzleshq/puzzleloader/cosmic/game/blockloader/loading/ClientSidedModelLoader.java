@@ -47,7 +47,7 @@ public class ClientSidedModelLoader implements ISidedModelLoader {
     @Override
     public void loadModel(BlockModelGenerator modelGenerator, boolean coverAllRotations, boolean override) {
         if (!coverAllRotations) {
-            setCulling(loadModel(modelGenerator.getName(), modelGenerator.toString(), State.DEFAULT_ROTATION, override), modelGenerator);
+            setCulling(loadModel(false, modelGenerator.getName(), modelGenerator.toString(), State.DEFAULT_ROTATION, override), modelGenerator);
             return;
         }
 
@@ -59,7 +59,7 @@ public class ClientSidedModelLoader implements ISidedModelLoader {
                     floats[0] = x;
                     floats[1] = y;
                     floats[2] = z;
-                    setCulling(loadModel(modelGenerator.getName(), modelGenerator.toString(), floats, override), modelGenerator);
+                    setCulling(loadModel(false, modelGenerator.getName(), modelGenerator.toString(), floats, override), modelGenerator);
                 }
             }
         }
@@ -78,27 +78,27 @@ public class ClientSidedModelLoader implements ISidedModelLoader {
 
     @Override
     public BlockModel loadModel(BlockModelGenerator modelGenerator, float[] rotation) {
-        return setCulling(loadModel(modelGenerator.getName(), modelGenerator.toString(), rotation, false), modelGenerator);
+        return setCulling(loadModel(false, modelGenerator.getName(), modelGenerator.toString(), rotation, false), modelGenerator);
     }
 
     @Override
     public BlockModel loadModel(BlockModelGenerator modelGenerator, float[] rotation, boolean override) {
-        return setCulling(loadModel(modelGenerator.getName(), modelGenerator.toString(), rotation, override), modelGenerator);
+        return setCulling(loadModel(false, modelGenerator.getName(), modelGenerator.toString(), rotation, override), modelGenerator);
     }
 
-    private BlockModel fromJson(String json, float[] rotation) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        return (BlockModel) ReflectionUtil.getMethod(BlockModelJson.class, "fromJson", String.class, int.class, int.class, int.class)
-                .invoke(null, json, (int) rotation[0], (int) rotation[1], (int) rotation[2]);
+    private BlockModel fromJson(boolean rotateTopBottom, String json, float[] rotation) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        return (BlockModel) ReflectionUtil.getMethod(BlockModelJson.class, "fromJson", String.class, int.class, int.class, int.class, boolean.class)
+                .invoke(null, json, (int) rotation[0], (int) rotation[1], (int) rotation[2], rotateTopBottom);
     }
 
     @Override
-    public BlockModel loadModel(String modelName, float[] rotation, boolean override) {
+    public BlockModel loadModel(boolean rotateTopBottom, String modelName, float[] rotation, boolean override) {
         ModelKey key = new ModelKey(modelName, (int) rotation[0], (int) rotation[1], (int) rotation[2]);
         if (CLIENT_MODEL_CACHE.containsKey(key) && !override) return CLIENT_MODEL_CACHE.get(key);
 
         try {
             String jsonStr = GameAssetLoader.loadAsset(Identifier.of(modelName)).readString();
-            BlockModelJson model = (BlockModelJson) fromJson(jsonStr, rotation);
+            BlockModelJson model = (BlockModelJson) fromJson(false, jsonStr, rotation);
 
             CLIENT_MODEL_CACHE.put(key, model);
             return model;
@@ -108,13 +108,13 @@ public class ClientSidedModelLoader implements ISidedModelLoader {
     }
 
     @Override
-    public BlockModel loadModel(String modelName, String modelJson, float[] rotation, boolean override) {
+    public BlockModel loadModel(boolean rotateTopBottom, String modelName, String modelJson, float[] rotation, boolean override) {
         ModelKey key = new ModelKey(modelName, (int) rotation[0], (int) rotation[1], (int) rotation[2]);
         if (CLIENT_MODEL_CACHE.containsKey(key) && !override) return CLIENT_MODEL_CACHE.get(key);
 
         try {
-            BlockModelJson model = (BlockModelJson) ReflectionUtil.getMethod(BlockModelJson.class, "fromJson", String.class, int.class, int.class, int.class)
-                    .invoke(null, modelJson, (int) rotation[0], (int) rotation[1], (int) rotation[2]);
+            BlockModelJson model = (BlockModelJson) ReflectionUtil.getMethod(BlockModelJson.class, "fromJson", String.class, int.class, int.class, int.class, boolean.class)
+                    .invoke(null, modelJson, (int) rotation[0], (int) rotation[1], (int) rotation[2], rotateTopBottom);
 
             CLIENT_MODEL_CACHE.put(key, model);
             return model;

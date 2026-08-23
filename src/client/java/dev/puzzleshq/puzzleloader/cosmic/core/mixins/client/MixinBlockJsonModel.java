@@ -29,6 +29,18 @@ public class MixinBlockJsonModel {
      * @reason Re-route Block Model Loading
      */
     @Overwrite
+    public static BlockModelJson getInstance(String modelName, int rotX, int rotY, int rotZ, boolean rotateTopBottom) {
+        puzzle_loader_cosmic$xyz[0] = rotX;
+        puzzle_loader_cosmic$xyz[1] = rotY;
+        puzzle_loader_cosmic$xyz[2] = rotZ;
+        return (BlockModelJson) ISidedModelLoader.getInstance().loadModel(rotateTopBottom, modelName, puzzle_loader_cosmic$xyz, false);
+    }
+
+    /**
+     * @author Mr_Zombii
+     * @reason Re-route Block Model Loading
+     */
+    @Overwrite
     public static BlockModelJson getInstance(String modelName, float[] rotation) {
         return (BlockModelJson) ISidedModelLoader.getInstance().loadModel(modelName, rotation);
     }

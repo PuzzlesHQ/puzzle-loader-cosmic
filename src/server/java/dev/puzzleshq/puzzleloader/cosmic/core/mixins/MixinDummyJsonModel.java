@@ -25,6 +25,13 @@ public class MixinDummyJsonModel {
     public static DummyBlockModel getInstanceFromJsonStr(String modelName, String modelJson, float[] rotation) {
         return (DummyBlockModel) ISidedModelLoader.getInstance().loadModel(modelName, modelJson, rotation);
     }
-
+    /**
+     * @author Mr_Zombii
+     * @reason Re-route Block Model Loading
+     */
+    @Overwrite
+    public static DummyBlockModel getInstance(String modelName, float[] rotation, boolean rotateTopBottom) {
+        return (DummyBlockModel) ISidedModelLoader.getInstance().loadModel(rotateTopBottom, modelName, rotation, false);
+    }
 
 }

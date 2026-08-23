@@ -32,7 +32,7 @@ public interface ISidedModelLoader {
     }
 
     default BlockModel loadModel(String modelName, String modelJson) {
-        return loadModel(modelName, modelJson, ISidedModelLoader.DEFAULT_ROTATION, false);
+        return loadModel(false, modelName, modelJson, ISidedModelLoader.DEFAULT_ROTATION, false);
     }
 
     default BlockModel loadModel(String modelName, boolean override) {
@@ -40,7 +40,7 @@ public interface ISidedModelLoader {
     }
 
     default BlockModel loadModel(String modelName, String modelJson, boolean override) {
-        return loadModel(modelName, modelJson, ISidedModelLoader.DEFAULT_ROTATION, override);
+        return loadModel(false, modelName, modelJson, ISidedModelLoader.DEFAULT_ROTATION, override);
     }
 
     default BlockModel loadModel(String modelName, float[] rotation) {
@@ -48,11 +48,19 @@ public interface ISidedModelLoader {
     }
 
     default BlockModel loadModel(String modelName, String modelJson, float[] rotation) {
-        return loadModel(modelName, modelJson, rotation, false);
+        return loadModel(false, modelName, modelJson, rotation, false);
     }
 
-    BlockModel loadModel(String modelName, float[] rotation, boolean override);
-    BlockModel loadModel(String modelName, String modelJson, float[] rotation, boolean override);
+    default BlockModel loadModel(String modelName, float[] rotation, boolean override) {
+        return loadModel(false, modelName, rotation, override);
+    }
+
+    default BlockModel loadModel(String modelName, String modelJson, float[] rotation, boolean override) {
+        return loadModel(false, modelName, modelJson, rotation, override);
+    }
+
+    BlockModel loadModel(boolean rotateTopBottom, String modelName, float[] rotation, boolean override);
+    BlockModel loadModel(boolean rotateTopBottom, String modelName, String modelJson, float[] rotation, boolean override);
 
     record ModelKey(String modelName, int x, int y, int z) {}
 

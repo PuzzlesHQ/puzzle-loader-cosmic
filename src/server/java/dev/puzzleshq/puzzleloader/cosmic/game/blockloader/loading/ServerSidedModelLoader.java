@@ -46,7 +46,7 @@ public class ServerSidedModelLoader implements ISidedModelLoader {
     @Override
     public void loadModel(BlockModelGenerator modelGenerator, boolean coverAllRotations, boolean override) {
         if (!coverAllRotations) {
-            loadModel(modelGenerator.getName(), modelGenerator.toString(), State.DEFAULT_ROTATION, override);
+            loadModel(false, modelGenerator.getName(), modelGenerator.toString(), State.DEFAULT_ROTATION, override);
             return;
         }
 
@@ -58,7 +58,7 @@ public class ServerSidedModelLoader implements ISidedModelLoader {
                     floats[0] = x;
                     floats[1] = y;
                     floats[2] = z;
-                    loadModel(modelGenerator.getName(), modelGenerator.toString(), floats, override);
+                    loadModel(false, modelGenerator.getName(), modelGenerator.toString(), floats, override);
                 }
             }
         }
@@ -66,16 +66,16 @@ public class ServerSidedModelLoader implements ISidedModelLoader {
 
     @Override
     public BlockModel loadModel(BlockModelGenerator modelGenerator, float[] rotation) {
-        return loadModel(modelGenerator.getName(), modelGenerator.toString(), rotation, false);
+        return loadModel(false, modelGenerator.getName(), modelGenerator.toString(), rotation, false);
     }
 
     @Override
     public BlockModel loadModel(BlockModelGenerator modelGenerator, float[] rotation, boolean override) {
-        return loadModel(modelGenerator.getName(), modelGenerator.toString(), rotation, override);
+        return loadModel(false, modelGenerator.getName(), modelGenerator.toString(), rotation, override);
     }
 
     @Override
-    public BlockModel loadModel(String modelName, float[] rotation, boolean override) {
+    public BlockModel loadModel(boolean rotateTopBottom, String modelName, float[] rotation, boolean override) {
         ModelKey key = new ModelKey(modelName, (int) rotation[0], (int) rotation[1], (int) rotation[2]);
         if (SERVER_MODEL_CACHE.containsKey(key) && !override) return SERVER_MODEL_CACHE.get(key);
 
@@ -92,7 +92,7 @@ public class ServerSidedModelLoader implements ISidedModelLoader {
     }
 
     @Override
-    public BlockModel loadModel(String modelName, String modelJson, float[] rotation, boolean override) {
+    public BlockModel loadModel(boolean rotateTopBottom, String modelName, String modelJson, float[] rotation, boolean override) {
         ModelKey key = new ModelKey(modelName, (int) rotation[0], (int) rotation[1], (int) rotation[2]);
         if (SERVER_MODEL_CACHE.containsKey(key) && !override) return SERVER_MODEL_CACHE.get(key);
 
