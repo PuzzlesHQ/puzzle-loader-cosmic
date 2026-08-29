@@ -81,8 +81,8 @@ public class ServerSidedModelLoader implements ISidedModelLoader {
 
         try {
             String jsonStr = GameAssetLoader.loadAsset(Identifier.of(modelName)).readString();
-            DummyBlockModel model = (DummyBlockModel) ReflectionUtil.getMethod(DummyBlockModel.class, "fromJson", String.class, float[].class)
-                    .invoke(null, jsonStr, rotation);
+            DummyBlockModel model = (DummyBlockModel) ReflectionUtil.getMethod(DummyBlockModel.class, "fromJson", String.class, float[].class, boolean.class)
+                    .invoke(null, jsonStr, rotation, false);
 
             SERVER_MODEL_CACHE.put(key, model);
             return model;
@@ -97,8 +97,8 @@ public class ServerSidedModelLoader implements ISidedModelLoader {
         if (SERVER_MODEL_CACHE.containsKey(key) && !override) return SERVER_MODEL_CACHE.get(key);
 
         try {
-            DummyBlockModel model = (DummyBlockModel) ReflectionUtil.getMethod(DummyBlockModel.class, "fromJson", String.class, float[].class)
-                    .invoke(null, modelJson, rotation);
+            DummyBlockModel model = (DummyBlockModel) ReflectionUtil.getMethod(DummyBlockModel.class, "fromJson", String.class, float[].class, boolean.class)
+                    .invoke(null, modelJson, rotation, false);
 
             SERVER_MODEL_CACHE.put(key, model);
             return model;
