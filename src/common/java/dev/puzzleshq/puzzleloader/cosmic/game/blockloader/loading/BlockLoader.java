@@ -106,7 +106,6 @@ public class BlockLoader {
                 BlockState blockState = b.blockStates.get(stateKey);
                 blockState.stringId = stateKey;
                 blockState.initialize(b);
-                blockState.initTagList();
                 Block.allBlockStates.put(blockState.stringId, blockState);
             }
 
