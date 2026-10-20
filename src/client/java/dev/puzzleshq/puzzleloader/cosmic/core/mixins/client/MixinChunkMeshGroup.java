@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(ChunkMeshGroup.class)
 public class MixinChunkMeshGroup {
 
-    @Redirect(method = "getMeshData", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blocks/BlockState;addVertices(Lfinalforeach/cosmicreach/rendering/IMeshData;IIII[S[I)V"))
-    private static void addVertices(BlockState state, IMeshData meshData, int bx, int by, int bz, int opaqueBitmask, short[] blockLightLevels, int[] skyLightLevels, @Local(name = {"chunk"}) Chunk chunk) {
+    @Redirect(method = "getMeshData", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blocks/BlockState;addVertices(Lfinalforeach/cosmicreach/rendering/IMeshData;IIII[S[ILfinalforeach/cosmicreach/blocks/BlockState;Lfinalforeach/cosmicreach/blocks/BlockState;Lfinalforeach/cosmicreach/blocks/BlockState;Lfinalforeach/cosmicreach/blocks/BlockState;Lfinalforeach/cosmicreach/blocks/BlockState;Lfinalforeach/cosmicreach/blocks/BlockState;)V"))
+    private static void addVertices(BlockState instance, IMeshData meshData, int bx, int by, int bz, int opaqueBitmask, short[] blockLightLevels, int[] skyLightLevels, BlockState bnx, BlockState bpx, BlockState bny, BlockState bpy, BlockState bnz, BlockState bpz, @Local(name = {"chunk"}) Chunk chunk, @Local(name = {"b"}) BlockState state) {
         Zone zone = chunk.getZone();
 
         ISidedBlockConnector.getInstance().connect(zone, chunk, state, bx, by, bz, meshData, opaqueBitmask, blockLightLevels, skyLightLevels);
