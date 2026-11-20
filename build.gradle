@@ -60,10 +60,6 @@ repositories {
         url "https://libraries.minecraft.net"
     }
     maven {
-        name = 'MavenCentral'
-        url "https://repo1.maven.org/maven2/"
-    }
-    maven {
         name = 'MixinSquared'
         url "https://maven.bawnorton.com/releases"
     }
